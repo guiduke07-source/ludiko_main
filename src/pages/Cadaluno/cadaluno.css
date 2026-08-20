@@ -1,0 +1,170 @@
+/* Container principal dividindo a tela em Flexbox horizontal */
+.cadastro-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Baloo 2', sans-serif;
+  background-color: #f4f6f9; /* Fundo padrão */
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- LADO ESQUERDO (Área do Formulário - 60% da horizontal) --- */
+.left-cadastro-side {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Mantém o botão de voltar preso deste lado */
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+/* Estilo do botão de voltar */
+.back-button {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background: none;
+  border: 2px solid #555;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.2s ease;
+  z-index: 999;
+}
+
+.back-button:hover {
+  background-color: #e4e6e9;
+  transform: scale(1.05);
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Caixa interna do formulário */
+.cadastro-box {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.cadastro-logo {
+  width: 180px;
+  height: auto;
+}
+
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Campos de Input */
+.input-group {
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #d1dbe5;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: #ffffff;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #CCADDA; /* Destaque roxo pastel ao focar */
+}
+
+/* Botão Cadastrar (Roxo pastel arredondado centralizado) */
+.btn-cadastrar {
+  display: flex;
+  justify-content: center;   /* Alinha no centro horizontal */
+  align-items: center;       /* Alinha no centro VERTICAL */
+  
+  width: 180px;
+  height: 45px;              /* Definir uma altura fixa ajuda o alinhamento vertical a travar no centro */
+  margin: 20px auto 0;
+  
+  border: none;
+  border-radius: 25px;
+  background-color: #CCADDA; 
+  color: #ffffff;
+  
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1;            /* Força o espaçamento da linha a não empurrar o texto para baixo */
+  cursor: pointer;
+  box-sizing: border-box;    /* Garante que o padding não quebre o cálculo da altura */
+  transition: background-color 0.2s, transform 0.1s;
+}
+.btn-cadastrar:hover {
+  background-color: #b89bc6;
+}
+
+.btn-cadastrar:active {
+  transform: scale(0.98);
+}
+
+
+/* --- LADO DIREITO (Espaço para o componente Roxocad - 40% da horizontal) --- */
+/* --- LADO DIREITO (Modificado para colar na borda e sumir com o cinza) --- */
+.right-cadastro-side {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  /* Força tudo que está dentro dele a se esticar até o final */
+  align-items: stretch; 
+  justify-content: stretch;
+}
+
+/* Garante que o componente interno Roxocad e qualquer div dele ocupem 100% do espaço */
+.right-cadastro-side > *,
+.roxo-container {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Responsividade para Celulares */
+@media (max-width: 768px) {
+  .cadastro-container {
+    flex-direction: column;
+  }
+  .left-cadastro-side {
+    width: 100%;
+    height: 65%;
+    padding-top: 70px;
+  }
+  .right-cadastro-side {
+    width: 100%;
+    height: 35%;
+  }
+}

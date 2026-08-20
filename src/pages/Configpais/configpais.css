@@ -1,0 +1,120 @@
+body {
+ background-color: #f3f6f5;
+ font-family:'Baloo 2', sans-serif;
+ overflow-y: scroll;
+}
+
+.configPais{
+ justify-content: center; /* ADICIONADO: Centraliza horizontalmente o mascote-tela */
+ align-items: center; /* ADICIONADO: Empurra o mascote-tela para a parte de baixo */
+ display: flex;
+ flex-direction: column;
+}
+.coluna {
+ display: flex;
+ flex-direction: row; /* Força os elementos a ficarem estritamente lado a lado */
+ width: 70%;
+ height: 400px;   /* ALTERADO: Defina uma altura fixa (ou 100vh, etc.) para que o 100% dos filhos funcione */
+ align-items: stretch; /* ALTERADO: Faz com que todos os filhos estiquem para ter exatamente a mesma altura do pai */
+ justify-content: flex-start;
+}
+
+.gcoluna {
+ width: 60%; /* O gráfico vai ocupar 60% da largura */
+ height: 100%; /* Ocupa 100% da altura do pai (que agora é 400px) */
+ /* flex: 1; -> REMOVIDO: O flex:1 anula o width: 60%. Deixe apenas o width. */
+}
+
+.Mascote {
+ display: flex;  /* ADICIONADO: Ativa o Flexbox para alinhar o que está dentro */
+ justify-content: center; /* ADICIONADO: Centraliza horizontalmente o mascote-tela */
+ align-items: center; /* ADICIONADO: Empurra o mascote-tela para a parte de baixo */
+ width: 40%; 
+ height: 100%;
+
+}
+
+.mascote-tela{
+ height: 70%;
+}
+
+.limite{
+ font-family:'Baloo 2', sans-serif;
+ width: 75%;
+ height: 50px;
+ background-color: #BBDBE8;
+ border-radius: 8px;
+ font-size: 24px;
+ color: #211133;
+ font-weight: 500;
+ margin: 0;
+ letter-spacing: -0.5px;
+}
+
+/* Centraliza a seção inteira e define que ela ocupará o espaço da tela */
+.limite {
+ display: flex;
+ flex-direction: column;
+ align-items: center; /* Centraliza o título, os gráficos e a legenda */
+ width: 75%;
+ margin-top: 40px;
+}
+
+/* O título do limite de tempo */
+.limite h2 {
+ color: #444;
+ margin-bottom: 20px;
+}
+
+.textolimite{
+    margin-top: 6px;
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+/* CONTAINER DAS PIZZAS: Aqui controlamos a largura total do grupo */
+.Pizza {
+ display: flex;
+ flex-direction: row;   /* Garante que fiquem estritamente lado a lado */
+ justify-content: space-between; /* Distribui o espaço igualmente entre os 3 */
+ align-items: center;
+ width: 65%;     /* ALTERADO: Força os 3 gráficos juntos a ocuparem 65% da tela */
+ gap: 15px;      /* Pequeno espaço de segurança entre eles */
+}
+
+/* CONTAINER DA LEGENDA ÚNICA */
+.legenda-unica {
+ display: flex;
+ flex-direction: row;
+ justify-content: center;
+ flex-wrap: wrap;
+ gap: 25px;
+ margin-top: 30px;
+ width: 60%;     /* Deixa a legenda alinhada na mesma largura de 60% dos gráficos */
+}
+
+.legenda-item {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ font-size: 14px;
+ color: #444;
+}
+
+.legenda-cor {
+ width: 12px;
+ height: 12px;
+ border-radius: 50%;
+ display: inline-block;
+}
+
+.Pizza{
+height: 300px;
+margin-top: 30px;
+}
+
+.Pizza {
+    display: flex;
+    justify-content: center;
+    width:100%;
+}

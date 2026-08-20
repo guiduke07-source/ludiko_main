@@ -1,0 +1,49 @@
+.onda {
+  flex: 1;
+  height: 100vh;
+  min-width: 50vw;
+  
+  /* Configurações da imagem de fundo */
+  background-size: cover;
+  background-position: left center;
+  background-repeat: no-repeat;
+  
+  /* Flexbox para posicionar o bloco de texto */
+  display: flex;
+  justify-content: center;   /* Centraliza o bloco na área azul */
+  align-items: center;       /* Centraliza verticalmente */
+  box-sizing: border-box;
+  
+  /* Criamos um espaçamento na esquerda para empurrar o texto para fora das ondas */
+  padding-left: 50%;         
+  padding-right: 8%;         /* Evita que o texto encoste na borda direita da tela */
+}
+
+/* Bloco que une a frase e o autor */
+.conteudoTexto {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;          /* Mantém o bloco de texto compacto idêntico ao design */
+}
+
+/* Estilização da frase */
+.frase {
+  font-size: 22px;           /* Aumentado um pouco para dar o destaque da imagem */
+  font-weight: 600;          /* Deixa a fonte mais encorpada/negrito */
+  color: #202020;            /* Cor quase preta idêntica ao design */
+  line-height: 1.3;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: 'Ballo 2', ExtraBold, sans-serif;;
+}
+
+/* Estilização do autor */
+.autor {
+  font-size: 22px;
+  font-weight: 700;
+  color: #202020;
+  text-align: right;         /* Alinha o autor na extremidade direita do bloco de texto */
+  padding-right: 10px;
+  font-family: 'Ballo 2', ExtraBold, sans-serif;
+}

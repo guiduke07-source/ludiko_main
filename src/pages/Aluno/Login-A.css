@@ -1,0 +1,225 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden; /* Evita barras de rolagem indesejadas no layout geral */
+}
+
+.cadastro-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #f4f6f9; 
+  position: relative;
+  font-family: 'Baloo 2', sans-serif;
+}
+
+/* --- LADO ESQUERDO (Espaço para o Roxologin) --- */
+.left-login-side {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+/* Força o componente interno Roxologin a ocupar 100% */
+.left-login-side > * {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* --- LADO DIREITO (Área do Formulário/Conteúdo) --- */
+.direita-login-side {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  
+  /* ALTERADO: Alinha o conteúdo totalmente no final (extremo lado direito) */
+  justify-content: flex-end; 
+  
+  /* MANTIDO: Centraliza perfeitamente na vertical */
+  align-items: center;     
+  
+  /* Aumentado o espaçamento da direita (80px) para o bloco não colar na borda da tela */
+  padding: 40px 80px 40px 40px; 
+  box-sizing: border-box;
+}
+
+/* BOTÃO VOLTAR */
+.back-button {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #555;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+
+.back-icon {
+  width: 24px;
+  height: 24px;
+  color: #555;
+}
+
+/* ESTRUTURA DO BOX DO ALUNO */
+.cadastro-boxaluno {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  text-align: center;
+  justify-content: center;
+  margin-left: 20%;
+}
+
+.logo-containeraluno {
+  margin-bottom: 25px;
+}
+
+.cadastro-logoaluno {
+  max-width: 180px;
+  height: auto;
+}
+
+/* --- FORMULÁRIO E INPUTS --- */
+.cadastro-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cadastro-form li {
+  list-style: none;
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.cadastro-form li a {
+  color: #6da1be;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.cadastro-form li a:hover {
+  text-decoration: underline;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #cfe2f3;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  font-size: 16px;
+  color: #555;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  border-color: #abd2e6;
+  background-color: #fff;
+}
+
+/* --- BOTÃO INICIAR --- */
+.btn-cadastro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46px;
+  width: 65%;
+  margin: 10px auto 0;
+  background-color: #b9daf1;
+  color: #1f2937;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-cadastrar:hover {
+  background-color: #a3cae4;
+}
+
+/* --- BOTÃO INFERIOR --- */
+.btn-pai {
+  margin-top: 25px;
+  background-color: #a3cae4;
+  color: #1f2937;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s;
+}
+
+.btn-pai:hover {
+  background-color: #a3cae4;
+}
+
+/* --- RESPONSIVIDADE PARA TELAS DE CELULAR --- */
+@media (max-width: 768px) {
+  .cadastro-container {
+    flex-direction: column;
+  }
+  
+  .left-login-side {
+    width: 100%;
+    height: 35%; /* Onda roxa vai para o topo no celular */
+  }
+  
+  .direita-login-side {
+    width: 100%;
+    height: 65%;
+    display: flex;
+    /* No celular, volta a centralizar no meio da tela para o layout não quebrar */
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px;
+  }
+  
+  .back-button {
+    top: 15px;
+    left: 15px;
+  }
+}

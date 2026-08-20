@@ -1,0 +1,170 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+.login-container{
+
+    width:100vw;
+    height:100vh;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+}
+
+
+/* LOGO */
+
+.logo{
+
+    width:180px;
+    height:auto;
+
+    margin-bottom:20px;
+
+}
+
+
+
+/* CARD AZUL */
+
+.login-card{
+
+
+    width:230px;
+    height:150px;
+
+
+    background:#b7dced;
+
+
+    border-radius:8px;
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    gap:12px;
+
+
+    box-shadow:
+    0 5px 10px rgba(0,0,0,0.15);
+
+
+}
+
+
+
+/* PERSONAGEM */
+
+.personagem{
+
+    width:70px;
+
+    height:55px;
+
+    object-fit:contain;
+
+
+    margin-top:-20px;
+
+}
+
+
+
+/* INPUT */
+
+.login-card input{
+
+
+    width:205px;
+
+    height:25px;
+
+
+    border:none;
+
+    border-radius:3px;
+
+
+    padding-left:10px;
+
+
+    font-size:10px;
+
+
+    outline:none;
+
+}
+
+
+.login-card input::placeholder{
+
+    color:#999;
+
+}
+
+
+
+/* BOTÃO */
+
+.login-card button{
+
+
+    width:105px;
+
+    height:25px;
+
+
+    border:none;
+
+
+    border-radius:15px;
+
+
+    background:#62b1d1;
+
+
+    color:#000;
+
+
+    font-size:11px;
+
+
+    font-weight:bold;
+
+
+    cursor:pointer;
+
+
+    transition:.2s;
+
+}
+
+
+
+.login-card button:hover{
+
+
+    transform:scale(1.05);
+
+    background:#4ba4c8;
+
+}

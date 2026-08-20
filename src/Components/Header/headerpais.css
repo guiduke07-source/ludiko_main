@@ -1,0 +1,104 @@
+.custom-headerpais-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 40%;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-family:'Baloo 2', sans-serif;
+}
+
+/* 1. Badge Circular Esquerdo */
+.custom-headerpais-left-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #BBDBE8; /* Tom de lilás da foto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.custom-headerpais-left-badge .image-icon {
+  font-size: 20px;
+  color: #5a3d7c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-headerpais-left-badge .tiny-dot {
+  position: absolute;
+  bottom: 6px;
+  left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #5a3d7c;
+  line-height: 1;
+}
+
+/* 2. Barra Principal Lilás (Ocupa todo o resto do espaço à direita) */
+.custom-headerpais-bar {
+  flex: 1;
+  height: 52px;
+  background-color: #BBDBE8; /* Tom de lilás da foto */
+  border-radius: 9999px; /* Cantos arredondados estilo "pill" */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 0 24px;
+  box-sizing: border-box;
+}
+
+.custom-headerpais-title {
+  font-size: 24px;
+  color: #211133;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* 3. Botão de 3 Pontinhos na Extremidade Direita */
+.custom-headerpais-menu-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #91C7D3; /* Roxo ligeiramente mais escuro */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #211133;
+  font-size: 20px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  padding: 0;
+}
+
+.custom-headerpais-menu-btn:hover {
+  background-color: #55a3b4;
+}
+
+.custom-headerpais-menu-btn:active {
+  transform: scale(0.95);
+}
+
+/* Garante que a logo se adapte ao círculo sem distorcer */
+.custom-headerpais-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantém a proporção da imagem */
+  display: block;
+}
+
+/* Garante que o container limite o tamanho máximo da imagem */
+.image-icon {
+  width: 40px;  /* Ajuste esse tamanho em pixels conforme achar melhor */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

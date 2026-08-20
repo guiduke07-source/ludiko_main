@@ -1,0 +1,19 @@
+.teste{
+    background-color: rgba(250, 109, 109, 0);
+    top: 50px;
+     font-family:'Baloo 2', sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+
+
+.header-container {
+     font-family:'Baloo 2', sans-serif;
+    display: flex;
+    justify-content: center; /* Centraliza a header horizontalmente */
+    width: 100%;
+    margin-top: 20px;        /* Margem do topo para desgrudar do teto */
+    margin-bottom: 20px;     /* Margem opcional para afastar do primeiro bloco de galeria */
+}
+

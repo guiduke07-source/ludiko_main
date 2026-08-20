@@ -1,0 +1,23 @@
+/* popup.css */
+
+/* Garante que o fundo da página não role enquanto o popup infantil estiver aberto */
+body {
+  overflow: hidden;
+}
+
+/* Animação suave de entrada para o popup aparecer com um efeito sutil */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Classe aplicada no card interno para dar o efeito de surgimento */
+.fixed > div {
+  animation: fadeInScale 0.2s ease-out forwards;
+}

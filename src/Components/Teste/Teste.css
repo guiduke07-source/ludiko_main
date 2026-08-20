@@ -1,0 +1,39 @@
+/* HTML: <div class="curved-rectangle"></div> */
+.curved-rectangle {
+    display: flex;
+  --c: 95; /* control the curvature (a percentage value without unit bigger than 50%)*/
+  
+  width: 100%;
+  height: 500px;
+  aspect-ratio: 3/2;
+
+  mask: radial-gradient(calc(var(--c)*1%) 100% at 50% calc(100% + 100%*cos(asin(50/var(--c)))),#0000 calc(100% - 1px),#000);
+  clip-path: ellipse(calc(var(--c)*1%) 100% at bottom);
+    padding: 20px;
+    margin-left: none;
+    text-align: center;
+
+}
+
+/* Classes específicas para cada cor */
+
+
+.verde {
+    background-color: #B8DD95;
+}
+
+.azul {
+    background-color: #91C7D3;
+}
+
+.rosa {
+    background-color: #FFCFCF;
+}
+
+.rosaescuro {
+    background-color: #D36C95;
+}
+
+.lilas {
+    background-color: #CCADDA;
+}

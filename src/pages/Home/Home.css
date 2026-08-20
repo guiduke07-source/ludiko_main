@@ -1,0 +1,160 @@
+/* Reseta margens e define o container principal ocupando a tela toda */
+.home-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Comic Sans MS', 'Ubuntu', sans-serif;
+  overflow: hidden;
+  
+  /* Sua imagem de fundo com os rabiscos/lápis */
+  background-image: url('../../Components/imgs/FundoInicio.png'); 
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat; 
+}
+
+/* --- LADO ESQUERDO (Ocupa 60% da largura) --- */
+.left-side {
+  width: 60%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-img {
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.title-action {
+  font-size: 24px;
+  color: #333333;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* Container dos Botões */
+.buttons-container {
+  display: flex;
+  gap: 25px;
+}
+
+/* Botão Base */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color:#202020;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-pais {
+  background-color: #a3cae4; 
+}
+
+.btn-filho {
+  background-color: #9b72aa; 
+}
+
+.btn-icone {
+  font-size: 22px;
+}
+
+
+/* --- LADO DIREITO (Ajustado para posicionar a frase dentro da onda) --- */
+.right-side-image-container {
+  width: 40%; /* Mantém os 40% da horizontal da tela */
+  height: 100%;
+  display: flex;
+  
+  /* Alinhamentos do Flexbox atualizados: */
+  justify-content: flex-end; /* Empurra o conteúdo para o canto direito da tela */
+  align-items: center;       /* Centraliza o texto verticalmente na tela */
+  
+  /* O padding-right joga a frase um pouco para a esquerda da borda da tela.
+     O padding-left garante que o texto não chegue perto da curva transparente da onda. */
+  padding: 40px 60px 40px 40px; 
+  box-sizing: border-box;
+
+  /* Sua imagem da onda laranja */
+  background-image: url('../../Components/imgs/logimg.png'); 
+  background-size: 100% 100%; /* Preenche os 40% da div perfeitamente */
+  background-position: center right; 
+  background-repeat: no-repeat;
+}
+
+/* Container do Texto da Citação */
+.quote-container {
+  /* Limita o tamanho horizontal do texto para que ele quebre a linha 
+     e caiba confortavelmente dentro do espaço preenchido de laranja */
+  max-width: 280px; 
+  color: #ffffff;
+  text-align: right; /* Alinha as linhas do texto para a direita, como no Figma */
+}
+
+.quote-text {
+  font-size: 20px; 
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.quote-author {
+  font-size: 14px;
+  font-style: italic;
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+/* Responsividade Básica (para telas menores/celular) */
+@media (max-width: 768px) {
+  .home-container {
+    flex-direction: column;
+  }
+  .left-side {
+    width: 100%;
+    height: 60%;
+    padding-top: 40px;
+  }
+  .right-side-image-container {
+    width: 100%;
+    height: 40%;
+    background-size: cover;
+    justify-content: center;
+    padding: 20px;
+  }
+  .quote-container {
+    text-align: center;
+    max-width: 90%;
+  }
+  .buttons-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+}

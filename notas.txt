@@ -1,0 +1,3 @@
+Bgame
+borda ao redor da faixa scroll de jogos/matérias, uso de props para faciitar váriaveis do component.
+cores usadas: verde = #B8DD95, azul = #91C7D3, rosa = #FFCFCF, rosaescuro = #D36C95, lilas = #CCADDA
