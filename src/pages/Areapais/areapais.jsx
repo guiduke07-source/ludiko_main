@@ -19,15 +19,17 @@ function Areapais() {
       return;
     }
 
-    const token = localStorage.getItem('token');
+   const token = localStorage.getItem('token');
 
-    if (!token) {
-      setErro('Faça login novamente.');
-      navigate('/Login-Pais');
-      return;
-    }
+console.log('TOKEN ENCONTRADO:', token);
 
-    setCarregando(true);
+if (!token) {
+  setErro('Faça login novamente.');
+  navigate('/Login-Pais');
+  return;
+}
+
+setCarregando(true);
 
     try {
       const resposta = await fetch(
@@ -43,6 +45,8 @@ function Areapais() {
       );
 
       const dados = await resposta.json();
+      console.log('STATUS:', resposta.status);
+console.log('RESPOSTA DO BACKEND:', dados);
 
       if (!resposta.ok || dados.erro) {
         throw new Error(dados.mensagem || 'Não foi possível validar o PIN.');
