@@ -1,29 +1,57 @@
-import React, { useState } from 'react'; // ALTERADO: Importado o useState para capturar o que é digitado nos campos
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './cadpais.css';
 import AzulCad from '../../Components/Azulcad/azulcad';
 import Logo from '../../Components/imgs/logo.png';
+import { cadastrarResponsavel } from '../../services/authApi';
 
 function Cadpais() {
   const navigate = useNavigate();
 
-  // ALTERAÇÃO: Criados os estados para monitorar os inputs de e-mail, CPF e Senha
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [cpfResponsavel, setCpfResponsavel] = useState('');
+  const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
+  const [pin, setPin] = useState('');
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  // ALTERAÇÃO: Função adicionada para tratar o clique no botão "Cadastrar"
-  function handleCadastro(e) {
-    e.preventDefault(); // Evita o recarregamento automático do navegador
+  async function handleCadastro(e) {
+    e.preventDefault();
+    setErro('');
 
-    // ALTERAÇÃO: Configurado para redirecionar para a rota '/Acesso' após cadastrar
-    navigate('/Acesso');
+    if (pin.length !== 4) {
+      setErro('O PIN deve ter 4 números.');
+      return;
+    }
+
+    setCarregando(true);
+
+    try {
+      const dados = await cadastrarResponsavel({
+        nome,
+        email,
+        cpf,
+        senha,
+        pin,
+      });
+
+      localStorage.setItem('token', dados.token);
+      localStorage.setItem(
+        'usuario',
+        JSON.stringify(dados.usuario)
+      );
+
+      navigate('/Cadaluno');
+    } catch (erroApi) {
+      setErro(erroApi.message);
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <div className="cadastro-container">
-     
-      {/* Lado Esquerdo - Contém botão de voltar e o formulário ocupando 60% */}
       <div className="left-cadastro-side">
         <button className="back-button" onClick={() => navigate(-1)}>
           <svg
@@ -34,26 +62,38 @@ function Cadpais() {
             stroke="currentColor"
             className="back-icon"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
 
         <div className="cadastro-box">
           <div className="logo-container">
-             <img
-                src={Logo}
-                alt="Ludiko Logo"
-                className="cadastro-logo"
-             />
+            <img
+              src={Logo}
+              alt="Ludiko Logo"
+              className="cadastro-logo"
+            />
           </div>
 
-          {/* ALTERAÇÃO: Adicionado o evento onSubmit apontando para a nova função handleCadastro */}
           <form className="cadastro-form" onSubmit={handleCadastro}>
             <div className="input-group">
-              {/* ALTERAÇÃO: Vinculados value e onChange para o e-mail */}
+              <input
+                type="text"
+                placeholder="Nome do responsável"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="input-group">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder="E-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -61,18 +101,16 @@ function Cadpais() {
             </div>
 
             <div className="input-group">
-              {/* ALTERAÇÃO: Vinculados value e onChange para o CPF do responsável */}
               <input
                 type="text"
                 placeholder="CPF do responsável"
-                value={cpfResponsavel}
-                onChange={(e) => setCpfResponsavel(e.target.value)}
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
                 required
               />
             </div>
 
             <div className="input-group">
-              {/* ALTERAÇÃO: Vinculados value e onChange para a Senha */}
               <input
                 type="password"
                 placeholder="Senha"
@@ -82,18 +120,36 @@ function Cadpais() {
               />
             </div>
 
-            <button type="submit" className="btn-cadpais">
-              Cadastrar
+            <div className="input-group">
+              <input
+                type="password"
+                inputMode="numeric"
+                maxLength="4"
+                placeholder="Crie um PIN de 4 números"
+                value={pin}
+                onChange={(e) =>
+                  setPin(e.target.value.replace(/\D/g, ''))
+                }
+                required
+              />
+            </div>
+
+            {erro && <p className="mensagem-erro">{erro}</p>}
+
+            <button
+              type="submit"
+              className="btn-cadpais"
+              disabled={carregando}
+            >
+              {carregando ? 'Cadastrando...' : 'Cadastrar'}
             </button>
           </form>
         </div>
       </div>
 
-      {/* Lado Direito - Envelopa o seu componente customizado em 40% da tela */}
       <div className="right-cadastro-side">
         <AzulCad />
       </div>
-
     </div>
   );
 }
