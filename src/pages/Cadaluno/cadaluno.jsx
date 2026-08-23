@@ -24,10 +24,6 @@ function Cadaluno() {
 
   return (
     <div className="cadastro-container">
-      
-      {/* Lado Esquerdo - Contém botão voltar e formulário (60% da tela) */}
-      <div className="left-cadastro-side">
-        <button className="back-button" onClick={() => navigate(-1)}>
           <svg 
             xmlns="http://www.w3.org/2000/svg" 
             fill="none" 
@@ -52,13 +48,12 @@ function Cadaluno() {
           {/* ALTERAÇÃO: Adicionado o evento onSubmit apontando para a nossa nova função handleCadastro */}
           <form className="cadastro-form" onSubmit={handleCadastro}>
             <div className="input-group">
-              {/* ALTERAÇÃO: Adicionados value e onChange para controlar o CPF do aluno */}
-              <input 
-                type="text" 
-                placeholder="CPF do aluno" 
-                value={cpfAluno}
-                onChange={(e) => setCpfAluno(e.target.value)}
-                required 
+              <input
+                type="text"
+                placeholder="Nome da criança"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                required
               />
             </div>
             
