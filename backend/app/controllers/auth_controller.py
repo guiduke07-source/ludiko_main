@@ -10,7 +10,7 @@ class AuthController:
     @staticmethod
     def cadastrar():
 
-        dados = request.get_json()
+        dados = request.get_json() or {}
 
         resposta = AuthService.cadastrar(dados)
 
@@ -22,9 +22,21 @@ class AuthController:
     @staticmethod
     def login():
 
-        dados = request.get_json()
+        dados = request.get_json() or {}
 
         resposta = AuthService.login(dados)
+
+        if resposta["erro"]:
+            return jsonify(resposta), 401
+
+        return jsonify(resposta), 200
+
+    @staticmethod
+    def login_aluno():
+
+        dados = request.get_json() or {}
+
+        resposta = AuthService.login_aluno(dados)
 
         if resposta["erro"]:
             return jsonify(resposta), 401

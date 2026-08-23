@@ -24,6 +24,21 @@ export async function fazerLogin(email, senha) {
   return tratarResposta(resposta);
 }
 
+export async function fazerLoginAluno(cpf, senha) {
+  const resposta = await fetch(
+    `${API_BASE_URL}/api/auth/login-aluno`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cpf, senha }),
+    }
+  );
+
+  return tratarResposta(resposta);
+}
+
 export async function cadastrarResponsavel(dadosCadastro) {
   const resposta = await fetch(
     `${API_BASE_URL}/api/auth/register`,

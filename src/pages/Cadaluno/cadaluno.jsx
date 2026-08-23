@@ -1,51 +1,85 @@
-import React, { useState } from 'react'; // ALTERAÇÃO: Importado o useState para capturar o que o aluno digita no cadastro
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './cadaluno.css';
 
 import Logo from '../../Components/imgs/logo.png';
 import Roxocad from '../../Components/Roxocad/roxocad';
+import { cadastrarCrianca } from '../../services/criancaApi';
 
-function Cadaluno() { 
+function Cadaluno() {
   const navigate = useNavigate();
 
-  // ALTERAÇÃO: Criados os estados individuais para monitorar as 4 caixas de texto de cadastro do aluno
-  const [cpfAluno, setCpfAluno] = useState('');
-  const [email, setEmail] = useState('');
-  const [cpfResponsavel, setCpfResponsavel] = useState('');
+  const [nome, setNome] = useState('');
+  const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
 
-  // ALTERAÇÃO: Função criada para processar o clique do botão "Cadastrar"
-  function handleCadastro(e) {
-    e.preventDefault(); // Impede o navegador de recarregar a página web
+  async function handleCadastro(e) {
+    e.preventDefault();
+    setErro('');
+    setCarregando(true);
 
-    // ALTERAÇÃO: Configurado para redirecionar para a rota '/Inicio' após concluir o formulário
-    navigate('/Inicioreal');
+    try {
+      const dados = await cadastrarCrianca({
+        nome,
+        cpf,
+        senha,
+        data_nascimento: dataNascimento,
+      });
+
+      const usuario = JSON.parse(
+        localStorage.getItem('usuario') || '{}'
+      );
+
+      usuario.criancas_ids = [
+        ...(usuario.criancas_ids || []),
+        dados.crianca.id,
+      ];
+
+      localStorage.setItem(
+        'usuario',
+        JSON.stringify(usuario)
+      );
+
+      navigate('/Areapais');
+    } catch (erroApi) {
+      setErro(erroApi.message);
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <div className="cadastro-container">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            strokeWidth={1.5} 
-            stroke="currentColor" 
+      <div className="left-cadastro-side">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
             className="back-icon"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
           </svg>
         </button>
 
         <div className="cadastro-box">
           <div className="logo-container">
-             <img
-                src={Logo}
-                alt="Ludiko Logo"
-                className="cadastro-logo"
-             />
+            <img
+              src={Logo}
+              alt="Ludiko Logo"
+              className="cadastro-logo"
+            />
           </div>
 
-          {/* ALTERAÇÃO: Adicionado o evento onSubmit apontando para a nossa nova função handleCadastro */}
           <form className="cadastro-form" onSubmit={handleCadastro}>
             <div className="input-group">
               <input
@@ -56,52 +90,54 @@ function Cadaluno() {
                 required
               />
             </div>
-            
+
             <div className="input-group">
-              {/* ALTERAÇÃO: Adicionados value e onChange para controlar o Email */}
-              <input 
-                type="email" 
-                placeholder="Email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required 
+              <input
+                type="text"
+                placeholder="CPF da criança"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                required
               />
             </div>
 
             <div className="input-group">
-              {/* ALTERAÇÃO: Adicionados value e onChange para controlar o CPF do responsável */}
-              <input 
-                type="text" 
-                placeholder="CPF do responsável" 
-                value={cpfResponsavel}
-                onChange={(e) => setCpfResponsavel(e.target.value)}
-                required 
-              />
-            </div>
-
-            <div className="input-group">
-              {/* ALTERAÇÃO: Adicionados value e onChange para controlar a Senha */}
-              <input 
-                type="password" 
-                placeholder="Senha" 
+              <input
+                type="password"
+                placeholder="Crie uma senha para a criança"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                required 
+                required
               />
             </div>
 
-            <button type="submit" className="btn-cadastrar">
-              Cadastrar
+            <div className="input-group">
+              <input
+                type="date"
+                value={dataNascimento}
+                onChange={(e) =>
+                  setDataNascimento(e.target.value)
+                }
+                required
+              />
+            </div>
+
+            {erro && <p className="mensagem-erro">{erro}</p>}
+
+            <button
+              type="submit"
+              className="btn-cadastrar"
+              disabled={carregando}
+            >
+              {carregando ? 'Cadastrando...' : 'Cadastrar criança'}
             </button>
           </form>
         </div>
       </div>
 
-      {/* Lado Direito - Envolve o seu componente roxo customizado (40% da tela) */}
       <div className="right-cadastro-side">
         <Roxocad />
       </div>
-
     </div>
   );
 }

@@ -29,3 +29,7 @@ auth_bp.get(
 auth_bp.post(
     "/verificar-pin"
 )(token_required(AuthController.verificar_pin))
+
+auth_bp.post(
+    "/login-aluno"
+)(AuthController.login_aluno)

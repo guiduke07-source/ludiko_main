@@ -42,12 +42,12 @@ function Acesso() {
           </button>
 
           <button
-            className="btn btn-filho"
-            onClick={() => navigate('/Inicioreal')}
-          >
-<img src={Aluno} alt="Aluno(a)" className="btn-icon"/>
-            <span className="btn-text">Aluno(a)</span>
-          </button>
+  className="btn btn-filho"
+  onClick={() => navigate('/Login-Aluno')}
+>
+  <img src={Aluno} alt="Aluno(a)" className="btn-icon" />
+  <span className="btn-text">Aluno(a)</span>
+</button>
 
         </div>
       </div>
