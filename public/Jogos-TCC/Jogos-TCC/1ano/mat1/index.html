@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Contagem de Frutas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container" role="main">
+        <header class="topo-controles">
+            <div class="botoes-esquerda">
+                <button id="homeBtn" class="btn-icone" aria-label="Voltar para a página inicial">
+                    <img src="img/home.png" alt="Ícone de Home">
+                </button>
+                <button id="somBtn" class="btn-icone" aria-label="Ouvir instrução novamente">
+                    <img src="img/somicone.png" alt="Ícone de Som">
+                </button>
+            </div>
+
+            <div class="caixa-instrucao">
+                <p id="orientacaoTexto" aria-live="polite">Carregando jogo...</p>
+            </div>
+
+            <div id="vidas" class="vidas-container" role="status" aria-label="3 vidas restantes">
+                <img src="img/vida.png" alt="Coração ativo" class="coracao">
+                <img src="img/vida.png" alt="Coração ativo" class="coracao">
+                <img src="img/vida.png" alt="Coração ativo" class="coracao">
+            </div>
+        </header>
+
+        <main class="area-jogo">
+            <section id="container-frutas" class="container-frutas" aria-label="Frutas disponíveis na mesa"></section>
+
+            <section id="cesta" class="area-cesta" tabindex="0" aria-label="Cesta de frutas. Clique em uma fruta ou use Enter para colocá-la aqui.">
+                <img src="img/cestaFrutas.png" alt="Cesta de Frutas" class="img-cesta">
+                <div id="frutas-na-cesta" class="frutas-na-cesta" aria-label="Frutas colocadas na cesta"></div>
+                <button id="btnConfirmar" class="btn-confirmar" aria-label="Confirmar quantidade de frutas">Pronto!</button>
+            </section>
+        </main>
+
+        <div id="mensagem" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloMensagem">
+            <div class="modal-conteudo">
+                <h2 id="tituloMensagem">Muito bem!</h2>
+                <p id="textoMensagem">Você colocou a quantidade correta de frutas!</p>
+                <button id="proximoBtn" class="btn-acao">Próximo Desafio</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="mat1.js"></script>
+</body>
+</html>

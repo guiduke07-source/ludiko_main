@@ -1,6 +1,10 @@
 from functools import wraps
 from flask import jsonify
-from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity
+from flask_jwt_extended import (
+    verify_jwt_in_request,
+    get_jwt_identity,
+    get_jwt
+)
 from bson import ObjectId
 from app.database.mongodb import db
 
@@ -57,4 +61,33 @@ def crianca_do_responsavel_required(func):
             return func(*args, **kwargs)
         except Exception:
             return jsonify({"erro": True, "mensagem": "Token inválido ou não fornecido."}), 401
+    return wrapper
+
+def crianca_required(func):
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+
+        try:
+            verify_jwt_in_request()
+
+            dados_token = get_jwt()
+
+            if dados_token.get("tipo") != "crianca":
+                return jsonify({
+                    "erro": True,
+                    "mensagem": (
+                        "Apenas crianças podem registrar "
+                        "resultados de jogos."
+                    )
+                }), 403
+
+            return func(*args, **kwargs)
+
+        except Exception:
+            return jsonify({
+                "erro": True,
+                "mensagem": "Token inválido ou não fornecido."
+            }), 401
+
     return wrapper

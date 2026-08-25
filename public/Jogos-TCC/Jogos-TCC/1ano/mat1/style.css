@@ -1,0 +1,545 @@
+/* Configuração geral */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    /* Impede selecionar os elementos com o mouse */
+    user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+
+    /* Impede a rolagem da página */
+    overflow: hidden;
+
+    /* Define a fonte principal */
+    font-family: 'Arial Round MT Bold', 'Comic Sans MS', sans-serif;
+}
+
+
+/* Container Principal */
+
+#game-container {
+    position: relative;
+
+    /* Ocupa toda a tela */
+    width: 100vw;
+    height: 100vh;
+
+    /* Define o fundo do jogo */
+    background-image: url('img/fundobase.jpeg');
+
+    /* Faz o fundo ocupar toda a tela */
+    background-size: cover;
+
+    /* Centraliza o fundo */
+    background-position: center;
+
+    /* Organiza os elementos em coluna */
+    display: flex;
+    flex-direction: column;
+
+    /* Distribui os elementos pelo espaço */
+    justify-content: space-between;
+}
+
+
+/* Barra Superior */
+
+.topo-controles {
+    position: absolute;
+
+    /* Define a posição da barra */
+    top: 15px;
+    left: 20px;
+    right: 20px;
+
+    display: flex;
+
+    /* Coloca os elementos nas extremidades */
+    justify-content: space-between;
+
+    align-items: center;
+
+    /* Mantém a barra acima dos outros elementos */
+    z-index: 10;
+}
+
+
+/* Botões da esquerda */
+
+.botoes-esquerda {
+    display: flex;
+
+    /* Espaço entre os botões */
+    gap: 15px;
+}
+
+
+/* Botões de Home e Som */
+
+.btn-icone {
+    background: transparent;
+    border: none;
+
+    cursor: pointer;
+
+    /* Anima o botão ao passar o mouse */
+    transition: transform 0.2s ease;
+
+    border-radius: 50%;
+}
+
+
+/* Destaque ao selecionar pelo teclado */
+
+.btn-icone:focus-visible {
+    outline: 3px solid #ff9800;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.btn-icone:hover {
+    transform: scale(1.15);
+}
+
+
+/* Imagens dos botões */
+
+.btn-icone img {
+    width: 105px;
+    height: 105px;
+
+    /* Mantém a proporção da imagem */
+    object-fit: contain;
+
+    /* Adiciona uma sombra */
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.25));
+}
+
+
+/* Caixa de orientação */
+
+.caixa-instrucao {
+    background: rgba(255, 255, 255, 0.92);
+
+    border-radius: 20px;
+
+    padding: 10px 25px;
+
+    /* Adiciona sombra */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+
+    /* Limita o tamanho da caixa */
+    max-width: 45%;
+
+    text-align: center;
+}
+
+
+/* Texto da orientação */
+
+#orientacaoTexto {
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #333;
+}
+
+
+/* Container das vidas */
+
+.vidas-container {
+    display: flex;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+
+/* Corações */
+
+.coracao {
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+
+    /* Adiciona sombra */
+    filter: drop-shadow(2px 3px 5px rgba(0,0,0,0.25));
+
+    /* Anima a mudança das vidas */
+    transition:
+        opacity 0.3s ease,
+        filter 0.3s ease;
+}
+
+
+/* Vida perdida */
+
+.coracao.perdida {
+    opacity: 0.25;
+
+    /* Deixa o coração cinza */
+    filter: grayscale(100%);
+}
+
+
+/* Área principal do jogo */
+
+.area-jogo {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    /* Distribui os elementos verticalmente */
+    justify-content: space-between;
+
+    /* Espaço no topo */
+    padding-top: 110px;
+
+    /* Espaço embaixo */
+    padding-bottom: 30px;
+}
+
+
+/* Área onde ficam as frutas */
+
+.container-frutas {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+
+    width: 90%;
+    height: 130px;
+
+    /* Permite quebrar os elementos em novas linhas */
+    flex-wrap: wrap;
+}
+
+
+/* Botões das frutas */
+
+.item-fruta {
+    width: 85px;
+    height: 85px;
+
+    /* Mostra que o elemento pode ser arrastado */
+    cursor: grab;
+
+    object-fit: contain;
+
+    /* Adiciona sombra */
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
+
+    /* Anima a fruta */
+    transition: transform 0.2s ease;
+
+    /* Melhora o funcionamento do arrastar em telas touch */
+    touch-action: none;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 10px;
+}
+
+
+/* Destaque ao selecionar pelo teclado */
+
+.item-fruta:focus-visible {
+    outline: 3px solid #FF9800;
+}
+
+
+/* Efeito ao clicar ou arrastar */
+
+.item-fruta:active {
+    cursor: grabbing;
+
+    transform: scale(1.1);
+}
+
+
+/* Área da cesta */
+
+.area-cesta {
+    position: relative;
+
+    width: 500px;
+    height: 260px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-end;
+
+    border-radius: 20px;
+}
+
+
+/* Destaque da cesta pelo teclado */
+
+.area-cesta:focus-visible {
+    outline: 3px solid #4CAF50;
+}
+
+
+/* Imagem da cesta */
+
+.img-cesta {
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    /* Impede a imagem de receber cliques */
+    pointer-events: none;
+}
+
+
+/* Área das frutas dentro da cesta */
+
+.frutas-na-cesta {
+    position: absolute;
+
+    /* Coloca as frutas mais para cima */
+    top: -30px;
+
+    width: 80%;
+    height: 150px;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    /* Permite que as frutas ultrapassem a área */
+    overflow: visible;
+
+    /* Coloca as frutas sobre a cesta */
+    z-index: 2;
+}
+
+
+/* Frutas que estão dentro da cesta */
+
+.frutas-na-cesta .item-fruta {
+    width: 60px;
+    height: 60px;
+
+    /* Permite clicar para retirar a fruta */
+    cursor: pointer;
+}
+
+
+/* Botão Confirmar */
+
+.btn-confirmar {
+    position: absolute;
+
+    /* Posiciona o botão abaixo da cesta */
+    bottom: -22px;
+
+    background-color: #4CAF50;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 35px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    /* Cria efeito de botão elevado */
+    box-shadow:
+        0 4px 0 #2E7D32,
+        0 6px 10px rgba(0,0,0,0.2);
+
+    /* Anima o botão */
+    transition:
+        transform 0.1s,
+        background-color 0.2s;
+
+    /* Mantém o botão acima da cesta */
+    z-index: 3;
+}
+
+
+/* Destaque ao selecionar pelo teclado */
+
+.btn-confirmar:focus-visible {
+    outline: 3px solid #1B5E20;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.btn-confirmar:hover {
+    background-color: #45a049;
+}
+
+
+/* Efeito ao clicar */
+
+.btn-confirmar:active {
+    transform: translateY(3px);
+
+    /* Diminui a sombra para parecer pressionado */
+    box-shadow: 0 1px 0 #2E7D32;
+}
+
+
+/* Tela de mensagem */
+
+.modal {
+    /* Esconde a tela inicialmente */
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    /* Fundo escuro atrás da mensagem */
+    background-color: rgba(0, 0, 0, 0.55);
+
+    /* Centraliza a mensagem */
+    justify-content: center;
+    align-items: center;
+
+    /* Coloca a mensagem acima do jogo */
+    z-index: 100;
+}
+
+
+/* Mostra a tela de mensagem */
+
+.modal.ativa {
+    display: flex;
+}
+
+
+/* Conteúdo da mensagem */
+
+.modal-conteudo {
+    background: #ffffff;
+
+    padding: 30px 40px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    /* Sombra da caixa */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+
+    max-width: 400px;
+
+    width: 80%;
+}
+
+
+/* Título da mensagem */
+
+.modal-conteudo h2 {
+    color: #000000;
+
+    font-size: 28px;
+
+    margin-bottom: 10px;
+}
+
+
+/* Texto da mensagem */
+
+.modal-conteudo p {
+    color: #333;
+
+    font-size: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+/* Botão da mensagem */
+
+.btn-acao {
+    background-color: #ff90c7;
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 25px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    /* Efeito de botão elevado */
+    box-shadow: 0 4px 0 #cc5486;
+
+    transition:
+        transform 0.1s,
+        background-color 0.2s;
+}
+
+
+/* Destaque ao selecionar pelo teclado */
+
+.btn-acao:focus-visible {
+    outline: 3px solid #eb57a1;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.btn-acao:hover {
+    background-color: #eb57a1;
+}
+
+
+/* Efeito ao clicar */
+
+.btn-acao:active {
+    transform: translateY(3px);
+
+    box-shadow: 0 1px 0 #ff90c7;
+}

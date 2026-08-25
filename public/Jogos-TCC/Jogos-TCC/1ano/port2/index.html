@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo das Letras do Fundo do Mar</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="game-container">
+        <header class="topo-controles">
+            <div class="botoes-esquerda">
+                <button id="homeBtn" class="btn-icone" aria-label="Ir para a Home">
+                    <img src="img/home.png" alt="Home">
+                </button>
+                <button id="somBtn" class="btn-icone" aria-label="Ouvir instrução">
+                    <img src="img/somicone.png" alt="Som">
+                </button>
+            </div>
+
+            <div id="orientacao" class="orientacao">
+                <p>Clique na primeira letra de <span id="emojiPalavra">🐠</span></p>
+            </div>
+
+            <div id="vidas" class="vidas-container" aria-label="3 vidas restantes">
+                <img src="img/vida.png" alt="Coração" class="coracao">
+                <img src="img/vida.png" alt="Coração" class="coracao">
+                <img src="img/vida.png" alt="Coração" class="coracao">
+            </div>
+        </header>
+
+        <main id="opcoes" class="aquario"></main>
+
+        <div id="mensagem" class="modal">
+            <div class="modal-conteudo">
+                <h2 id="tituloMensagem">Parabéns!</h2>
+                <p id="textoMensagem">Você encontrou a letra correta!</p>
+                <button id="proximoBtn" class="btn-acao">Próxima Letra</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="port2.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo dos Habitats</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    
+    <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=underwater-ambient-112188.mp3"></audio>
+
+    <div class="orientacao-titulo">
+      <span id="texto-instrucao">Para onde vai este animal?</span>
+    </div>
+
+    <header class="topo-controles">
+      <div class="botoes-esquerda">
+        <button id="btn-home" class="btn-icone" title="Início">
+          <img src="img/home.png" alt="Início">
+        </button>
+        <button id="btn-som" class="btn-icone" title="Ouvir instrução">
+          <img src="img/somicone.png" alt="Som">
+        </button>
+      </div>
+
+      <div class="vidas-container">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+      </div>
+    </header>
+
+    <main class="area-jogo">
+      
+      <div class="animal-container">
+        <img id="animal-atual" class="animal-item" draggable="true" src="" alt="Animal para arrastar">
+      </div>
+
+      <div class="habitats-container">
+        <div class="habitat-card" data-habitat="floresta">
+          <img src="img/floresta.png" alt="Floresta">
+        </div>
+
+        <div class="habitat-card" data-habitat="agua">
+          <img src="img/agua.png" alt="Água">
+        </div>
+
+        <div class="habitat-card" data-habitat="selva">
+          <img src="img/selva.png" alt="Selva">
+        </div>
+      </div>
+
+    </main>
+
+    <div id="modal-feedback" class="modal">
+      <div class="modal-conteudo">
+        <h2 id="modal-titulo">Parabéns!</h2>
+        <p id="modal-mensagem">Você acertou o habitat do animal!</p>
+        <button id="btn-reiniciar" class="btn-acao">Jogar Novamente</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="g1.js"></script>
+</body>
+</html>

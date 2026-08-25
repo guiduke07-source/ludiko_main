@@ -1,0 +1,879 @@
+/* Configurações gerais */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+
+/* Área do jogo e fundo */
+
+.jogo {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+
+    min-height: 550px;
+
+    overflow: hidden;
+
+    background-image: url("img/fundobase.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* Barra superior */
+
+.topo {
+    position: absolute;
+
+    top: 18px;
+    left: 25px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    z-index: 50;
+}
+
+
+/* Botões de home e som */
+
+.botao-icone {
+    width: 105px;
+    height: 105px;
+
+    border: none;
+
+    background: transparent;
+
+    padding: 4px;
+
+    cursor: pointer;
+
+    border-radius: 25px;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.botao-icone img {
+    width: 105px;
+    height:105px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.botao-icone:hover {
+    transform: scale(1.08);
+
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.botao-icone:active {
+    transform: scale(0.92);
+}
+
+.botao-icone:focus-visible {
+    outline: 5px solid #2563eb;
+    outline-offset: 4px;
+}
+
+
+/* Área das vidas */
+
+.vidas {
+    position: absolute;
+
+    top: 20px;
+    right: 28px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    z-index: 50;
+}
+
+.vidas img {
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* Vida perdida */
+
+.vidas img.perdida {
+    opacity: 0.22;
+
+    filter: grayscale(100%);
+}
+
+
+/* Conteúdo principal */
+
+.conteudo {
+    width: 100%;
+    height: 100%;
+
+    padding-top: 145px;
+    padding-bottom: 15px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* Imagem do objeto */
+
+.imagem-palavra {
+ 
+    width: min(850px, 30vh);
+    height: min(850px, 30vh);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-top: 5px;
+    margin-bottom: 0;
+
+    z-index: 5;
+}
+
+.imagem-palavra img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+    user-select: none;
+}
+
+
+/* Área do trem */
+
+.area-trem {
+    position: relative;
+
+    width: min(1050px, 92vw);
+
+    height: 205px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* Locomotiva */
+
+.imagem-trem {
+    position: absolute;
+
+    left: 0;
+
+    bottom: 8px;
+
+    width: 350px;
+    height: 190px;
+
+    object-fit: contain;
+
+    object-position: left center;
+
+    z-index: 5;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* Área dos vagões */
+
+.vagoes {
+    position: absolute;
+
+    left: 250px;
+    right: 0;
+
+    bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+    z-index: 10;
+}
+
+
+/* Vagão */
+
+.vagao {
+    position: relative;
+
+    width: 200px;
+    height: 115px;
+
+    flex: 0 0 200px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #65bbaa;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    color: #222;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+/* Parte superior do vagão */
+
+.vagao::before {
+    content: "";
+
+    position: absolute;
+
+    top: -8px;
+    left: 0;
+
+    width: 100%;
+    height: 14px;
+
+    border-radius: 4px;
+
+    background: #c59bbd;
+}
+
+
+/* Rodas do vagão */
+
+.vagao::after {
+    content: "";
+
+    position: absolute;
+
+    left: 18px;
+    right: 18px;
+
+    bottom: -16px;
+
+    height: 22px;
+
+    background:
+        radial-gradient(
+            circle at 20% 50%,
+            #555 0,
+            #555 8px,
+            transparent 9px
+        ),
+        radial-gradient(
+            circle at 80% 50%,
+            #555 0,
+            #555 8px,
+            transparent 9px
+        );
+
+    pointer-events: none;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.vagao:hover {
+    transform: translateY(-4px);
+}
+
+
+/* Foco do vagão */
+
+.vagao:focus-visible {
+    outline: 5px solid #2563eb;
+
+    outline-offset: 5px;
+}
+
+
+/* Vagão selecionado */
+
+.vagao.destacado {
+    transform: scale(1.04);
+
+    box-shadow:
+        0 0 0 5px #ffe45c,
+        0 0 20px rgba(255, 214, 0, 0.8);
+}
+
+
+/* Vagão preenchido */
+
+.vagao.preenchido {
+    background: #83d4c6;
+}
+
+
+/* Sílaba dentro do vagão */
+
+.vagao .silaba {
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+
+    padding: 0;
+
+    min-width: auto;
+
+    color: #222;
+
+    font-size: clamp(28px, 3.5vw, 42px);
+
+    font-weight: 800;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+
+/* Área das sílabas */
+
+.area-silabas {
+    width: min(900px, 90vw);
+
+    flex-shrink: 0;
+
+    text-align: center;
+
+    margin-top: 5px;
+}
+
+
+/* Texto da orientação */
+
+.instrucao {
+    margin-bottom: 10px;
+
+    font-size: clamp(18px, 2.2vw, 25px);
+
+    font-weight: bold;
+
+    line-height: 1.2;
+}
+
+
+/* Lista de sílabas */
+
+.silabas {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+
+/* Botões das sílabas */
+
+.silaba {
+    min-width: 100px;
+
+    padding: 12px 18px;
+
+    border: 4px solid white;
+
+    border-radius: 17px;
+
+    background: #f276a2;
+
+    color: white;
+
+    box-shadow:
+        0 5px 10px rgba(0, 0, 0, 0.2);
+
+    font-size: clamp(23px, 2.8vw, 32px);
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    text-align: center;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: manipulation;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+/* Efeito ao passar o mouse */
+
+.silaba:hover {
+    transform: translateY(-4px) scale(1.04);
+
+    box-shadow:
+        0 8px 14px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Foco da sílaba */
+
+.silaba:focus-visible {
+    outline: 5px solid #2563eb;
+
+    outline-offset: 4px;
+}
+
+
+/* Sílaba selecionada */
+
+.silaba.selecionada {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 0 5px #ffe45c,
+        0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Sílaba já utilizada */
+
+.silaba.usada {
+    opacity: 0.22;
+
+    pointer-events: none;
+}
+
+
+/* Animação de erro */
+
+@keyframes tremer {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-7px);
+    }
+
+    50% {
+        transform: translateX(7px);
+    }
+
+    75% {
+        transform: translateX(-7px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* Efeito quando ocorre um erro */
+
+.erro {
+    animation: tremer 0.35s ease;
+}
+
+
+/* Janela de mensagem */
+
+.mensagem {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    z-index: 100;
+}
+
+
+/* Mostra a mensagem */
+
+.mensagem.ativa {
+    display: flex;
+}
+
+
+/* Caixa da mensagem */
+
+.caixa-mensagem {
+    width: min(500px, 90vw);
+
+    padding: 35px 25px;
+
+    background: white;
+
+    border-radius: 30px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Título da mensagem */
+
+.caixa-mensagem h2 {
+    margin-bottom: 15px;
+
+    font-size: clamp(32px, 6vw, 48px);
+
+    color: #000000;
+}
+
+
+/* Texto da mensagem */
+
+.caixa-mensagem p {
+    margin-bottom: 25px;
+
+    font-size: clamp(19px, 4vw, 27px);
+
+    line-height: 1.4;
+}
+
+
+/* Botão da mensagem */
+
+.caixa-mensagem button {
+    padding: 14px 28px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background: #bbdbe8;
+
+    color: white;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.caixa-mensagem button :hover{
+    background: #6398b6;
+}
+
+
+/* Foco do botão da mensagem */
+
+.caixa-mensagem button:focus-visible {
+    outline: 5px solid #2563eb;
+
+    outline-offset: 5px;
+}
+
+
+/* Ajustes para tablets */
+
+@media (max-width: 1000px) {
+
+    .botao-icone {
+        width: 85px;
+        height: 85px;
+    }
+
+    .vidas img {
+        width: 75px;
+        height: 75px;
+    }
+
+    .conteudo {
+        padding-top: 120px;
+    }
+
+    .imagem-palavra {
+        width: 210px;
+        height: 210px;
+    }
+
+    .area-trem {
+        width: 96vw;
+        height: 180px;
+    }
+
+    .imagem-trem {
+        width: 300px;
+        height: 170px;
+    }
+
+    .vagoes {
+        left: 270px;
+        gap: 12px;
+        bottom: 27px;
+    }
+
+    .vagao {
+        width: 160px;
+        height: 95px;
+
+        flex-basis: 160px;
+    }
+}
+
+
+/* Ajustes para celulares */
+
+@media (max-width: 700px) {
+
+    .topo {
+        top: 8px;
+        left: 8px;
+        gap: 4px;
+    }
+
+    .botao-icone {
+        width: 65px;
+        height: 65px;
+    }
+
+    .vidas {
+        top: 10px;
+        right: 8px;
+        gap: 2px;
+    }
+
+    .vidas img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .conteudo {
+        padding-top: 82px;
+    }
+
+    .imagem-palavra {
+        width: 165px;
+        height: 165px;
+
+        margin-bottom: 0;
+    }
+
+    .area-trem {
+        width: 98vw;
+        height: 135px;
+    }
+
+    .imagem-trem {
+        width: 220px;
+        height: 130px;
+
+        bottom: 5px;
+    }
+
+    .vagoes {
+        left: 195px;
+
+        gap: 7px;
+
+        bottom: 21px;
+    }
+
+    .vagao {
+        width: 75px;
+        height: 55px;
+
+        flex-basis: 75px;
+    }
+
+    .vagao::before {
+        top: -6px;
+        height: 10px;
+    }
+
+    .vagao::after {
+        left: 8px;
+        right: 8px;
+        bottom: -13px;
+        height: 18px;
+    }
+
+    .vagao .silaba {
+        font-size: 19px;
+    }
+
+    .area-silabas {
+        width: 95vw;
+    }
+
+    .instrucao {
+        font-size: 15px;
+        margin-bottom: 7px;
+    }
+
+    .silabas {
+        gap: 7px;
+    }
+
+    .silaba {
+        min-width: 62px;
+
+        padding: 8px 11px;
+
+        border-width: 3px;
+
+        border-radius: 13px;
+
+        font-size: 19px;
+    }
+}
+
+
+/* Ajustes para celulares pequenos */
+
+@media (max-width: 450px) {
+
+    .botao-icone {
+        width: 56px;
+        height: 56px;
+    }
+
+    .vidas img {
+        width: 43px;
+        height: 43px;
+    }
+
+    .conteudo {
+        padding-top: 72px;
+    }
+
+    .imagem-palavra {
+        width: 145px;
+        height: 145px;
+    }
+
+    .area-trem {
+        height: 110px;
+    }
+
+    .imagem-trem {
+        width: 180px;
+        height: 105px;
+    }
+
+    .vagoes {
+        left: 160px;
+        gap: 4px;
+        bottom: 15px;
+    }
+
+    .vagao {
+        width: 63px;
+        height: 45px;
+
+        flex-basis: 63px;
+    }
+
+    .vagao .silaba {
+        font-size: 16px;
+    }
+
+    .vagao::after {
+        bottom: -11px;
+        height: 16px;
+    }
+
+    .silaba {
+        min-width: 54px;
+        padding: 7px 9px;
+        font-size: 17px;
+    }
+}
+
+
+/* Reduz animações para acessibilidade */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}

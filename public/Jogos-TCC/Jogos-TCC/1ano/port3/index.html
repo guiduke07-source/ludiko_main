@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Complete a Palavra</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- Área principal do jogo -->
+
+    <main class="jogo">
+
+
+        <!-- Botão Home -->
+
+        <button
+            id="homeBtn"
+            class="botaoImagem home"
+            aria-label="Voltar para o início"
+        >
+
+            <img
+                src="img/home.png"
+                alt="Início"
+            >
+
+        </button>
+
+
+        <!-- Botão de som -->
+
+        <button
+            id="somBtn"
+            class="botaoImagem som"
+            aria-label="Repetir orientação"
+        >
+
+            <img
+                src="img/somicone.png"
+                alt="Repetir orientação"
+            >
+
+        </button>
+
+
+        <!-- Vidas -->
+
+        <div
+            id="vidas"
+            class="vidas"
+            aria-label="3 vidas restantes"
+        >
+
+            <img
+                src="img/vida.png"
+                alt="Vida"
+            >
+
+            <img
+                src="img/vida.png"
+                alt="Vida"
+            >
+
+            <img
+                src="img/vida.png"
+                alt="Vida"
+            >
+
+        </div>
+
+
+        <!-- Imagem da palavra -->
+
+        <div class="areaImagem">
+
+            <img
+                id="imagemPalavra"
+                src="img/gato.png"
+                alt="Gato"
+            >
+
+        </div>
+
+
+        <!-- Palavra incompleta -->
+
+        <div
+            id="palavra"
+            class="palavra"
+            aria-live="polite"
+        >
+            _ATO
+        </div>
+
+
+        <!-- Orientação escrita -->
+
+        <p
+            id="orientacao"
+            class="orientacao"
+        >
+            Escolha a letra que completa a palavra.
+        </p>
+
+
+        <!-- Alternativas -->
+
+        <div
+            id="opcoes"
+            class="opcoes"
+            role="group"
+            aria-label="Opções de letras"
+        >
+        </div>
+
+
+        <!-- Tela de mensagem -->
+
+        <div
+            id="mensagem"
+            class="mensagem"
+        >
+
+            <h2 id="tituloMensagem"></h2>
+
+            <p id="textoMensagem"></p>
+
+            <button
+                id="proximoBtn"
+                type="button"
+            >
+                Próxima
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+    <script src="port3.js"></script>
+
+</body>
+
+</html>

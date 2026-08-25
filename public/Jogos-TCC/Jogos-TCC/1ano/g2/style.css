@@ -1,0 +1,237 @@
+/* --- RESET E ESTRUTURA BASE --- */
+* {
+    box-sizing: border-box; /* O tamanho inclui bordas e espaçamentos internos */
+    margin: 0;              /* Remove margens padrao */
+    padding: 0;             /* Remove preenchimentos internos padrao */
+    user-select: none;      /* Impede a selecao de texto pela crianca */
+}
+
+body, html {
+    width: 100%;            /* Ocupa toda a largura da tela */
+    height: 100%;           /* Ocupa toda a altura da tela */
+    overflow: hidden;       /* Trava a rolagem da pagina */
+    font-family: 'Arial Round MT Bold', 'Comic Sans MS', sans-serif; /* Fonte infantil */
+}
+
+/* Fundo da tela utilizando fundobase.jpeg */
+#game-container {
+    position: relative;     /* Permite posicionamento absoluto dos elementos filhos */
+    width: 100vw;           /* Ocupa a largura total da janela */
+    height: 100vh;          /* Ocupa a altura total da janela */
+    background-image: url('img/fundobase.jpeg'); /* Imagem do fundo principal */
+    background-size: cover;  /* Preenche a tela toda mantendo as proporcoes */
+    background-position: center; /* Centraliza a imagem do fundo */
+}
+
+/* --- ORIENTACAO NO TOPO DA TELA (Centralizada) --- */
+.orientacao-titulo {
+    position: absolute;     /* Posicao fixa em relacao ao container principal */
+    top: 40px;              /* Distancia do topo */
+    left: 50%;              /* Move para o meio horizontal */
+    transform: translateX(-50%); /* Ajusta a centralizacao exata no meio */
+    font-size: 24px;        /* Tamanho do texto */
+    font-weight: bold;      /* Texto em negrito */
+    color: #000000;         /* Cor preta para o texto */
+    text-align: center;     /* Alinhamento centralizado do texto */
+    background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
+    padding: 10px 28px;     /* Espaçamento interno da caixa */
+    border-radius: 20px;     /* Arredondamento das bordas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave sob a caixa */
+    z-index: 20;             /* Camada elevada para ficar sobre outros elementos */
+    white-space: nowrap;     /* Mantem o texto em apenas uma linha */
+}
+
+/* --- BARRA SUPERIOR (Controles e Vidas) --- */
+.topo-controles {
+    position: absolute;     /* Posicao fixa no topo */
+    top: 20px;              /* Distancia da borda superior */
+    left: 25px;             /* Margem da esquerda */
+    right: 25px;            /* Margem da direita */
+    display: flex;          /* Organiza os elementos em linha */
+    justify-content: space-between; /* Esquerda e direita totalmente separadas */
+    align-items: center;    /* Alinha verticalmente os elementos */
+    z-index: 10;            /* Posicao acima da area de jogo */
+    pointer-events: none;    /* Permite que cliques passem por areas vazias */
+}
+
+.botoes-esquerda, .vidas-container {
+    pointer-events: auto;   /* Reativa os cliques apenas nos botoes e vidas */
+}
+
+.botoes-esquerda {
+    display: flex;          /* Coloca os botoes lado a lado */
+    gap: 15px;               /* Distancia entre o botao de inicio e o de som */
+}
+
+.btn-icone {
+    background: transparent;/* Sem cor de fundo */
+    border: none;           /* Sem borda */
+    cursor: pointer;        /* Muda o ponteiro para a maozinha */
+    transition: transform 0.2s ease; /* Anima o efeito de toque */
+}
+
+.btn-icone:hover {
+    transform: scale(1.1);   /* Expande levemente ao passar o ponteiro */
+}
+
+.btn-icone img {
+    width: 105px;           /* Largura das imagens dos botoes */
+    height: 105px;          /* Altura das imagens dos botoes */
+    object-fit: contain;     /* Encaixa a imagem sem distorcao */
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25)); /* Sombra no desenho */
+}
+
+.vidas-container {
+    display: flex;          /* Organiza as vidas em linha */
+    gap: 8px;                /* Distancia entre os coracoes */
+}
+
+.coracao {
+    width: 105px;           /* Largura da imagem do coracao */
+    height: 105px;          /* Altura da imagem do coracao */
+    object-fit: contain;     /* Ajusta o desenho no espaço */
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25)); /* Sombra no coracao */
+    transition: opacity 0.3s ease, filter 0.3s ease; /* Transicao suave ao perder vida */
+}
+
+.coracao.perdida {
+    opacity: 0.25;           /* Deixa o coracao quase invisivel */
+    filter: grayscale(100%);  /* Remove a cor vermelha deixando em escala de cinza */
+}
+
+/* --- AREA CENTRAL DO JOGO --- */
+.area-jogo {
+    width: 100%;            /* Ocupa a largura total */
+    height: 100%;           /* Ocupa a altura total */
+    display: flex;          /* Organiza o objeto e as lixeiras */
+    flex-direction: column;  /* Posiciona em coluna um sobre o outro */
+    justify-content: flex-end; /* Encosta o conteudo mais abaixo */
+    align-items: center;    /* Centraliza na horizontal */
+    padding-bottom: 30px;    /* Distancia da borda inferior */
+}
+
+/* Objeto Destaque no Centro */
+.objeto-container {
+    margin-bottom: 30px;     /* Distancia entre o objeto e as lixeiras */
+    height: 180px;          /* Altura da area do objeto */
+    display: flex;          /* Centralizacao do objeto */
+    justify-content: center;/* Alinha o objeto no meio */
+    align-items: center;    /* Alinha o objeto no meio verticalmente */
+}
+
+.objeto-item {
+    width: 160px;           /* Largura da imagem do objeto */
+    height: 160px;          /* Altura da imagem do objeto */
+    object-fit: contain;     /* Garante a proporcao original do desenho */
+    cursor: grab;            /* Cursor no estilo de mao aberta para arrastar */
+    transition: transform 0.2s ease, opacity 0.3s ease; /* Animaçoes de toque */
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25)); /* Sombra no objeto */
+}
+
+.objeto-item:active {
+    cursor: grabbing;        /* Cursor no estilo de mao fechada ao segurar */
+    transform: scale(1.1);   /* Aumenta o tamanho durante o arraste */
+}
+
+/* --- LIXEIRAS NA PARTE INFERIOR (IMAGENS PURAS) --- */
+.lixeiras-container {
+    display: flex;          /* Alinha as quatro opcoes de lixeiras em linha */
+    justify-content: center;/* Centraliza as opcoes */
+    align-items: flex-end;  /* Alinhamento vertical na base */
+    gap: 30px;               /* Distancia entre as lixeiras */
+    width: 100%;            /* Largura total disponivel */
+    max-width: 1200px;      /* Limite maximo para telas grandes */
+}
+
+.lixeira-card {
+    width: 180px;           /* Largura do bloco da lixeira */
+    height: 220px;          /* Altura do bloco da lixeira */
+    background: none !important; /* Remove qualquer fundo */
+    border: none !important; /* Remove qualquer borda */
+    border-radius: 0 !important; /* Remove arredondamento de caixa */
+    box-shadow: none !important; /* Remove sombras quadradas */
+    overflow: visible !important; /* Permite sombras desenhadas no PNG */
+    display: flex;          /* Centralizacao do conteudo interno */
+    justify-content: center;/* Alinhamento horizontal da imagem */
+    align-items: center;    /* Alinhamento vertical da imagem */
+    cursor: pointer;        /* Mostra a maozinha ao passar por cima */
+    transition: transform 0.2s ease; /* Animacao de ampliacao */
+}
+
+/* Imagem limpa da lixeira sem container em volta */
+.lixeira-card img {
+    width: 100%;            /* Preenche todo o espaço do bloco */
+    height: 100%;           /* Preenche toda a altura do bloco */
+    object-fit: contain;     /* Exibe o arquivo sem distorcoes */
+    display: block;          /* Remove espacos vazios abaixo da imagem */
+    filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.3)); /* Sombra projetada no desenho */
+    transition: filter 0.2s ease, transform 0.2s ease; /* Transicao suave de destaque */
+}
+
+/* Efeito ao arrastar por cima ou clicar */
+.lixeira-card.drag-over img {
+    transform: scale(1.1);   /* Expande a imagem da lixeira selecionada */
+    filter: drop-shadow(0px 10px 15px rgba(235, 87, 161, 0.8)); /* Sombra rosada ao passar por cima */
+}
+
+/* --- MODAL DE FEEDBACK --- */
+.modal {
+    display: none;           /* Fica oculto por padrao */
+    position: fixed;         /* Fixa na tela inteira */
+    top: 0;                  /* Cobre desde o topo */
+    left: 0;                 /* Cobre desde a esquerda */
+    width: 100%;            /* Cobertura total de largura */
+    height: 100%;           /* Cobertura total de altura */
+    background-color: rgba(0, 0, 0, 0.55); /* Escurecimento do fundo */
+    justify-content: center;/* Centraliza a caixa de mensagem na horizontal */
+    align-items: center;    /* Centraliza a caixa de mensagem na vertical */
+    z-index: 100;            /* Camada maxima acima de todo o jogo */
+}
+
+.modal.ativa {
+    display: flex;          /* Exibe o modal quando a classe ativa for inserida */
+}
+
+.modal-conteudo {
+    background: #ffffff;    /* Caixinha interna na cor branca */
+    padding: 30px 40px;     /* Espaçamento interno */
+    border-radius: 20px;     /* Bordas bem arredondadas */
+    text-align: center;     /* Texto centralizado */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* Sombra ao redor do modal */
+    max-width: 400px;      /* Largura maxima da caixa */
+    width: 80%;             /* Proporcao para telas menores */
+}
+
+.modal-conteudo h2 {
+    color: #000000;         /* Cor do titulo */
+    font-size: 28px;        /* Tamanho do titulo */
+    margin-bottom: 10px;     /* Espaco para a mensagem abaixo */
+}
+
+.modal-conteudo p {
+    color: #333333;         /* Cor da mensagem */
+    font-size: 18px;        /* Tamanho da mensagem */
+    margin-bottom: 20px;     /* Espaco para o botao abaixo */
+}
+
+.btn-acao {
+    background-color: #f2a372; /* Cor do botao de reiniciar */
+    color: white;           /* Texto do botao em branco */
+    border: none;           /* Sem bordas padrao */
+    padding: 12px 25px;     /* Espacamento interno do botao */
+    font-size: 18px;        /* Tamanho do texto */
+    font-weight: bold;      /* Texto em negrito */
+    border-radius: 25px;     /* Formato pilula arredondado */
+    cursor: pointer;        /* Maozinha ao passar o mouse */
+    box-shadow: 0 4px 0 #d37e49; /* Sombra inferior tridimensional */
+    transition: transform 0.1s, background-color 0.2s; /* Transicao das acoes */
+}
+
+.btn-acao:hover {
+    background-color: #d37e49; /* Cor mais escura no hover */
+}
+
+.btn-acao:active {
+    transform: translateY(3px);  /* Efeito de afundamento do botao no clique */
+    box-shadow: 0 1px 0 #f2a372; /* Sombra reduzida simulando a pressao */
+}

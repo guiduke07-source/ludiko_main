@@ -1,0 +1,257 @@
+/* ==========================================
+   1. CONFIGURAÇÕES GERAIS / RESET
+   ========================================== */
+
+/* Aplica em TODOS os elementos da página */
+* {
+    box-sizing: border-box; /* O tamanho do elemento inclui bordas e padding */
+    margin: 0;              /* Remove margens padrão dos navegadores */
+    padding: 0;             /* Remove espaçamentos internos padrão */
+    user-select: none;      /* Impede que a criança selecione/grife os textos na tela */
+}
+
+/* Configuração da tela cheia */
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;       /* Esconde barras de rolagem (tela fixa de jogo) */
+    font-family: 'Arial Round MT Bold', 'Comic Sans MS', sans-serif; /* Fonte infantil/amigável */
+}
+
+/* Container Principal do Jogo */
+#game-container {
+    position: relative;     /* Permite posicionar elementos filhos usando 'absolute' */
+    width: 100vw;           /* 100% da largura da tela da janela */
+    height: 100vh;          /* 100% da altura da tela da janela */
+    background-image: url('img/fundobase.jpeg'); /* Imagem de fundo do jogo */
+    background-size: cover;  /* Faz a imagem cobrir toda a tela sem distorcer */
+    background-position: center; /* Centraliza a imagem de fundo */
+}
+
+
+/* ==========================================
+   2. TEXTO DE ORIENTAÇÃO (TOPO DA TELA)
+   ========================================== */
+
+.orientacao-titulo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Truque CSS para centralizar perfeitamente no meio */
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9); /* Fundo branco levemente transparente */
+    padding: 10px 28px;
+    border-radius: 20px;     /* Bordas bem arredondadas (estilo pill/balão) */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave para dar profundidade */
+    z-index: 20;             /* Garante que o texto fique ACIMA de outros elementos */
+    white-space: nowrap;     /* Impede que o texto quebre em duas linhas */
+}
+
+/* O número destacado no meio do texto da orientação */
+#numero-alvo {
+    color: #d62828;          /* Vermelho para destacar o número da rodada */
+    font-size: 30px;
+}
+
+
+/* ==========================================
+   3. BARRA DE CONTROLES E VIDAS (BARRA SUPERIOR)
+   ========================================== */
+
+.topo-controles {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: space-between; /* Esquerda (botões) e Direita (vidas) */
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;    /* Deixa o container "invisível" para cliques (não bloqueia a orientação no centro) */
+}
+
+/* Reativa o clique individualmente para os botões e corações */
+.botoes-esquerda, .vidas-container {
+    pointer-events: auto;
+}
+
+.botoes-esquerda {
+    display: flex;
+    gap: 15px;               /* Espaçamento entre o botão Home e o botão Som */
+}
+
+/* Botões de Ícones (Home / Som) */
+.btn-icone {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease; /* Animação suave ao passar o mouse */
+}
+
+.btn-icone:hover {
+    transform: scale(1.1);   /* Aumenta 10% de tamanho no hover */
+}
+
+.btn-icone img {
+    width: 105px;
+    height: 105px;
+    object-fit: contain;     /* Ajusta a imagem sem distorcer proporções */
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25)); /* Sombra realista atrás do ícone */
+}
+
+/* Vidas (Corações) */
+.vidas-container {
+    display: flex;
+    gap: 8px;                /* Espaço entre um coração e outro */
+}
+
+.coracao {
+    width: 105px;
+    height: 105px;
+    object-fit: contain;
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25));
+    transition: opacity 0.3s ease, filter 0.3s ease; /* Transição para quanado perder vida */
+}
+
+/* Quando o jogador erra e perde uma vida */
+.coracao.perdida {
+    opacity: 0.25;           /* Deixa apagado/transparente */
+    filter: grayscale(100%);  /* Deixa o coração cinza */
+}
+
+
+/* ==========================================
+   4. ÁREA CENTRAL E BALÕES DE JOGO
+   ========================================== */
+
+.area-jogo, .baloes-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* O Balão */
+.balao-item {
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    background-image: url('img/balao.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center; /* Centraliza o texto na horizontal */
+    align-items: center;     /* Centraliza o texto na vertical */
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.balao-item:hover {
+    transform: scale(1.08);   /* Efeito de destaque leve no hover */
+}
+
+/* O Número que fica dentro do balão */
+.balao-texto {
+    font-size: 48px;
+    font-weight: 900;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 40px;     /* Sobe o número para a "barriga" redonda do balão */
+    text-align: center;
+}
+
+/* Posicionamento dos 5 balões na tela (Em % para responsividade básica) */
+.balao-item:nth-child(1) { left: 2%;  top: 42%; }
+.balao-item:nth-child(2) { left: 21%; top: 22%; }
+.balao-item:nth-child(3) { left: 40%; top: 45%; }
+.balao-item:nth-child(4) { left: 59%; top: 22%; }
+.balao-item:nth-child(5) { left: 78%; top: 42%; }
+
+/* Quando a criança clica no balão certo ou errado e ele estoura */
+.balao-item.estourado {
+    opacity: 0;              /* Fica invisível */
+    pointer-events: none;    /* Não aceita mais cliques */
+    transform: scale(0);     /* Encolhe até sumir (efeito estouro) */
+}
+
+
+/* ==========================================
+   5. MODAL DE FEEDBACK (VITORIA / GAMEOVER)
+   ========================================== */
+
+/* Fundo escuro atrás do aviso */
+.modal {
+    display: none;           /* Escondido por padrão */
+    position: fixed;         /* Fica preso na tela toda */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55); /* Fundo preto transparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;            /* Fica acima de TUDO na tela */
+}
+
+/* Quando o modal deve aparecer (ativado via JavaScript) */
+.modal.ativa {
+    display: flex;
+}
+
+/* Caixinha branca do modal */
+.modal-conteudo {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    width: 80%;
+}
+
+.modal-conteudo h2 {
+    color: #000000;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.modal-conteudo p {
+    color: #333333;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Botão de jogar novamente */
+.btn-acao {
+    background-color: #ff90c7;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #cc5486; /* Dá o efeito 3D de botão infantil */
+    transition: transform 0.1s, background-color 0.2s;
+}
+
+.btn-acao:focus-visible {
+    outline: 3px solid #eb57a1;
+}
+
+.btn-acao:hover {
+    background-color: #eb57a1;
+}
+
+/* Efeito de clique físico no botão */
+.btn-acao:active {
+    transform: translateY(3px);   /* Desce levemente */
+    box-shadow: 0 1px 0 #ff90c7;  /* Diminui a sombra simulando o afundamento */
+}

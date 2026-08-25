@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete a Equação - Mat2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container" role="main">
+        <header class="topo-controles">
+            <div class="botoes-esquerda">
+                <button id="homeBtn" class="btn-icone" aria-label="Voltar para a página inicial">
+                    <img src="img/home.png" alt="Ícone Home">
+                </button>
+                <button id="somBtn" class="btn-icone" aria-label="Ouvir instrução novamente">
+                    <img src="img/somicone.png" alt="Ícone Som">
+                </button>
+            </div>
+
+            <div id="vidas" class="vidas-container" role="status" aria-label="3 vidas restantes">
+                <img src="img/vida.png" alt="Coração de vida" class="coracao">
+                <img src="img/vida.png" alt="Coração de vida" class="coracao">
+                <img src="img/vida.png" alt="Coração de vida" class="coracao">
+            </div>
+        </header>
+
+        <main class="area-jogo">
+            <h1 id="orientacaoTexto" class="orientacao-titulo" aria-live="polite">
+                Escolha o número que completa a conta corretamente:
+            </h1>
+
+            <div class="equacao-container" aria-label="Equação para completar">
+                <span id="num1">10</span>
+                <span id="operador" class="operador">+</span>
+                <span id="lacuna" class="lacuna">_</span>
+                <span class="operador">=</span>
+                <span id="resultado">12</span>
+            </div>
+
+            <div id="opcoesContainer" class="opcoes-container" aria-label="Opções de resposta">
+                </div>
+        </main>
+
+        <div id="mensagem" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloMensagem">
+            <div class="modal-conteudo">
+                <h2 id="tituloMensagem">Muito bem!</h2>
+                <p id="textoMensagem">Você acertou o número que faltava!</p>
+                <button id="proximoBtn" class="btn-acao">Próximo Desafio</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="mat2.js"></script>
+</body>
+</html>

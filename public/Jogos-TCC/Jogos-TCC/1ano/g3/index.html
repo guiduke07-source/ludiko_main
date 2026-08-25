@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo dos Sons dos Animais</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    
+    <!-- Orientacao no topo -->
+    <div class="orientacao-titulo">
+    <span id="texto-instrucao">Qual animal faz este som?</span>
+    </div>
+
+    <!-- Barra superior com controles e vidas -->
+    <header class="topo-controles">
+      <div class="botoes-esquerda">
+        <button id="btn-home" class="btn-icone" title="Inicio">
+          <img src="img/home.png" alt="Inicio">
+        </button>
+        <button id="btn-som" class="btn-icone" title="Ouvir som novamente">
+          <img src="img/somicone.png" alt="Som">
+        </button>
+      </div>
+
+      <div class="vidas-container">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+      </div>
+    </header>
+
+    <!-- Area central onde os 3 animais sao inseridos -->
+    <main class="area-jogo">
+      <div id="animais-container" class="animais-grid">
+        <!-- Os 3 animais sao gerados dinamicamente via JS -->
+      </div>
+    </main>
+
+    <!-- Modal de Feedback -->
+    <div id="modal-feedback" class="modal">
+      <div class="modal-conteudo">
+        <h2 id="modal-titulo">Parabéns!</h2>
+        <p id="modal-mensagem">Você acertou todos os sons dos animais!</p>
+        <button id="btn-reiniciar" class="btn-acao">Jogar Novamente</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="g3.js"></script>
+</body>
+</html>

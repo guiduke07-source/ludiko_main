@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <!-- Configura a página para funcionar em diferentes tamanhos de tela -->
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<!-- Descrição do jogo -->
+<meta
+    name="description"
+    content="Trem das Sílabas - jogo educativo para formar palavras"
+>
+
+<!-- Nome da página -->
+<title>Trem das Sílabas</title>
+
+<!-- Arquivo de estilos -->
+<link rel="stylesheet" href="style.css">
+</head>
+
+<!-- Área principal do jogo -->
+<main class="jogo">
+
+    <!-- Barra superior -->
+    <header class="topo">
+
+        <!-- Botão para voltar ao início -->
+        <button
+            id="homeBtn"
+            class="botao-icone"
+            type="button"
+            aria-label="Voltar para a página inicial"
+            title="Voltar para o início"
+        >
+            <img
+                src="img/home.png"
+                alt=""
+                aria-hidden="true"
+            >
+        </button>
+
+        <!-- Botão para repetir a orientação -->
+        <button
+            id="somBtn"
+            class="botao-icone"
+            type="button"
+            aria-label="Repetir orientação falada"
+            title="Ouvir orientação novamente"
+        >
+            <img
+                src="img/somicone.png"
+                alt=""
+                aria-hidden="true"
+            >
+        </button>
+
+    </header>
+
+
+    <!-- Quantidade de vidas -->
+    <div
+        id="vidas"
+        class="vidas"
+        role="status"
+        aria-label="3 vidas restantes"
+    >
+
+        <img
+            src="img/vida.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+        <img
+            src="img/vida.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+        <img
+            src="img/vida.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+    </div>
+
+
+    <!-- Conteúdo principal -->
+    <section
+        class="conteudo"
+        aria-label="Jogo Trem das Sílabas"
+    >
+
+        <!-- Imagem do objeto -->
+
+        <div class="imagem-palavra">
+
+            <img
+                id="imagemPalavra"
+                src="img/boneca.png"
+                alt="Imagem da palavra"
+            >
+
+        </div>
+
+
+        <!-- Área do trem -->
+
+        <section
+            class="area-trem"
+            aria-label="Vagões para colocar as sílabas"
+        >
+
+            <!-- Imagem da locomotiva -->
+
+            <img
+                class="imagem-trem"
+                src="img/trem.png"
+                alt=""
+                aria-hidden="true"
+            >
+
+
+            <!-- Espaços para as sílabas -->
+
+            <div class="vagoes">
+
+                <!-- Primeiro espaço -->
+
+                <button
+                    class="vagao"
+                    type="button"
+                    data-posicao="0"
+                    aria-label="Primeiro vagão vazio"
+                ></button>
+
+                <!-- Segundo espaço -->
+
+                <button
+                    class="vagao"
+                    type="button"
+                    data-posicao="1"
+                    aria-label="Segundo vagão vazio"
+                ></button>
+
+                <!-- Terceiro espaço -->
+
+                <button
+                    class="vagao"
+                    type="button"
+                    data-posicao="2"
+                    aria-label="Terceiro vagão vazio"
+                ></button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Área das sílabas -->
+
+        <section
+            class="area-silabas"
+            aria-labelledby="instrucao"
+        >
+
+            <!-- Orientação do jogo -->
+
+            <p
+                id="instrucao"
+                class="instrucao"
+            >
+                Escolha as sílabas para formar a palavra:
+            </p>
+
+
+            <!-- Sílabas disponíveis -->
+
+            <div
+                id="silabas"
+                class="silabas"
+                role="list"
+                aria-label="Sílabas disponíveis"
+            >
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- Janela de mensagem -->
+
+    <div
+        id="mensagem"
+        class="mensagem"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tituloMensagem"
+        aria-describedby="textoMensagem"
+    >
+
+        <div class="caixa-mensagem">
+
+            <!-- Título da mensagem -->
+
+            <h2 id="tituloMensagem">
+                Muito bem!
+            </h2>
+
+            <!-- Texto da mensagem -->
+
+            <p id="textoMensagem">
+                Você conseguiu!
+            </p>
+
+            <!-- Botão para continuar -->
+
+            <button
+                id="proximoBtn"
+                type="button"
+            >
+                Próxima palavra
+            </button>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- Arquivo JavaScript -->
+<script src="port1.js"></script>

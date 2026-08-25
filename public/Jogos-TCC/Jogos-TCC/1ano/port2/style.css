@@ -1,0 +1,264 @@
+/* Configuração geral */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Fredoka', sans-serif;
+  color: #2D3748;
+}
+
+/* Área principal do jogo */
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('img/fundoMar.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* Barra superior */
+.topo-controles {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.botoes-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botões de Home e Som */
+.btn-icone {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-icone:hover {
+  transform: scale(1.1);
+}
+
+.btn-icone:active {
+  transform: scale(0.95);
+}
+
+.btn-icone img {
+  width: 105px;
+  height: 105px;
+  object-fit: contain;
+}
+
+/* Caixa de Orientação */
+.orientacao {
+  background: #FFFFFF;
+  padding: 12px 28px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  border: 3px solid #E2E8F0;
+  z-index: 10;
+}
+
+.orientacao p {
+  color: #2D3748;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#emojiPalavra {
+  font-size: 1.8rem;
+}
+
+/* Área das vidas */
+.vidas-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coracao {
+  width:105px;
+  height: 105px;
+  object-fit: contain;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.coracao.perdida {
+  opacity: 0.25;
+  filter: grayscale(100%);
+}
+
+/* Área do Aquário */
+.aquario {
+  position: absolute;
+  top: 130px;
+  left: 5%;
+  width: 90%;
+  height: calc(100% - 160px);
+}
+
+.peixe-opcao {
+  position: absolute;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+  animation: flutuar 3s ease-in-out infinite alternate;
+}
+
+.peixe-opcao:hover {
+  transform: scale(1.1);
+}
+
+.peixe-opcao img {
+  width: 180px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(3px 5px 8px rgba(0, 0, 0, 0.2));
+}
+
+.peixe-opcao .letra-texto {
+  position: absolute;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 0 #2D3748, -2px -2px 0 #2D3748, 2px -2px 0 #2D3748, -2px 2px 0 #2D3748;
+  pointer-events: none;
+}
+
+@keyframes flutuar {
+  0% { transform: translateY(0) rotate(-1deg); }
+  100% { transform: translateY(-12px) rotate(2deg); }
+}
+
+/* Modal de Mensagem */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 100;
+}
+
+.modal.ativa {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-conteudo {
+  background: #FFFFFF;
+  width: min(450px, 85%);
+  padding: 32px 24px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.modal.ativa .modal-conteudo {
+  transform: scale(1);
+}
+
+.modal-conteudo h2 {
+  color: #2D3748;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.modal-conteudo p {
+  color: #4A5568;
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+}
+
+.btn-acao {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 16px;
+  background: #bbdbe8;
+  color: #FFFFFF;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #94c5d8;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.btn-acao:hover {
+  background: #94c5d8;
+}
+
+.btn-acao:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #94c5d8;
+}
+
+/* Responsividade */
+@media (max-width: 700px) {
+  .topo-controles {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .orientacao {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .btn-icone, .coracao {
+    width: 50px;
+    height: 50px;
+  }
+
+  .peixe-opcao img {
+    width: 120px;
+  }
+
+  .peixe-opcao .letra-texto {
+    font-size: 1.8rem;
+  }
+}

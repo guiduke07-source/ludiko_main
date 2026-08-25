@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Coleta Seletiva</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="game-container">
+    
+    <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=underwater-ambient-112188.mp3"></audio>
+
+    <div class="orientacao-titulo">
+    <span id="texto-instrucao">Onde jogamos este lixo?</span>
+    </div>
+
+    <header class="topo-controles">
+      <div class="botoes-esquerda">
+        <button id="btn-home" class="btn-icone" title="Inicio">
+          <img src="img/home.png" alt="Inicio">
+        </button>
+        <button id="btn-som" class="btn-icone" title="Ouvir instrucao">
+          <img src="img/somicone.png" alt="Som">
+        </button>
+      </div>
+
+      <div class="vidas-container">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+        <img src="img/vida.png" class="coracao" alt="Vida">
+      </div>
+    </header>
+
+    <main class="area-jogo">
+      
+      <div class="objeto-container">
+        <img id="objeto-atual" class="objeto-item" draggable="true" src="" alt="Objeto para reciclar">
+      </div>
+
+      <div class="lixeiras-container">
+        <div class="lixeira-card" data-tipo="papel">
+          <img src="img/papel.png" alt="Lixeira de Papel">
+        </div>
+
+        <div class="lixeira-card" data-tipo="plastico">
+          <img src="img/plastico.png" alt="Lixeira de Plastico">
+        </div>
+
+        <div class="lixeira-card" data-tipo="vidro">
+          <img src="img/vidro.png" alt="Lixeira de Vidro">
+        </div>
+
+        <div class="lixeira-card" data-tipo="metal">
+          <img src="img/metal.png" alt="Lixeira de Metal">
+        </div>
+      </div>
+
+    </main>
+
+    <div id="modal-feedback" class="modal">
+      <div class="modal-conteudo">
+        <h2 id="modal-titulo">Parabéns!</h2>
+        <p id="modal-mensagem">Você separou o lixo corretamente!</p>
+        <button id="btn-reiniciar" class="btn-acao">Jogar Novamente</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="g2.js"></script>
+</body>
+</html>

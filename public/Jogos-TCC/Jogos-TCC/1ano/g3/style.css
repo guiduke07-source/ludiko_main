@@ -1,0 +1,215 @@
+/* --- RESET E ESTRUTURA BASE --- */
+* {
+    box-sizing: border-box; /* O tamanho total inclui bordas e preenchimentos */
+    margin: 0;              /* Zera as margens padrao */
+    padding: 0;             /* Zera os espaçamentos internos */
+    user-select: none;      /* Impede a selecao de texto e imagem */
+}
+
+body, html {
+    width: 100%;            /* Cobertura total de largura */
+    height: 100%;           /* Cobertura total de altura */
+    overflow: hidden;       /* Trava rolagem */
+    font-family: 'Arial Round MT Bold', 'Comic Sans MS', sans-serif; /* Fonte infantil */
+}
+
+/* Fundo da tela usando a imagem fundobase.jpeg */
+#game-container {
+    position: relative;     /* Permite posicionar elementos filhos */
+    width: 100vw;           /* Largura da janela */
+    height: 100vh;          /* Altura da janela */
+    background-image: url('img/fundobase.jpeg'); /* Imagem do fundo principal */
+    background-size: cover;  /* Preenche mantendo proporcao */
+    background-position: center; /* Centraliza a imagem */
+}
+
+/* --- ORIENTACAO NO TOPO --- */
+.orientacao-titulo {
+    position: absolute;     /* Posicao fixa */
+    top: 40px;              /* Afastamento do topo */
+    left: 50%;              /* Move para o meio */
+    transform: translateX(-50%); /* Centralizacao perfeita */
+    font-size: 24px;        /* Tamanho do texto */
+    font-weight: bold;      /* Texto em negrito */
+    color: #000000;         /* Cor preta */
+    text-align: center;     /* Texto centralizado */
+    background: rgba(255, 255, 255, 0.9); /* Caixa branca semi-transparente */
+    padding: 10px 28px;     /* Preenchimento interno */
+    border-radius: 20px;     /* Borda arredondada */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra suave */
+    z-index: 20;             /* Camada superior */
+    white-space: nowrap;     /* Texto em uma unica linha */
+}
+
+/* --- BARRA SUPERIOR DE CONTROLES --- */
+.topo-controles {
+    position: absolute;     /* Posicao absoluta no topo */
+    top: 20px;              /* Margem superior */
+    left: 25px;             /* Margem esquerda */
+    right: 25px;            /* Margem direita */
+    display: flex;          /* Dispoe elementos em linha */
+    justify-content: space-between; /* Distribui topo esquerdo e direito */
+    align-items: center;    /* Alinhamento vertical */
+    z-index: 10;            /* Camada sobre a area de jogo */
+    pointer-events: none;    /* Transpassa cliques em areas vazias */
+}
+
+.botoes-esquerda, .vidas-container {
+    pointer-events: auto;   /* Habilita clique nos botoes e coracoes */
+}
+
+.botoes-esquerda {
+    display: flex;          /* Coloca botoes lado a lado */
+    gap: 15px;               /* Distancia entre botoes */
+}
+
+.btn-icone {
+    background: transparent;/* Sem fundo */
+    border: none;           /* Sem bordas */
+    cursor: pointer;        /* Maozinha no mouse */
+    transition: transform 0.2s ease; /* Transicao de toque */
+}
+
+.btn-icone:hover {
+    transform: scale(1.1);   /* Expande ao passar o mouse */
+}
+
+.btn-icone img {
+    width: 105px;           /* Largura do icone */
+    height: 105px;          /* Altura do icone */
+    object-fit: contain;     /* Ajusta a imagem */
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25)); /* Sombra no icone */
+}
+
+.vidas-container {
+    display: flex;          /* Coracoes lado a lado */
+    gap: 8px;                /* Distancia entre vidas */
+}
+
+.coracao {
+    width: 105px;           /* Largura da vida */
+    height: 105px;          /* Altura da vida */
+    object-fit: contain;     /* Ajusta imagem */
+    filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.25)); /* Sombra */
+    transition: opacity 0.3s ease, filter 0.3s ease; /* Transicao */
+}
+
+.coracao.perdida {
+    opacity: 0.25;           /* Quase transparente */
+    filter: grayscale(100%);  /* Fica cinza ao perder vida */
+}
+
+/* --- AREA CENTRAL DO JOGO --- */
+.area-jogo {
+    width: 100%;            /* Ocupa largura toda */
+    height: 100%;           /* Ocupa altura toda */
+    display: flex;          /* Flex container */
+    justify-content: center;/* Centraliza horizontalmente */
+    align-items: center;    /* Centraliza verticalmente */
+    padding-top: 60px;      /* Desloca para baixo da faixa de topo */
+}
+
+/* Container onde os 3 animais sao dispostos */
+.animais-grid {
+    display: flex !important;/* Forca exibicao em linha */
+    justify-content: center;/* Alinha no centro */
+    align-items: center;    /* Alinha verticalmente */
+    gap: 50px;               /* Espaco entre os 3 animais */
+    width: 100%;            /* Largura total */
+    max-width: 1100px;      /* Tamanho maximo */
+}
+
+/* Card individual do animal */
+.animal-card {
+    width: 220px;           /* Largura do bloco */
+    height: 220px;          /* Altura do bloco */
+    background: none !important; /* Sem cor de fundo */
+    border: none !important; /* Sem bordas da caixa */
+    border-radius: 0 !important; /* Sem arredondamento de caixa */
+    box-shadow: none !important; /* Sem sombra retangular */
+    display: flex;          /* Centraliza a imagem */
+    justify-content: center;/* Centraliza na horizontal */
+    align-items: center;    /* Centraliza na vertical */
+    cursor: pointer;        /* Ponteiro de maozinha */
+    transition: transform 0.2s ease; /* Anima toque */
+}
+
+.animal-card img {
+    width: 100%;            /* Preenche a largura do bloco */
+    height: 100%;           /* Preenche a altura do bloco */
+    object-fit: contain;     /* Exibe o animal sem corte */
+    display: block;          /* Remove espacos vazios */
+    filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.3)); /* Sombra no desenho */
+    transition: transform 0.2s ease, filter 0.2s ease; /* Transicao */
+}
+
+.animal-card:hover img {
+    transform: scale(1.1);   /* Aumenta ao passar o mouse */
+    filter: drop-shadow(0px 10px 18px rgba(235, 87, 161, 0.7)); /* Destaque colorido */
+}
+
+.animal-card:active img {
+    transform: scale(0.95);  /* Efeito de clique afundando */
+}
+
+/* --- MODAL DE FEEDBACK --- */
+.modal {
+    display: none;           /* Escondido por padrao */
+    position: fixed;         /* Fixado na janela */
+    top: 0;                  /* Cobre topo */
+    left: 0;                 /* Cobre esquerda */
+    width: 100%;            /* Largura total */
+    height: 100%;           /* Altura total */
+    background-color: rgba(0, 0, 0, 0.55); /* Fundo escurecido */
+    justify-content: center;/* Centraliza na horizontal */
+    align-items: center;    /* Centraliza na vertical */
+    z-index: 100;            /* Camada maxima */
+}
+
+.modal.ativa {
+    display: flex;          /* Exibe o modal quando ativo */
+}
+
+.modal-conteudo {
+    background: #ffffff;    /* Caixa branca */
+    padding: 30px 40px;     /* Preenchimento interno */
+    border-radius: 20px;     /* Cantos arredondados */
+    text-align: center;     /* Texto centralizado */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* Sombra */
+    max-width: 400px;      /* Largura maxima */
+    width: 80%;             /* Largura proporcional */
+}
+
+.modal-conteudo h2 {
+    color: #000000;         /* Cor do titulo */
+    font-size: 28px;        /* Tamanho */
+    margin-bottom: 10px;     /* Distancia */
+}
+
+.modal-conteudo p {
+    color: #333333;         /* Cor da mensagem */
+    font-size: 18px;        /* Tamanho */
+    margin-bottom: 20px;     /* Distancia */
+}
+
+.btn-acao {
+    background-color: #f2a372; /* Cor do botao */
+    color: white;           /* Texto branco */
+    border: none;           /* Sem borda */
+    padding: 12px 25px;     /* Preenchimento */
+    font-size: 18px;        /* Tamanho */
+    font-weight: bold;      /* Negrito */
+    border-radius: 25px;     /* Formato pilula */
+    cursor: pointer;        /* Maozinha */
+    box-shadow: 0 4px 0 #d37e49; /* Relevo 3D */
+    transition: transform 0.1s, background-color 0.2s; /* Transicao */
+}
+
+.btn-acao:hover {
+    background-color: #d37e49; /* Troca cor no hover */
+}
+
+.btn-acao:active {
+    transform: translateY(3px);  /* Efeito de clique */
+    box-shadow: 0 1px 0 #f2a372; /* Sombra reduzida */
+}

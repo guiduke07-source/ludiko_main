@@ -1,0 +1,509 @@
+/* Configuração geral */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    font-family: Arial, sans-serif;
+
+}
+
+
+/* Área principal do jogo */
+
+.jogo {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-image:
+        url("img/fundobase.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* Botões de imagem */
+
+.botaoImagem {
+
+    position: absolute;
+
+    width: 105px;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition: transform 0.2s;
+
+}
+
+
+/* Imagem dos botões */
+
+.botaoImagem img {
+
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+
+}
+
+
+/* Efeito ao passar o mouse */
+
+.botaoImagem:hover {
+
+    transform: scale(1.08);
+
+}
+
+
+/* Efeito ao clicar */
+
+.botaoImagem:active {
+
+    transform: scale(0.95);
+
+}
+
+
+/* Botão Home */
+
+.home {
+
+    top: 25px;
+    left: 35px;
+
+}
+
+
+/* Botão de Som */
+
+.som {
+
+    top: 25px;
+    left: 140px;
+
+}
+
+
+/* Área das vidas */
+
+.vidas {
+
+    position: absolute;
+
+    top: 30px;
+    right: 40px;
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+/* Ícones das vidas */
+
+.vidas img {
+
+    width: 105px;
+    height: 105px;
+
+    object-fit: contain;
+
+    transition: 0.3s;
+
+}
+
+
+/* Vida perdida */
+
+.vidas img.perdida {
+
+    opacity: 0.25;
+
+    filter: grayscale(1);
+
+}
+
+
+/* Área da imagem */
+
+.areaImagem {
+
+    width: 300px;
+    height: 270px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+/* Imagem da palavra */
+
+.areaImagem img {
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+/* Palavra incompleta */
+
+.palavra {
+
+    margin-top: 5px;
+
+    font-size: clamp(60px, 7vw, 95px);
+
+    font-weight: bold;
+
+    letter-spacing: 10px;
+
+    color: #000;
+
+}
+
+
+/* Orientação do jogo */
+
+.orientacao {
+
+    margin-top: 15px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+
+/* Área das opções */
+
+.opcoes {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 35px;
+
+    margin-top: 25px;
+
+}
+
+
+/* Botões das letras */
+
+.letra {
+
+    width: 125px;
+    height: 110px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    background: #9b8583;
+
+    color: #000;
+
+    font-size: 60px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s,
+        background 0.2s;
+
+}
+
+
+/* Efeito ao passar o mouse */
+
+.letra:hover {
+
+    transform: translateY(-5px);
+
+}
+
+
+/* Efeito ao clicar */
+
+.letra:active {
+
+    transform: scale(0.95);
+
+}
+
+
+/* Botão desativado */
+
+.letra:disabled {
+
+    cursor: default;
+
+}
+
+
+/* Resposta correta */
+
+.letra.correta {
+
+    background: #82d68a;
+
+}
+
+
+/* Resposta errada */
+
+.letra.errada {
+
+    background: #e87979;
+
+}
+
+
+/* Tela de mensagem */
+
+.mensagem {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: min(500px, 85%);
+
+    padding: 35px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.8);
+
+    background: white;
+
+    border-radius: 30px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: 0.3s;
+
+    z-index: 20;
+
+}
+
+
+/* Mostra a tela de mensagem */
+
+.mensagem.ativa {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+}
+
+
+/* Título da mensagem */
+
+.mensagem h2 {
+
+    font-size: 38px;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* Texto da mensagem */
+
+.mensagem p {
+
+    font-size: 20px;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* Botão da mensagem */
+
+#proximoBtn {
+
+    padding: 14px 30px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background: #bbdbe8;
+
+    color: white;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+/* Efeito ao passar o mouse */
+
+#proximoBtn:hover {
+
+    transform: scale(1.05);
+
+}
+
+
+/* Ajustes para telas menores */
+
+@media (max-width: 700px) {
+
+    /* Botões */
+    .botaoImagem {
+
+        width: 60px;
+        height: 60px;
+
+    }
+
+
+    /* Botão Home */
+    .home {
+
+        top: 15px;
+        left: 15px;
+
+    }
+
+
+    /* Botão de Som */
+    .som {
+
+        top: 15px;
+        left: 85px;
+
+    }
+
+
+    /* Área das vidas */
+    .vidas {
+
+        top: 15px;
+        right: 15px;
+
+    }
+
+
+    /* Ícones das vidas */
+    .vidas img {
+
+        width: 45px;
+        height: 45px;
+
+    }
+
+
+    /* Área da imagem */
+    .areaImagem {
+
+        width: 220px;
+        height: 200px;
+
+    }
+
+
+    /* Palavra */
+    .palavra {
+
+        font-size: 48px;
+
+        letter-spacing: 6px;
+
+    }
+
+
+    /* Orientação */
+    .orientacao {
+
+        font-size: 16px;
+
+    }
+
+
+    /* Opções */
+    .opcoes {
+
+        gap: 15px;
+
+    }
+
+
+    /* Botões das letras */
+    .letra {
+
+        width: 80px;
+        height: 75px;
+
+        font-size: 40px;
+
+    }
+
+}
