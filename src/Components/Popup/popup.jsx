@@ -6,7 +6,21 @@ import './popup.css';
 function Popup({ onClose }) {
     const popupRef = useRef();
     const navigate = useNavigate(); // Instanciando o hook de navegação
+let nomeCrianca = 'Criança';
 
+try {
+    const usuarioSalvo = localStorage.getItem('usuario');
+
+    if (usuarioSalvo) {
+        const usuario = JSON.parse(usuarioSalvo);
+
+        if (usuario.tipo === 'crianca') {
+            nomeCrianca = usuario.nome || 'Criança';
+        }
+    }
+} catch {
+    nomeCrianca = 'Criança';
+}
     const closePopup = (e) => {
         if (popupRef.current === e.target) {
             onClose();
@@ -32,19 +46,11 @@ function Popup({ onClose }) {
                 </button>
 
                 {/* Nome do Usuário - Adicionado mt-4 para dar distância segura do botão X */}
-                <h2 className='text-[#3F2B66] text-lg font-semibold mt-4 tracking-wide font-sans'>
-                    Maria
-                </h2>
-
+              <h2 className='text-[#3F2B66] text-lg font-semibold mt-4 tracking-wide font-sans'>
+    {nomeCrianca}
+</h2>
                 {/* Grupo de Botões Principais */}
                 <div className='w-full flex flex-col gap-3 mt-6'>
-                    <button 
-                        onClick={() => alert('Abrir Avatar')}
-                        className='w-full py-2.5 bg-white text-[#3F2B66] font-medium rounded-full shadow-sm hover:bg-purple-50 transition-all text-sm border border-purple-200'
-                    >
-                        Avatar
-                    </button>
-                    
                     <button 
                         onClick={() => {
                             navigate('/Areapais'); // Altere para a rota exata definida no seu arquivo App.js/Routes
@@ -63,6 +69,8 @@ function Popup({ onClose }) {
                 <div className='w-full flex flex-col gap-3 items-center text-sm font-medium'>
                     <button 
                         onClick={() => {
+                            localStorage.removeItem('token');
+localStorage.removeItem('usuario');
                             navigate('/'); // Redireciona para a Home ao sair
                             onClose();
                         }}

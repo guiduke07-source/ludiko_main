@@ -1,0 +1,149 @@
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.popup-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  width: 320px;
+  background-color: #bfe8e8; /* Fundo ciano suave */
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-family: 'Baloo 2', Roboto, sans-serif;
+  animation: fadeIn 0.15s ease-out;
+}
+
+/* Header Rosa */
+.popup-header-pink {
+  background-color: #f1afbf;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon {
+  font-size: 20px;
+}
+
+.header-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #551d2f;
+}
+
+.btn-fechar {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #551d2f;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Corpo do Menu */
+.popup-body {
+  padding: 12px 14px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-icon {
+  font-size: 18px;
+  color: #17656e;
+}
+
+.item-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #104e57;
+}
+
+.item-subtitle {
+  font-size: 11px;
+  color: #4a7d84;
+}
+
+.item-arrow {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3b7b84;
+}
+
+/* Rodapé */
+.popup-footer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-right: 12px;
+}
+
+.footer-action-btn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.footer-action-btn.sair {
+  color: #1d5f68;
+}
+
+.footer-action-btn.excluir {
+  color: #c93b3b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

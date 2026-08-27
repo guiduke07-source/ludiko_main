@@ -1,0 +1,127 @@
+.senha-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Baloo 2', Roboto, sans-serif;
+}
+
+.senha-card {
+  background: #ffffff;
+  border: 3px solid #bce4ec;
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 440px;
+  padding: 30px 24px;
+  position: relative;
+  text-align: center;
+}
+
+.senha-voltar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #edf7fa;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #17656e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.senha-voltar-btn:hover {
+  background: #d9f0f5;
+}
+
+.senha-badge-icon {
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+.senha-header h2 {
+  font-size: 22px;
+  color: #0c4a54;
+  margin: 6px 0;
+  font-weight: 800;
+}
+
+.senha-header p {
+  font-size: 13px;
+  color: #648a90;
+  margin-bottom: 20px;
+}
+
+.senha-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.campo-grupo label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #17656e;
+  margin-bottom: 4px;
+}
+
+.campo-grupo input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #f4fbfa;
+  border: 2px solid #c9ecf2;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #104e57;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.campo-grupo input:focus {
+  border-color: #17656e;
+}
+
+.senha-feedback {
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.senha-feedback.sucesso {
+  background: #d4edda;
+  color: #155724;
+}
+
+.senha-feedback.erro {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.senha-salvar-btn {
+  width: 100%;
+  background: #f7931e;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
+  transition: all 0.2s;
+}
+
+.senha-salvar-btn:hover {
+  background: #e8830b;
+  transform: translateY(-1px);
+}

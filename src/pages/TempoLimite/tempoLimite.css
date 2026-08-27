@@ -1,0 +1,138 @@
+.tempo-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Baloo 2', Roboto, sans-serif;
+}
+
+.tempo-card {
+  background: #ffffff;
+  border: 3px solid #bce4ec;
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 440px;
+  padding: 30px 24px;
+  position: relative;
+  text-align: center;
+}
+
+.tempo-voltar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #edf7fa;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #17656e;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tempo-voltar-btn:hover {
+  background: #d9f0f5;
+}
+
+.tempo-badge-icon {
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+.tempo-header h2 {
+  font-size: 22px;
+  color: #0c4a54;
+  margin: 6px 0;
+  font-weight: 800;
+}
+
+.tempo-header p {
+  font-size: 13px;
+  color: #648a90;
+  margin-bottom: 24px;
+}
+
+.tempo-grid-opcoes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tempo-card-opcao {
+  background: #f4fbfa;
+  border: 2px solid #c9ecf2;
+  border-radius: 16px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tempo-card-opcao:last-child {
+  grid-column: span 2;
+}
+
+.tempo-card-opcao.ativo {
+  background: #17656e;
+  border-color: #104e57;
+}
+
+.tempo-card-opcao.ativo .opcao-titulo,
+.tempo-card-opcao.ativo .opcao-desc {
+  color: #ffffff;
+}
+
+.opcao-titulo {
+  font-size: 16px;
+  font-weight: 800;
+  color: #17656e;
+}
+
+.opcao-desc {
+  font-size: 11px;
+  color: #69989f;
+}
+
+.tempo-feedback {
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.tempo-feedback.sucesso {
+  background: #d4edda;
+  color: #155724;
+}
+
+.tempo-feedback.erro {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.tempo-salvar-btn {
+  width: 100%;
+  background: #f7931e;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
+  transition: all 0.2s;
+}
+
+.tempo-salvar-btn:hover {
+  background: #e8830b;
+  transform: translateY(-1px);
+}

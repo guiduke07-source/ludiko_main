@@ -1,9 +1,6 @@
 from flask import Blueprint
-
 from app.controllers.auth_controller import AuthController
-
 from app.middleware.auth import token_required
-
 
 auth_bp = Blueprint(
     "auth",
@@ -11,25 +8,15 @@ auth_bp = Blueprint(
     url_prefix="/api/auth"
 )
 
+auth_bp.post("/register")(AuthController.cadastrar)
+auth_bp.post("/login")(AuthController.login)
+auth_bp.post("/login-aluno")(AuthController.login_aluno)
 
-auth_bp.post(
-    "/register"
-)(AuthController.cadastrar)
+auth_bp.get("/me")(token_required(AuthController.me))
+auth_bp.post("/verificar-pin")(token_required(AuthController.verificar_pin))
 
-
-auth_bp.post(
-    "/login"
-)(AuthController.login)
-
-
-auth_bp.get(
-    "/me"
-)(token_required(AuthController.me))
-
-auth_bp.post(
-    "/verificar-pin"
-)(token_required(AuthController.verificar_pin))
-
-auth_bp.post(
-    "/login-aluno"
-)(AuthController.login_aluno)
+# Novas Rotas do Menu
+auth_bp.post("/alterar-senha")(token_required(AuthController.alterar_senha))
+auth_bp.post("/tempo-limite")(token_required(AuthController.salvar_tempo_limite))
+auth_bp.get("/tempo-limite")(token_required(AuthController.obter_tempo_limite))
+auth_bp.post("/fale-conosco")(token_required(AuthController.fale_conosco))

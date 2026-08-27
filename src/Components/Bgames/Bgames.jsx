@@ -435,8 +435,7 @@ class App {
         clickY3D <= pY + halfH
       ) {
         if (media.href && media.href !== '#') {
-          window.open(media.href, '_blank', 'noopener,noreferrer');
-        }
+window.location.href = media.href;        }
         break;
       }
     }

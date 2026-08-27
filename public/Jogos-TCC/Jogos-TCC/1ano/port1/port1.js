@@ -88,6 +88,11 @@ let musicaTocando = false;
 
 let intervaloMusica;
 
+let acertosPartida = 0;
+let errosPartida = 0;
+let inicioPartida = Date.now();
+let resultadoEnviado = false;
+
 
 /* Inicia o sistema de áudio */
 
@@ -801,6 +806,8 @@ function verificarSilaba(
 
         somAcerto();
 
+        acertosPartida++;
+
         vagao.classList.add(
             "preenchido"
         );
@@ -866,6 +873,7 @@ function verificarSilaba(
 
         somErro();
 
+        errosPartida++;
         perderVida();
 
         vagao.classList.add(
@@ -954,49 +962,110 @@ function verificarFinal() {
     }
 }
 
+async function registrarResultado() {
+    if (resultadoEnviado) {
+        return;
+    }
+
+    resultadoEnviado = true;
+
+    const token = localStorage.getItem("token");
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+
+   if (!token || usuario?.tipo !== "crianca") {
+    console.error("Faça login como criança antes de jogar.");
+    resultadoEnviado = false;
+    return;
+}
+
+    const duracaoSegundos = Math.max(
+        1,
+        Math.round((Date.now() - inicioPartida) / 1000)
+    );
+
+    try {
+        const resposta = await fetch(
+            "http://127.0.0.1:5000/api/resultados",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    atividade: "Trem das Sílabas",
+                    categoria: "Português",
+                    acertos: acertosPartida,
+                    erros: errosPartida,
+                    duracao_segundos: duracaoSegundos,
+                }),
+            }
+        );
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(dados.mensagem || "Não foi possível salvar o resultado.");
+        }
+
+        console.log("Resultado registrado:", dados);
+    } catch (erro) {
+        console.error("Erro ao registrar resultado:", erro.message);
+        resultadoEnviado = false;
+    }
+} 
 
 /* Mostra a conclusão */
 
 function palavraCompleta() {
-
     somVitoria();
 
+    const ultimaPalavra =
+        palavraAtual >= palavras.length - 1;
 
-    tituloMensagem.textContent =
-        "Parabéns!!";
+    if (ultimaPalavra) {
+        tituloMensagem.textContent = "Parabéns!!";
 
+        textoMensagem.textContent =
+            "Você concluiu o Trem das Sílabas! Seu resultado foi salvo.";
 
-    textoMensagem.textContent =
-        `Você formou a palavra ${palavras[palavraAtual].palavra}!`;
+        proximoBtn.textContent = "Jogar novamente";
 
+        registrarResultado();
 
-    if (
-        palavraAtual >=
-        palavras.length - 1
-    ) {
-
-        proximoBtn.textContent =
-            "Jogar novamente";
-
+        proximoBtn.onclick = jogarNovamente;
     } else {
+        tituloMensagem.textContent = "Parabéns!!";
 
-        proximoBtn.textContent =
-            "Próxima palavra";
+        textoMensagem.textContent =
+            `Você formou a palavra ${palavras[palavraAtual].palavra}!`;
 
+        proximoBtn.textContent = "Próxima palavra";
+
+        proximoBtn.onclick = proximaPalavra;
     }
 
-
-    mensagem.classList.add(
-        "ativa"
-    );
-
-
-    proximoBtn.onclick =
-        proximaPalavra;
-
+    mensagem.classList.add("ativa");
     proximoBtn.focus();
 }
 
+
+function jogarNovamente() {
+    mensagem.classList.remove("ativa");
+
+    palavraAtual = 0;
+    vidas = 3;
+    silabaSelecionada = null;
+
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    resultadoEnviado = false;
+
+    carregarPalavra();
+
+    setTimeout(falarOrientacao, 600);
+} 
 
 /* Passa para a próxima palavra */
 
@@ -1131,9 +1200,7 @@ homeBtn.addEventListener(
     "click",
     () => {
 
-        window.location.href =
-            "../ano1.html";
-
+       window.location.href = "/Inicioreal";
     }
 );
 

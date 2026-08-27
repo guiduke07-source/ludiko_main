@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './headerpais.css';
 import logoApp from '../imgs/logo.png';
 
 export default function Headerpais({ onMenuClick }) {
-  let nomeResponsavel = 'Responsável';
+  const [nomeResponsavel, setNomeResponsavel] = useState('Responsável');
 
-  try {
-    const usuarioSalvo = localStorage.getItem('usuario');
+  useEffect(() => {
+    try {
+      const usuarioSalvo = localStorage.getItem('usuario');
 
-    if (usuarioSalvo) {
-      const usuario = JSON.parse(usuarioSalvo);
-      nomeResponsavel = usuario.nome || 'Responsável';
+      if (usuarioSalvo) {
+        const usuario = JSON.parse(usuarioSalvo);
+        if (usuario.nome) {
+          setNomeResponsavel(usuario.nome);
+          return;
+        }
+      }
+
+      const nomeAlternativo =
+        localStorage.getItem('nome_responsavel') ||
+        localStorage.getItem('nome_usuario');
+
+      if (nomeAlternativo) {
+        setNomeResponsavel(nomeAlternativo);
+      }
+    } catch {
+      setNomeResponsavel('Responsável');
     }
-  } catch {
-    nomeResponsavel = 'Responsável';
-  }
+  }, []);
 
   return (
     <header className="custom-headerpais-wrapper">

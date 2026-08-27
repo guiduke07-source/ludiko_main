@@ -1,11 +1,14 @@
 from datetime import datetime, timezone
-from app.database.mongodb import db
-from app.utils.hash import gerar_hash, verificar_senha
-from flask_jwt_extended import create_access_token
 from bson import ObjectId
 from bson.errors import InvalidId
+from flask_jwt_extended import create_access_token
+
+from app.database.mongodb import db
+from app.utils.hash import gerar_hash, verificar_senha
+
 
 class AuthService:
+
     @staticmethod
     def cadastrar(dados):
         nome = dados.get("nome", "").strip()
@@ -46,9 +49,11 @@ class AuthService:
 
         resultado = db.responsaveis.insert_one(novo_responsavel)
         responsavel_id = str(resultado.inserted_id)
-        
-        # Segurança: Adicionado "tipo" nas claims do cadastro
-        token = create_access_token(identity=responsavel_id, additional_claims={"tipo": "responsavel"})
+
+        token = create_access_token(
+            identity=responsavel_id,
+            additional_claims={"tipo": "responsavel"}
+        )
 
         return {
             "erro": False,
@@ -80,8 +85,10 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "E-mail ou senha inválidos."}
 
-        # Segurança: Adicionado "tipo" nas claims do login do responsável
-        token = create_access_token(identity=str(responsavel["_id"]), additional_claims={"tipo": "responsavel"})
+        token = create_access_token(
+            identity=str(responsavel["_id"]),
+            additional_claims={"tipo": "responsavel"}
+        )
 
         return {
             "erro": False,
@@ -113,7 +120,10 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "CPF ou senha inválidos."}
 
-        token = create_access_token(identity=str(crianca["_id"]), additional_claims={"tipo": "crianca"})
+        token = create_access_token(
+            identity=str(crianca["_id"]),
+            additional_claims={"tipo": "crianca"}
+        )
 
         return {
             "erro": False,
@@ -128,21 +138,44 @@ class AuthService:
         }
 
     @staticmethod
-    def verificar_pin(responsavel_id, dados):
-        pin = str(dados.get("pin", ""))
+    def verificar_pin(usuario_id, dados, tipo_usuario=None):
+        pin = str(dados.get("pin", "")).strip()
 
         if not pin.isdigit() or len(pin) != 4:
             return {"erro": True, "mensagem": "O PIN deve ter 4 números."}
 
         try:
-            object_id = ObjectId(responsavel_id)
+            object_id = ObjectId(usuario_id)
         except InvalidId:
-            return {"erro": True, "mensagem": "Responsável não encontrado."}
+            return {"erro": True, "mensagem": "ID de usuário inválido."}
 
-        responsavel = db.responsaveis.find_one({"_id": object_id})
+        responsavel = None
+
+        if tipo_usuario == "crianca":
+            crianca = db.criancas.find_one({"_id": object_id})
+            if not crianca:
+                return {"erro": True, "mensagem": "Criança não encontrada."}
+
+            responsavel_id = crianca.get("responsavel_id") or crianca.get("id_responsavel")
+
+            if responsavel_id:
+                try:
+                    responsavel = db.responsaveis.find_one({"_id": ObjectId(responsavel_id)})
+                except InvalidId:
+                    responsavel = None
+
+            if not responsavel:
+                responsavel = db.responsaveis.find_one({
+                    "$or": [
+                        {"criancas_ids": object_id},
+                        {"criancas_ids": str(object_id)}
+                    ]
+                })
+        else:
+            responsavel = db.responsaveis.find_one({"_id": object_id})
 
         if not responsavel:
-            return {"erro": True, "mensagem": "Responsável não encontrado."}
+            return {"erro": True, "mensagem": "Responsável vinculado não encontrado."}
 
         configuracoes = responsavel.get("configuracoes", {})
         pin_hash = configuracoes.get("pin_hash")
@@ -153,7 +186,24 @@ class AuthService:
         if not verificar_senha(pin, pin_hash):
             return {"erro": True, "mensagem": "PIN inválido."}
 
-        return {"erro": False, "mensagem": "PIN validado com sucesso."}
+        responsavel_id_str = str(responsavel["_id"])
+        token_responsavel = create_access_token(
+            identity=responsavel_id_str,
+            additional_claims={"tipo": "responsavel"}
+        )
+
+        return {
+            "erro": False,
+            "mensagem": "PIN validado com sucesso.",
+            "token": token_responsavel,
+            "usuario": {
+                "id": responsavel_id_str,
+                "nome": responsavel.get("nome"),
+                "email": responsavel.get("email"),
+                "tipo": "responsavel",
+                "criancas_ids": [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+            }
+        }
 
     @staticmethod
     def obter_usuario(usuario_id):
@@ -177,3 +227,94 @@ class AuthService:
                 "criancas_ids": [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
             }
         }
+
+    @staticmethod
+    def alterar_senha(responsavel_id, dados):
+        senha_atual = dados.get("senha_atual", "")
+        senha_nova = dados.get("senha_nova", "")
+
+        if not senha_atual or not senha_nova:
+            return {"erro": True, "mensagem": "Preencha a senha atual e a nova senha."}
+
+        if len(senha_nova) < 6:
+            return {"erro": True, "mensagem": "A nova senha deve ter no mínimo 6 caracteres."}
+
+        try:
+            object_id = ObjectId(responsavel_id)
+        except InvalidId:
+            return {"erro": True, "mensagem": "Usuário não encontrado."}
+
+        responsavel = db.responsaveis.find_one({"_id": object_id})
+        if not responsavel:
+            return {"erro": True, "mensagem": "Responsável não encontrado."}
+
+        senha_hash_atual = responsavel.get("senha_hash")
+        if not senha_hash_atual or not verificar_senha(senha_atual, senha_hash_atual):
+            return {"erro": True, "mensagem": "A senha atual está incorreta."}
+
+        novo_hash = gerar_hash(senha_nova)
+        db.responsaveis.update_one(
+            {"_id": object_id},
+            {"$set": {"senha_hash": novo_hash, "updatedAt": datetime.now(timezone.utc)}}
+        )
+
+        return {"erro": False, "mensagem": "Senha alterada com sucesso!"}
+
+    @staticmethod
+    def salvar_tempo_limite(responsavel_id, dados):
+        minutos = dados.get("minutos")
+        if minutos is None or not isinstance(minutos, int) or minutos < 0:
+            return {"erro": True, "mensagem": "Selecione um tempo limite válido."}
+
+        try:
+            object_id = ObjectId(responsavel_id)
+        except InvalidId:
+            return {"erro": True, "mensagem": "Usuário não encontrado."}
+
+        db.responsaveis.update_one(
+            {"_id": object_id},
+            {"$set": {
+                "configuracoes.limite_tempo_minutos": minutos,
+                "updatedAt": datetime.now(timezone.utc)
+            }}
+        )
+
+        return {"erro": False, "mensagem": "Tempo limite atualizado com sucesso!"}
+
+    @staticmethod
+    def obter_tempo_limite(responsavel_id):
+        try:
+            object_id = ObjectId(responsavel_id)
+        except InvalidId:
+            return {"erro": True, "mensagem": "Usuário não encontrado."}
+
+        responsavel = db.responsaveis.find_one({"_id": object_id})
+        if not responsavel:
+            return {"erro": True, "mensagem": "Responsável não encontrado."}
+
+        config = responsavel.get("configuracoes", {})
+        minutos = config.get("limite_tempo_minutos", 120)
+
+        return {"erro": False, "minutos": minutos}
+
+    @staticmethod
+    def salvar_fale_conosco(responsavel_id, dados):
+        mensagem = dados.get("mensagem", "").strip()
+        assunto = dados.get("assunto", "").strip()
+
+        if not mensagem or not assunto:
+            return {"erro": True, "mensagem": "Assunto e mensagem são obrigatórios."}
+
+        try:
+            object_id = ObjectId(responsavel_id)
+        except InvalidId:
+            return {"erro": True, "mensagem": "Usuário não encontrado."}
+
+        db.mensagens_suporte.insert_one({
+            "responsavel_id": object_id,
+            "assunto": assunto,
+            "mensagem": mensagem,
+            "criado_em": datetime.now(timezone.utc)
+        })
+
+        return {"erro": False, "mensagem": "Mensagem enviada com sucesso! Entraremos em contato."}

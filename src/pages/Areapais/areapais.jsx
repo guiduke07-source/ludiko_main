@@ -19,17 +19,15 @@ function Areapais() {
       return;
     }
 
-   const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
-console.log('TOKEN ENCONTRADO:', token);
+    if (!token) {
+      setErro('Faça login novamente.');
+      navigate('/Login-Pais');
+      return;
+    }
 
-if (!token) {
-  setErro('Faça login novamente.');
-  navigate('/Login-Pais');
-  return;
-}
-
-setCarregando(true);
+    setCarregando(true);
 
     try {
       const resposta = await fetch(
@@ -45,11 +43,20 @@ setCarregando(true);
       );
 
       const dados = await resposta.json();
-      console.log('STATUS:', resposta.status);
-console.log('RESPOSTA DO BACKEND:', dados);
 
       if (!resposta.ok || dados.erro) {
         throw new Error(dados.mensagem || 'Não foi possível validar o PIN.');
+      }
+
+      if (dados.token) {
+        localStorage.setItem('token', dados.token);
+      }
+
+      if (dados.usuario) {
+        localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+        localStorage.setItem('nome_usuario', dados.usuario.nome);
+        localStorage.setItem('nome_responsavel', dados.usuario.nome);
+        localStorage.setItem('tipo', 'responsavel');
       }
 
       navigate('/Configpais');

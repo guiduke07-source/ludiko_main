@@ -11,6 +11,12 @@ import Inicioreal from "./pages/Inicioreal/inicioreal.jsx";
 import Areapais from "./pages/Areapais/areapais.jsx";
 import Configpais from "./pages/Configpais/configpais.jsx";
 
+// Telas do Menu Ativas
+import TempoLimite from "./pages/TempoLimite/tempoLimite.jsx";
+import MudarContaCrianca from "./pages/MudarContaCrianca/mudarContaCrianca.jsx";
+import AlterarSenha from "./pages/AlterarSenha/alterarSenha.jsx";
+import FaleConosco from "./pages/FaleConosco/faleConosco.jsx";
+
 import PageTransition from "./Components/PageTransition/PageTransition.jsx";
 
 // import MathConnectGame from "./pages/Games/jogo.jsx";
@@ -22,41 +28,21 @@ function AppRoutes() {
     <PageTransition>
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/Inicio" element={<Inicio />} />
-
         <Route path="/Inicioreal" element={<Inicioreal />} />
-
         <Route path="/Login-Aluno" element={<Logina />} />
-
         <Route path="/Login-Pais" element={<Loginp />} />
-
         <Route path="/Cadpais" element={<Cadpais />} />
-
         <Route path="/Cadaluno" element={<Cadaluno />} />
-
         <Route path="/Acesso" element={<Acesso />} />
-
         <Route path="/Areapais" element={<Areapais />} />
-
         <Route path="/Configpais" element={<Configpais />} />
 
-        {/*
-        <Route
-          path="/Jogo"
-          element={<MathConnectGame />}
-        />
-
-        <Route
-          path="/Quiz"
-          element={<Quiz />}
-        />
-
-        <Route
-          path="/Teste"
-          element={<Teste />}
-        />
-        */}
+        {/* Rotas das opções ativas do menu */}
+        <Route path="/tempo-limite" element={<TempoLimite />} />
+        <Route path="/mudar-conta-crianca" element={<MudarContaCrianca />} />
+        <Route path="/alterar-senha" element={<AlterarSenha />} />
+        <Route path="/fale-conosco" element={<FaleConosco />} />
       </Routes>
     </PageTransition>
   );

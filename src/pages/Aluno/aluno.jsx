@@ -91,6 +91,15 @@ function Logina() {
 
             {erro && <p className="mensagem-erro">{erro}</p>}
 
+            {/* Botão Alterar Senha */}
+<button
+  type="button"
+  className="alterar-senha-link-btn"
+  onClick={() => navigate('/alterar-senha')}
+>
+  🔒 Esqueceu ou quer alterar a senha
+</button>
+
             <button
               type="submit"
               className="btn-cadastro"
