@@ -1,7 +1,7 @@
 const API_BASE_URL = 'http://127.0.0.1:5000';
 
 function obterCriancaIdLogada() {
-  const usuarioSalvo = localStorage.getItem('usuario');
+  const usuarioSalvo = sessionStorage.getItem('usuario');
 
   if (!usuarioSalvo) {
     throw new Error('Faça login para acessar o painel.');
@@ -14,12 +14,11 @@ function obterCriancaIdLogada() {
     return criancasIds[0];
   }
 
-  // ID padrão da coleção criancas (Clara) caso ainda não esteja no cache local
-  return '6a8279a3a0cc5a0ce3c8acd2';
+  return '6a917cc2d447ee1302008431';
 }
 
 async function buscarJson(url) {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   if (!token) {
     throw new Error('Faça login para acessar o painel.');

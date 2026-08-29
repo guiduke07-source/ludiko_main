@@ -19,7 +19,7 @@ function Areapais() {
       return;
     }
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     if (!token) {
       setErro('Faça login novamente.');
@@ -49,14 +49,14 @@ function Areapais() {
       }
 
       if (dados.token) {
-        localStorage.setItem('token', dados.token);
+        sessionStorage.setItem('token', dados.token);
       }
 
       if (dados.usuario) {
-        localStorage.setItem('usuario', JSON.stringify(dados.usuario));
-        localStorage.setItem('nome_usuario', dados.usuario.nome);
-        localStorage.setItem('nome_responsavel', dados.usuario.nome);
-        localStorage.setItem('tipo', 'responsavel');
+        sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
+        sessionStorage.setItem('nome_usuario', dados.usuario.nome);
+        sessionStorage.setItem('nome_responsavel', dados.usuario.nome);
+        sessionStorage.setItem('tipo', 'responsavel');
       }
 
       navigate('/Configpais');

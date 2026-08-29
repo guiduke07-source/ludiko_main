@@ -168,3 +168,181 @@
     height: 35%;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&display=swap');
+
+.cad-crianca-wrapper {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #eef5f9 0%, #f4f6f9 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  font-family: 'Baloo 2', 'Segoe UI', sans-serif;
+}
+
+.cad-crianca-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 460px;
+  border-radius: 24px;
+  padding: 36px 32px;
+  box-shadow: 0 12px 30px rgba(23, 101, 110, 0.08);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  animation: surgirSuave 0.3s ease-out;
+}
+
+@keyframes surgirSuave {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.voltar-btn {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: #17656e;
+  cursor: pointer;
+  margin-bottom: 18px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease, color 0.2s ease;
+  font-family: inherit;
+}
+
+.voltar-btn:hover {
+  color: #f7931e;
+  transform: translateX(-3px);
+}
+
+.cad-crianca-card h2 {
+  font-size: 26px;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.cad-crianca-card p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.cad-crianca-card form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  font-size: 15px;
+  color: #1e293b;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.campo input:focus,
+.campo select:focus {
+  border-color: #a3cae4;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(163, 202, 228, 0.25);
+}
+
+.campo input::placeholder {
+  color: #94a3b8;
+}
+
+.feedback {
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  box-sizing: border-box;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.feedback.sucesso {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.feedback.erro {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cad-crianca-card button[type="submit"] {
+  background-color: #a3cae4;
+  color: #173d47;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-top: 6px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cad-crianca-card button[type="submit"]:hover:not(:disabled) {
+  background-color: #8bbcdb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(163, 202, 228, 0.4);
+}
+
+.cad-crianca-card button[type="submit"]:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}

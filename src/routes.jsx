@@ -20,10 +20,6 @@ import HistoricoUso from "./pages/HistoricoUso/historicoUso.jsx";
 
 import PageTransition from "./Components/PageTransition/PageTransition.jsx";
 
-// import MathConnectGame from "./pages/Games/jogo.jsx";
-// import Quiz from "./pages/Games/quiz.jsx";
-// import Teste from "./pages/Teste/teste.jsx";
-
 function AppRoutes() {
   return (
     <PageTransition>
@@ -45,6 +41,9 @@ function AppRoutes() {
         <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/fale-conosco" element={<FaleConosco />} />
         <Route path="/historico-uso" element={<HistoricoUso />} />
+        
+        {/* Rota para o cadastro de novas crianças */}
+        <Route path="/cadastrar-crianca" element={<Cadaluno />} />
       </Routes>
     </PageTransition>
   );

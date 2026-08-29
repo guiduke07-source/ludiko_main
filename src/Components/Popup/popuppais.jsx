@@ -66,6 +66,17 @@ const Popuppais = ({ onClose }) => {
 
           <button
             className="menu-item"
+            onClick={() => handleNavegar("/cadastrar-crianca")}
+          >
+            <div className="item-left">
+              <span className="item-icon">➕</span>
+              <span className="item-title">Adicionar Criança</span>
+            </div>
+            <span className="item-arrow">›</span>
+          </button>
+
+          <button
+            className="menu-item"
             onClick={() => handleNavegar("/alterar-senha")}
           >
             <div className="item-left">

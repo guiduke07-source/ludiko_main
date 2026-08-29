@@ -2,144 +2,99 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './cadaluno.css';
 
-import Logo from '../../Components/imgs/logo.png';
-import Roxocad from '../../Components/Roxocad/roxocad';
-import { cadastrarCrianca } from '../../services/criancaApi';
-
-function Cadaluno() {
+export default function CadCrianca() {
   const navigate = useNavigate();
-
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const [erro, setErro] = useState('');
+  const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
   const [carregando, setCarregando] = useState(false);
 
-  async function handleCadastro(e) {
+  async function handleCadastrar(e) {
     e.preventDefault();
-    setErro('');
-    setCarregando(true);
+    setMensagem({ tipo: '', texto: '' });
 
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      navigate('/Login-Pais');
+      return;
+    }
+
+    setCarregando(true);
     try {
-      const dados = await cadastrarCrianca({
-        nome,
-        cpf,
-        senha,
-        data_nascimento: dataNascimento,
+      const res = await fetch('http://127.0.0.1:5000/api/auth/cadastrar-crianca', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ nome, cpf, senha })
       });
 
-      const usuario = JSON.parse(
-        localStorage.getItem('usuario') || '{}'
-      );
+      const dados = await res.json();
+      if (!res.ok || dados.erro) {
+        throw new Error(dados.mensagem || 'Erro ao cadastrar criança.');
+      }
 
-      usuario.criancas_ids = [
-        ...(usuario.criancas_ids || []),
-        dados.crianca.id,
-      ];
-
-      localStorage.setItem(
-        'usuario',
-        JSON.stringify(usuario)
-      );
-
-      navigate('/Areapais');
-    } catch (erroApi) {
-      setErro(erroApi.message);
+      setMensagem({ tipo: 'sucesso', texto: 'Criança adicionada com sucesso!' });
+      setTimeout(() => navigate('/Configpais'), 1500);
+    } catch (err) {
+      setMensagem({ tipo: 'erro', texto: err.message });
     } finally {
       setCarregando(false);
     }
   }
 
   return (
-    <div className="cadastro-container">
-      <div className="left-cadastro-side">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="back-icon"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 19.5L8.25 12l7.5-7.5"
-            />
-          </svg>
-        </button>
+    <div className="cad-crianca-wrapper">
+      <div className="cad-crianca-card">
+        <button className="voltar-btn" onClick={() => navigate(-1)}>← Voltar</button>
+        <h2>Adicionar Criança</h2>
+        <p>Cadastre os dados de acesso para o seu filho(a).</p>
 
-        <div className="cadastro-box">
-          <div className="logo-container">
-            <img
-              src={Logo}
-              alt="Ludiko Logo"
-              className="cadastro-logo"
+        <form onSubmit={handleCadastrar}>
+          <div className="campo">
+            <label>Nome da Criança</label>
+            <input
+              type="text"
+              placeholder="Ex: Pedro Santos"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
             />
           </div>
 
-          <form className="cadastro-form" onSubmit={handleCadastro}>
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Nome da criança"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                required
-              />
-            </div>
+          <div className="campo">
+            <label>CPF da Criança</label>
+            <input
+              type="text"
+              placeholder="000.000.000-00"
+              value={cpf}
+              onChange={(e) => setCpf(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="CPF da criança"
-                value={cpf}
-                onChange={(e) => setCpf(e.target.value)}
-                required
-              />
-            </div>
+          <div className="campo">
+            <label>Senha de Acesso</label>
+            <input
+              type="password"
+              placeholder="Senha do aluno"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="input-group">
-              <input
-                type="password"
-                placeholder="Crie uma senha para a criança"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-              />
-            </div>
+          {mensagem.texto && (
+            <div className={`feedback ${mensagem.tipo}`}>{mensagem.texto}</div>
+          )}
 
-            <div className="input-group">
-              <input
-                type="date"
-                value={dataNascimento}
-                onChange={(e) =>
-                  setDataNascimento(e.target.value)
-                }
-                required
-              />
-            </div>
-
-            {erro && <p className="mensagem-erro">{erro}</p>}
-
-            <button
-              type="submit"
-              className="btn-cadastrar"
-              disabled={carregando}
-            >
-              {carregando ? 'Cadastrando...' : 'Cadastrar criança'}
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <div className="right-cadastro-side">
-        <Roxocad />
+          <button type="submit" disabled={carregando}>
+            {carregando ? 'Cadastrando...' : 'Cadastrar Filho(a)'}
+          </button>
+        </form>
       </div>
     </div>
   );
 }
-
-export default Cadaluno;
