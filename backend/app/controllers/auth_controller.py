@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import get_jwt_identity, get_jwt
+from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request, get_jwt
 from app.services.auth_service import AuthService
 
 
@@ -82,9 +82,35 @@ class AuthController:
 
     @staticmethod
     def fale_conosco():
-        usuario_id = get_jwt_identity()
+        usuario_id = None
+        # Verifica o token de forma opcional sem quebrar a requisição se ele não existir
+        try:
+            verify_jwt_in_request(optional=True)
+            usuario_id = get_jwt_identity()
+        except Exception:
+            usuario_id = None
+
         dados = request.get_json() or {}
         resposta = AuthService.salvar_fale_conosco(usuario_id, dados)
+
+        if resposta.get("erro"):
+            return jsonify(resposta), 400
+
+        return jsonify(resposta), 200
+
+    @staticmethod
+    def cadastrar_crianca():
+        usuario_id = get_jwt_identity()
+        dados = request.get_json() or {}
+        resposta = AuthService.cadastrar_crianca(usuario_id, dados)
+        if resposta["erro"]:
+            return jsonify(resposta), 400
+        return jsonify(resposta), 201
+
+    @staticmethod
+    def listar_criancas():
+        usuario_id = get_jwt_identity()
+        resposta = AuthService.listar_criancas_vinculadas(usuario_id)
         if resposta["erro"]:
             return jsonify(resposta), 400
         return jsonify(resposta), 200

@@ -2,6 +2,10 @@ from datetime import datetime, timezone, timedelta
 from bson import ObjectId
 from bson.errors import InvalidId
 from flask_jwt_extended import create_access_token
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import os
 
 from app.database.mongodb import db
 from app.utils.hash import gerar_hash, verificar_senha
@@ -50,7 +54,6 @@ class AuthService:
         resultado = db.responsaveis.insert_one(novo_responsavel)
         responsavel_id = str(resultado.inserted_id)
 
-        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=responsavel_id,
             additional_claims={"tipo": "responsavel"},
@@ -87,7 +90,6 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "E-mail ou senha inválidos."}
 
-        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=str(responsavel["_id"]),
             additional_claims={"tipo": "responsavel"},
@@ -134,7 +136,6 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "CPF ou senha inválidos."}
 
-        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=str(crianca["_id"]),
             additional_claims={"tipo": "crianca"},
@@ -334,24 +335,135 @@ class AuthService:
     def salvar_fale_conosco(responsavel_id, dados):
         mensagem = dados.get("mensagem", "").strip()
         assunto = dados.get("assunto", "").strip()
-        email_contato = dados.get("email", "").strip()
+        email_informado = dados.get("email", "").strip()
+        nome_informado = dados.get("nome", "").strip()
 
         if not mensagem or not assunto:
             return {"erro": True, "mensagem": "Assunto e mensagem são obrigatórios."}
 
         obj_id = None
+        nome_usuario = nome_informado or "Usuário Não Identificado"
+        email_usuario = email_informado
+
         if responsavel_id:
             try:
                 obj_id = ObjectId(responsavel_id)
+                responsavel = db.responsaveis.find_one({"_id": obj_id})
+                if responsavel:
+                    nome_usuario = responsavel.get("nome") or nome_usuario
+                    email_usuario = responsavel.get("email") or email_usuario
             except InvalidId:
                 pass
 
         db.mensagens_suporte.insert_one({
             "responsavel_id": obj_id,
-            "email_contato": email_contato,
+            "nome_usuario": nome_usuario,
+            "email_contato": email_usuario,
             "assunto": assunto,
             "mensagem": mensagem,
             "criado_em": datetime.now(timezone.utc)
         })
 
+        EMAIL_DESTINO = os.getenv("EMAIL_SUPORTE", "gsantosmaria07@gmail.com")
+        EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE", "gsantosmaria07@gmail.com")
+        SENHA_APP = os.getenv("EMAIL_SENHA_APP", "cydcognvuuytrtes")
+
+        try:
+            corpo_email = f"""
+Nova mensagem recebida pelo Fale Conosco do Ludiko:
+
+- Nome do Usuário: {nome_usuario}
+- E-mail do Usuário: {email_usuario}
+- Assunto: {assunto}
+
+Mensagem:
+--------------------------------------------------
+{mensagem}
+--------------------------------------------------
+"""
+            msg = MIMEMultipart()
+            msg["From"] = EMAIL_REMETENTE
+            msg["To"] = EMAIL_DESTINO
+            msg["Subject"] = f"[Ludiko Suporte] {assunto} - Enviado por {nome_usuario}"
+            msg.attach(MIMEText(corpo_email, "plain", "utf-8"))
+
+            with smtplib.SMTP("smtp.gmail.com", 587) as servidor:
+                servidor.starttls()
+                servidor.login(EMAIL_REMETENTE, SENHA_APP)
+                servidor.send_message(msg)
+
+        except Exception as e:
+            print(f"Aviso: Mensagem gravada no banco, mas erro ao despachar SMTP: {str(e)}")
+
         return {"erro": False, "mensagem": "Mensagem enviada com sucesso! Entraremos em contato."}
+
+    @staticmethod
+    def cadastrar_crianca(responsavel_id, dados):
+        nome = dados.get("nome", "").strip()
+        cpf = "".join(filter(str.isdigit, dados.get("cpf", "")))
+        senha = dados.get("senha", "")
+        ano_escolar = dados.get("ano_escolar", "1ano")
+
+        if not nome or not cpf or not senha:
+            return {"erro": True, "mensagem": "Nome, CPF e senha da criança são obrigatórios."}
+
+        if db.criancas.find_one({"cpf": cpf}):
+            return {"erro": True, "mensagem": "Já existe uma criança cadastrada com este CPF."}
+
+        try:
+            resp_oid = ObjectId(responsavel_id)
+        except Exception:
+            return {"erro": True, "mensagem": "ID de responsável inválido."}
+
+        nova_crianca = {
+            "nome": nome,
+            "cpf": cpf,
+            "senha_hash": gerar_hash(senha),
+            "ano_escolar": ano_escolar,
+            "responsavel_id": resp_oid,
+            "createdAt": datetime.now(timezone.utc),
+            "updatedAt": datetime.now(timezone.utc)
+        }
+
+        res = db.criancas.insert_one(nova_crianca)
+        crianca_id = res.inserted_id
+
+        db.responsaveis.update_one(
+            {"_id": resp_oid},
+            {"$addToSet": {"criancas_ids": crianca_id}}
+        )
+
+        return {
+            "erro": False,
+            "mensagem": "Criança cadastrada com sucesso!",
+            "crianca": {
+                "id": str(crianca_id),
+                "nome": nome,
+                "cpf": cpf
+            }
+        }
+
+    @staticmethod
+    def listar_criancas_vinculadas(responsavel_id):
+        try:
+            resp_oid = ObjectId(responsavel_id)
+        except Exception:
+            return {"erro": True, "mensagem": "ID de responsável inválido."}
+
+        criancas = list(db.criancas.find({
+            "$or": [
+                {"responsavel_id": resp_oid},
+                {"responsavel_id": str(resp_oid)}
+            ]
+        }))
+
+        lista = []
+        for c in criancas:
+            lista.append({
+                "id": str(c["_id"]),
+                "nome": c.get("nome"),
+                "cpf": c.get("cpf"),
+                "ano_escolar": c.get("ano_escolar", "1ano")
+            })
+
+        return {"erro": False, "criancas": lista}
