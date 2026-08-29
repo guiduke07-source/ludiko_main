@@ -21,11 +21,12 @@ function Loginp() {
     try {
       const dados = await fazerLogin(email, senha);
 
-      localStorage.setItem('token', dados.token);
-      localStorage.setItem(
-        'usuario',
-        JSON.stringify(dados.usuario)
-      );
+      // Limpa dados antigos do localStorage para não persistir entre sessões de janela
+      localStorage.clear();
+
+      // Salva única e exclusivamente na sessão da aba/janela atual
+      sessionStorage.setItem('token', dados.token);
+      sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
 
       navigate('/Acesso');
     } catch (erroApi) {
@@ -91,14 +92,13 @@ function Loginp() {
 
             {erro && <p className="mensagem-erro">{erro}</p>}
 
-            {/* Botão Alterar Senha */}
-<button
-  type="button"
-  className="alterar-senha-link-btn"
-  onClick={() => navigate('/alterar-senha')}
->
-  🔒 Esqueceu ou quer alterar a senha
-</button>
+            <button
+              type="button"
+              className="alterar-senha-link-btn"
+              onClick={() => navigate('/alterar-senha')}
+            >
+              🔒 Esqueceu ou quer alterar a senha
+            </button>
 
             <button
               type="submit"

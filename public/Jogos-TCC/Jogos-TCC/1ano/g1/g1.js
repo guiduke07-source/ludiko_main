@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Listagem de animais cadastrados (apenas imagens existentes na pasta img)
   const bancoAnimais = [
     { nome: 'Cobra', arquivo: 'cobra.png', habitat: 'selva' },
     { nome: 'Cachorro', arquivo: 'cachorro.png', habitat: 'floresta' },
@@ -15,12 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
   let filaAnimais = [];
   let animalAtual = null;
 
-  // Controle do sistema de áudio por sintetizador
+  let acertosPartida = 0;
+  let errosPartida = 0;
+  let inicioPartida = Date.now();
+  let partidaFinalizada = false;
+
   let audioContext = null;
   let musicaTocando = false;
   let intervaloMusica = null;
 
-  // Elementos do DOM
   const imgAnimalAtual = document.getElementById('animal-atual');
   const habitatsCards = document.querySelectorAll('.habitat-card');
   const elementosVidas = document.querySelectorAll('.coracao');
@@ -31,7 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMensagem = document.getElementById('modal-mensagem');
   const btnReiniciar = document.getElementById('btn-reiniciar');
 
-  // Inicializa a API de Áudio do navegador
+  function enviarResultadoFinal(materia) {
+    if (partidaFinalizada) return;
+    partidaFinalizada = true;
+
+    const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
+    const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
+
+    // Lê a criança ativa da sessão atual
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+
+    fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+            categoria: materia,
+            minutos: minutosReais,
+            acertos: acertosPartida,
+            erros: errosPartida
+        })
+    })
+    .then(res => res.json())
+    .then(dados => console.log('Resultado registrado no painel:', dados))
+    .catch(err => console.error('Erro ao enviar pontos:', err));
+}
+
   function iniciarAudio() {
     if (!audioContext) {
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -41,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Sons de Efeitos
   function tocarSomSucesso() {
     iniciarAudio();
     const osc = audioContext.createOscillator();
@@ -78,14 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
     osc.stop(audioContext.currentTime + 0.3);
   }
 
-  // Música de fundo sintetizada por código
   function iniciarMusica() {
     iniciarAudio();
-
-    if (musicaTocando) {
-      return;
-    }
-
+    if (musicaTocando) return;
     musicaTocando = true;
 
     const notas = [261, 329, 392, 329, 293, 349, 440, 349];
@@ -93,31 +114,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     intervaloMusica = setInterval(() => {
       const agora = audioContext.currentTime;
-
       const oscilador = audioContext.createOscillator();
       const ganho = audioContext.createGain();
 
       oscilador.type = "sine";
       oscilador.frequency.value = notas[indice];
-
       ganho.gain.setValueAtTime(0.018, agora);
       ganho.gain.exponentialRampToValueAtTime(0.001, agora + 0.5);
 
       oscilador.connect(ganho);
       ganho.connect(audioContext.destination);
-
       oscilador.start(agora);
       oscilador.stop(agora + 0.5);
 
-      indice++;
-
-      if (indice >= notas.length) {
-        indice = 0;
-      }
+      indice = (indice + 1) % notas.length;
     }, 600);
   }
 
-  // Narração de voz da instrução
   function falarInstrucao() {
     if ('speechSynthesis' in window && animalAtual) {
       window.speechSynthesis.cancel();
@@ -128,21 +141,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Iniciar / Reiniciar Jogo
   function iniciarJogo() {
     vidas = 3;
     atualizarVidas();
-
-    // Embaralha a lista de animais
     filaAnimais = [...bancoAnimais].sort(() => Math.random() - 0.5);
-
     modal.classList.remove('ativa');
     proximoAnimal();
   }
 
-  // Carrega o próximo animal da fila
   function proximoAnimal() {
     if (filaAnimais.length === 0) {
+      enviarResultadoFinal("Ciências");
       exibirModal('Parabéns!', 'Você ajudou todos os animais a encontrarem seus lares!');
       return;
     }
@@ -154,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
     falarInstrucao();
   }
 
-  // Lógica de Drag and Drop (Arrastar e Soltar)
   imgAnimalAtual.addEventListener('dragstart', (e) => {
     iniciarMusica();
     e.dataTransfer.setData('text/plain', animalAtual.habitat);
@@ -173,30 +181,30 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('drop', (e) => {
       e.preventDefault();
       card.classList.remove('drag-over');
-
       const habitatEscolhido = card.getAttribute('data-habitat');
       verificarResposta(habitatEscolhido);
     });
 
-    // Suporte a clique direto para facilitar em telas touch
     card.addEventListener('click', () => {
       iniciarMusica();
       if (animalAtual) verificarResposta(card.getAttribute('data-habitat'));
     });
   });
 
-  // Validação da escolha do Habitat
   function verificarResposta(habitatEscolhido) {
     if (habitatEscolhido === animalAtual.habitat) {
+      acertosPartida++;
       tocarSomSucesso();
       imgAnimalAtual.style.opacity = '0';
       setTimeout(proximoAnimal, 300);
     } else {
+      errosPartida++;
       tocarSomErro();
       vidas--;
       atualizarVidas();
 
       if (vidas === 0) {
+        enviarResultadoFinal("Ciências");
         exibirModal('Fim de jogo!', 'Suas vidas acabaram. Tente novamente!');
       }
     }
@@ -220,15 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
-  // Eventos de Botões
   btnSom.addEventListener('click', () => {
     iniciarMusica();
     falarInstrucao();
   });
 
-  btnHome.addEventListener('click', () => location.reload());
-  btnReiniciar.addEventListener('click', iniciarJogo);
+  btnHome.addEventListener('click', () => {
+    window.location.href = "/Inicioreal";
+  });
+  btnReiniciar.addEventListener('click', () => {
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    iniciarJogo();
+  });
 
-  // Começa o jogo
   iniciarJogo();
 });

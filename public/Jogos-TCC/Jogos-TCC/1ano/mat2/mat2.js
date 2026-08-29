@@ -13,7 +13,6 @@ const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
 
-/* Lista de Desafios Matemáticos (Soma + e Subtração -) */
 const desafios = [
     { num1: 10, operador: "+", resultado: 12, respostaCorreta: 2, opcoes: [1, 6, 2, 5, 8] },
     { num1: 15, operador: "-", resultado: 10, respostaCorreta: 5, opcoes: [3, 5, 2, 7, 4] },
@@ -22,7 +21,6 @@ const desafios = [
     { num1: 12, operador: "-", resultado: 7, respostaCorreta: 5, opcoes: [4, 5, 3, 6, 2] }
 ];
 
-/* Estado do Jogo */
 let desafioAtual = 0;
 let vidas = 3;
 let audioContext = null;
@@ -30,14 +28,43 @@ let musicaTocando = false;
 let intervaloMusica;
 let orientacaoFalando = false;
 
-/* Inicializar áudio */
+let acertosPartida = 0;
+let errosPartida = 0;
+let inicioPartida = Date.now();
+let partidaFinalizada = false;
+
+function enviarResultadoFinal(materia) {
+    if (partidaFinalizada) return;
+    partidaFinalizada = true;
+
+    const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
+    const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
+
+    // Lê a criança ativa da sessão atual
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+
+    fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+            categoria: materia,
+            minutos: minutosReais,
+            acertos: acertosPartida,
+            erros: errosPartida
+        })
+    })
+    .then(res => res.json())
+    .then(dados => console.log('Resultado registrado no painel:', dados))
+    .catch(err => console.error('Erro ao enviar pontos:', err));
+}
+
 function iniciarAudio() {
     if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
 }
 
-/* Som de Acerto */
 function somAcerto() {
     iniciarAudio();
     const agora = audioContext.currentTime;
@@ -53,12 +80,10 @@ function somAcerto() {
 
     oscilador.connect(ganho);
     ganho.connect(audioContext.destination);
-
     oscilador.start(agora);
     oscilador.stop(agora + 0.3);
 }
 
-/* Som de Erro */
 function somErro() {
     iniciarAudio();
     const agora = audioContext.currentTime;
@@ -74,12 +99,10 @@ function somErro() {
 
     oscilador.connect(ganho);
     ganho.connect(audioContext.destination);
-
     oscilador.start(agora);
     oscilador.stop(agora + 0.3);
 }
 
-/* Música de Fundo Suave */
 function iniciarMusica() {
     iniciarAudio();
     if (musicaTocando) return;
@@ -95,13 +118,11 @@ function iniciarMusica() {
 
         oscilador.type = "sine";
         oscilador.frequency.value = notas[indice];
-
         ganho.gain.setValueAtTime(0.012, agora);
         ganho.gain.exponentialRampToValueAtTime(0.001, agora + 0.8);
 
         oscilador.connect(ganho);
         ganho.connect(audioContext.destination);
-
         oscilador.start(agora);
         oscilador.stop(agora + 0.8);
 
@@ -109,20 +130,13 @@ function iniciarMusica() {
     }, 750);
 }
 
-/* Orientação Falada */
 function falarOrientacao() {
     if (!("speechSynthesis" in window)) return;
-
     window.speechSynthesis.cancel();
-
     const desafio = desafios[desafioAtual];
-    let texto = "";
-
-    if (desafio.operador === "+") {
-        texto = `Descubra qual número falta para completar a conta! ${desafio.num1} mais quanto é igual a ${desafio.resultado}?`;
-    } else {
-        texto = `Descubra qual número falta para completar a conta! ${desafio.num1} menos quanto é igual a ${desafio.resultado}?`;
-    }
+    let texto = desafio.operador === "+"
+        ? `Descubra qual número falta para completar a conta! ${desafio.num1} mais quanto é igual a ${desafio.resultado}?`
+        : `Descubra qual número falta para completar a conta! ${desafio.num1} menos quanto é igual a ${desafio.resultado}?`;
 
     const fala = new SpeechSynthesisUtterance(texto);
     fala.lang = "pt-BR";
@@ -130,30 +144,23 @@ function falarOrientacao() {
     fala.pitch = 1.1;
 
     orientacaoFalando = true;
-
     fala.onend = () => { orientacaoFalando = false; };
     fala.onerror = () => { orientacaoFalando = false; };
-
     window.speechSynthesis.speak(fala);
 }
 
-/* Repetir Orientação */
 function controlarOrientacao() {
     if (!("speechSynthesis" in window)) return;
-
     if (orientacaoFalando || window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
         orientacaoFalando = false;
         return;
     }
-
     falarOrientacao();
 }
 
-/* Atualizar Visual dos Corações */
 function atualizarVidas() {
     const imagens = vidasContainer.querySelectorAll("img");
-
     imagens.forEach((imagem, index) => {
         if (index < vidas) {
             imagem.classList.remove("perdida");
@@ -161,31 +168,24 @@ function atualizarVidas() {
             imagem.classList.add("perdida");
         }
     });
-
     vidasContainer.setAttribute("aria-label", `${vidas} ${vidas === 1 ? "vida" : "vidas"} restantes`);
 }
 
-/* Carregar Desafio da Rodada */
 function carregarDesafio() {
     const desafio = desafios[desafioAtual];
-
     orientacaoTexto.textContent = "Escolha o número que completa a conta corretamente:";
-
     num1El.textContent = desafio.num1;
     operadorEl.textContent = desafio.operador;
     resultadoEl.textContent = desafio.resultado;
     lacunaEl.textContent = "_";
 
     opcoesContainer.innerHTML = "";
-
     desafio.opcoes.forEach((opcao) => {
         const btn = document.createElement("button");
         btn.classList.add("btn-opcao");
         btn.textContent = opcao;
         btn.setAttribute("aria-label", `Opção ${opcao}`);
-
         btn.addEventListener("click", () => verificarResposta(opcao));
-
         opcoesContainer.appendChild(btn);
     });
 
@@ -193,53 +193,62 @@ function carregarDesafio() {
     setTimeout(falarOrientacao, 500);
 }
 
-/* Checar se o botão pressionado é a resposta certa */
 function verificarResposta(opcaoEscolhida) {
     const desafio = desafios[desafioAtual];
 
     if (opcaoEscolhida === desafio.respostaCorreta) {
+        acertosPartida++;
         lacunaEl.textContent = opcaoEscolhida;
         somAcerto();
 
         tituloMensagem.textContent = "Parabéns!";
         textoMensagem.textContent = `Você acertou! ${desafio.num1} ${desafio.operador} ${opcaoEscolhida} = ${desafio.resultado}`;
-        proximoBtn.textContent = desafioAtual < desafios.length - 1 ? "Próximo Desafio" : "Jogar Novamente";
+
+        const ultimaFase = desafioAtual >= desafios.length - 1;
+        proximoBtn.textContent = ultimaFase ? "Jogar Novamente" : "Próximo Desafio";
+
+        if (ultimaFase) {
+            enviarResultadoFinal("Matemática");
+            proximoBtn.onclick = () => {
+                desafioAtual = 0;
+                vidas = 3;
+                acertosPartida = 0;
+                errosPartida = 0;
+                inicioPartida = Date.now();
+                partidaFinalizada = false;
+                mensagem.classList.remove("ativa");
+                carregarDesafio();
+            };
+        } else {
+            proximoBtn.onclick = proximoDesafio;
+        }
 
         mensagem.classList.add("ativa");
         proximoBtn.focus();
-        proximoBtn.onclick = proximoDesafio;
     } else {
+        errosPartida++;
         somErro();
         perderVida();
     }
 }
 
-/* Perder Vida */
 function perderVida() {
     vidas--;
     atualizarVidas();
-
-    if (vidas <= 0) {
-        gameOver();
-    }
+    if (vidas <= 0) gameOver();
 }
 
-/* Game Over */
 function gameOver() {
-    if ("speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-    }
-
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    enviarResultadoFinal("Matemática");
     tituloMensagem.textContent = "Tente Novamente!";
     textoMensagem.textContent = "Suas vidas acabaram. Quer tentar mais uma vez?";
     proximoBtn.textContent = "Tentar Novamente";
-
     mensagem.classList.add("ativa");
     proximoBtn.focus();
     proximoBtn.onclick = reiniciarJogo;
 }
 
-/* Próximo Desafio */
 function proximoDesafio() {
     mensagem.classList.remove("ativa");
     desafioAtual = (desafioAtual + 1) % desafios.length;
@@ -247,7 +256,6 @@ function proximoDesafio() {
     carregarDesafio();
 }
 
-/* Reiniciar Jogo */
 function reiniciarJogo() {
     mensagem.classList.remove("ativa");
     desafioAtual = 0;
@@ -255,20 +263,15 @@ function reiniciarJogo() {
     carregarDesafio();
 }
 
-/* Eventos dos Botões */
 somBtn.addEventListener("click", () => {
     iniciarAudio();
     controlarOrientacao();
 });
 
 homeBtn.addEventListener("click", () => {
-    window.location.href = "../ano1.html";
+    window.location.href = "/Inicioreal";
 });
 
-/* Primeira Interação Ativa a Música */
-document.addEventListener("click", () => {
-    iniciarMusica();
-}, { once: true });
+document.addEventListener("click", () => iniciarMusica(), { once: true });
 
-/* Inicialização */
 carregarDesafio();

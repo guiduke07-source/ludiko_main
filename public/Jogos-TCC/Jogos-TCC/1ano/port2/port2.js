@@ -9,7 +9,6 @@ const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
 
-/* Imagens dos peixes */
 const peixesImagens = [
     "img/peixeAmarelo.png",
     "img/peixeAzul.png",
@@ -17,7 +16,6 @@ const peixesImagens = [
     "img/peixeVerde.png"
 ];
 
-/* Posições dos peixes na tela */
 const posicoesFixas = [
     { top: 15, left: 15 },
     { top: 10, left: 45 },
@@ -26,7 +24,6 @@ const posicoesFixas = [
     { top: 50, left: 60 }
 ];
 
-/* Desafios com a letra correta, palavra, emoji e as opções */
 const desafios = [
     { letra: "A", palavraExemplo: "Água", emoji: "💧", opcoes: ["A", "M", "V", "Z", "G"] },
     { letra: "B", palavraExemplo: "Baleia", emoji: "🐳", opcoes: ["B", "P", "D", "R", "S"] },
@@ -36,7 +33,6 @@ const desafios = [
     { letra: "T", palavraExemplo: "Tubarão", emoji: "🦈", opcoes: ["T", "D", "F", "P", "V"] }
 ];
 
-/* Controla o estado do jogo */
 let desafioAtual = 0;
 let vidas = 3;
 let audioContext = null;
@@ -44,17 +40,37 @@ let musicaTocando = false;
 let intervaloMusica;
 let orientacaoFalando = false;
 
-/* Inicia o sistema de áudio */
-function iniciarAudio() {
-    if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
+let acertosPartida = 0;
+let errosPartida = 0;
+let inicioPartida = Date.now();
+let partidaFinalizada = false;
+
+function enviarResultadoFinal(materia) {
+    if (partidaFinalizada) return;
+    partidaFinalizada = true;
+
+    const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
+    const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
+
+    // Lê a criança ativa da sessão atual
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+
+    fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+            categoria: materia,
+            minutos: minutosReais,
+            acertos: acertosPartida,
+            erros: errosPartida
+        })
+    })
+    .then(res => res.json())
+    .then(dados => console.log('Resultado registrado no painel:', dados))
+    .catch(err => console.error('Erro ao enviar pontos:', err));
 }
 
-/* Toca o som de acerto */
 function somAcerto() {
     iniciarAudio();
     const agora = audioContext.currentTime;
@@ -70,12 +86,10 @@ function somAcerto() {
 
     oscilador.connect(ganho);
     ganho.connect(audioContext.destination);
-
     oscilador.start(agora);
     oscilador.stop(agora + 0.3);
 }
 
-/* Toca o som de erro */
 function somErro() {
     iniciarAudio();
     const agora = audioContext.currentTime;
@@ -91,16 +105,13 @@ function somErro() {
 
     oscilador.connect(ganho);
     ganho.connect(audioContext.destination);
-
     oscilador.start(agora);
     oscilador.stop(agora + 0.3);
 }
 
-/* Toca o som de vitória */
 function somVitoria() {
     iniciarAudio();
     const notas = [523, 659, 784, 1046];
-
     notas.forEach((nota, indice) => {
         setTimeout(() => {
             const agora = audioContext.currentTime;
@@ -109,23 +120,19 @@ function somVitoria() {
 
             oscilador.type = "sine";
             oscilador.frequency.value = nota;
-
             ganho.gain.setValueAtTime(0.2, agora);
             ganho.gain.exponentialRampToValueAtTime(0.01, agora + 0.4);
 
             oscilador.connect(ganho);
             ganho.connect(audioContext.destination);
-
             oscilador.start(agora);
             oscilador.stop(agora + 0.4);
         }, indice * 180);
     });
 }
 
-/* Inicia a música de fundo */
 function iniciarMusica() {
     iniciarAudio();
-
     if (musicaTocando) return;
     musicaTocando = true;
 
@@ -139,13 +146,11 @@ function iniciarMusica() {
 
         oscilador.type = "sine";
         oscilador.frequency.value = notas[indice];
-
         ganho.gain.setValueAtTime(0.012, agora);
         ganho.gain.exponentialRampToValueAtTime(0.001, agora + 0.8);
 
         oscilador.connect(ganho);
         ganho.connect(audioContext.destination);
-
         oscilador.start(agora);
         oscilador.stop(agora + 0.8);
 
@@ -153,45 +158,34 @@ function iniciarMusica() {
     }, 700);
 }
 
-/* Fala a orientação do desafio sem revelar a letra diretamente */
 function falarOrientacao() {
     if (!("speechSynthesis" in window)) return;
-
     window.speechSynthesis.cancel();
-
     const item = desafios[desafioAtual];
     const texto = `Aperte na letra inicial de ${item.palavraExemplo}`;
-
     const fala = new SpeechSynthesisUtterance(texto);
     fala.lang = "pt-BR";
     fala.rate = 0.9;
     fala.pitch = 1.1;
 
     orientacaoFalando = true;
-
     fala.onend = () => { orientacaoFalando = false; };
     fala.onerror = () => { orientacaoFalando = false; };
-
     window.speechSynthesis.speak(fala);
 }
 
-/* Controla a orientação por voz */
 function controlarOrientacao() {
     if (!("speechSynthesis" in window)) return;
-
     if (orientacaoFalando || window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
         orientacaoFalando = false;
         return;
     }
-
     falarOrientacao();
 }
 
-/* Atualiza as vidas na tela */
 function atualizarVidas() {
     const imagens = vidasContainer.querySelectorAll("img");
-
     imagens.forEach((imagem, index) => {
         if (index < vidas) {
             imagem.classList.remove("perdida");
@@ -199,24 +193,14 @@ function atualizarVidas() {
             imagem.classList.add("perdida");
         }
     });
-
-    vidasContainer.setAttribute(
-        "aria-label",
-        `${vidas} ${vidas === 1 ? "vida" : "vidas"} restantes`
-    );
+    vidasContainer.setAttribute("aria-label", `${vidas} ${vidas === 1 ? "vida" : "vidas"} restantes`);
 }
 
-/* Cria os peixes e suas letras */
 function criarOpcoes() {
     opcoesContainer.innerHTML = "";
-
     const desafio = desafios[desafioAtual];
-
-    const opcoesEmbaralhadas = [...desafio.opcoes]
-        .sort(() => Math.random() - 0.5);
-
-    const posicoesEmbaralhadas = [...posicoesFixas]
-        .sort(() => Math.random() - 0.5);
+    const opcoesEmbaralhadas = [...desafio.opcoes].sort(() => Math.random() - 0.5);
+    const posicoesEmbaralhadas = [...posicoesFixas].sort(() => Math.random() - 0.5);
 
     opcoesEmbaralhadas.forEach((letra, index) => {
         const pos = posicoesEmbaralhadas[index];
@@ -225,10 +209,8 @@ function criarOpcoes() {
         const botaoPeixe = document.createElement("button");
         botaoPeixe.type = "button";
         botaoPeixe.classList.add("peixe-opcao");
-
         botaoPeixe.style.top = `${pos.top}%`;
         botaoPeixe.style.left = `${pos.left}%`;
-
         botaoPeixe.style.animationDelay = `${(index * 0.4).toFixed(1)}s`;
 
         const img = document.createElement("img");
@@ -241,140 +223,113 @@ function criarOpcoes() {
 
         botaoPeixe.appendChild(img);
         botaoPeixe.appendChild(spanLetra);
-
         botaoPeixe.setAttribute("aria-label", `Letra ${letra}`);
 
-        botaoPeixe.addEventListener("click", () => {
-            verificarResposta(letra, botaoPeixe);
-        });
-
+        botaoPeixe.addEventListener("click", () => verificarResposta(letra, botaoPeixe));
         opcoesContainer.appendChild(botaoPeixe);
     });
 }
 
-/* Verifica se a letra escolhida está correta */
 function verificarResposta(letra, botao) {
     const desafio = desafios[desafioAtual];
 
     if (letra === desafio.letra) {
+        acertosPartida++;
         const peixes = document.querySelectorAll(".peixe-opcao");
         peixes.forEach(p => p.style.pointerEvents = "none");
-
         somAcerto();
         setTimeout(faseConcluida, 600);
         return;
     }
 
     somErro();
-
+    errosPartida++;
     botao.style.transform = "scale(0.85)";
-    setTimeout(() => {
-        botao.style.transform = "";
-    }, 200);
-
+    setTimeout(() => { botao.style.transform = ""; }, 200);
     perderVida();
 }
 
-/* Retira uma vida do jogador */
 function perderVida() {
     vidas--;
     atualizarVidas();
-
-    if (vidas <= 0) {
-        gameOver();
-    }
+    if (vidas <= 0) gameOver();
 }
 
-/* Mostra a tela de Game Over */
 function gameOver() {
     if ("speechSynthesis" in window) {
         window.speechSynthesis.cancel();
         orientacaoFalando = false;
     }
-
+    enviarResultadoFinal("Português");
     tituloMensagem.textContent = "Tente novamente!";
     textoMensagem.textContent = "Ah que pena, você ficou sem vidas. Não desista!";
-
     proximoBtn.textContent = "Tentar Novamente";
     mensagem.classList.add("ativa");
-
     proximoBtn.onclick = reiniciarDesafio;
     proximoBtn.focus();
 }
 
-/* Mostra a tela de desafio concluído */
 function faseConcluida() {
     somVitoria();
-
     tituloMensagem.textContent = "Parabéns!";
     textoMensagem.textContent = `Você encontrou a letra correta!`;
 
-    if (desafioAtual >= desafios.length - 1) {
+    const ultimaFase = desafioAtual >= desafios.length - 1;
+    if (ultimaFase) {
         proximoBtn.textContent = "Jogar Novamente";
+        enviarResultadoFinal("Português");
+        proximoBtn.onclick = () => {
+            desafioAtual = 0;
+            vidas = 3;
+            acertosPartida = 0;
+            errosPartida = 0;
+            inicioPartida = Date.now();
+            partidaFinalizada = false;
+            mensagem.classList.remove("ativa");
+            carregarDesafio();
+        };
     } else {
         proximoBtn.textContent = "Próxima Letra";
+        proximoBtn.onclick = proximoDesafio;
     }
 
     mensagem.classList.add("ativa");
-
-    proximoBtn.onclick = proximoDesafio;
     proximoBtn.focus();
 }
 
-/* Vai para o próximo desafio */
 function proximoDesafio() {
     mensagem.classList.remove("ativa");
-
     desafioAtual++;
-
     if (desafioAtual >= desafios.length) {
         desafioAtual = 0;
     }
-
     vidas = 3;
     carregarDesafio();
 }
 
-/* Reinicia o desafio atual */
 function reiniciarDesafio() {
     mensagem.classList.remove("ativa");
     vidas = 3;
     carregarDesafio();
 }
 
-/* Carrega o desafio na tela */
 function carregarDesafio() {
     const item = desafios[desafioAtual];
-
-    /* Escreve a frase usando o emoji e o nome da figura, sem mostrar a letra */
-    orientacao.innerHTML = `
-        <p>
-            Clique na letra inicial de ${item.emoji} <strong>${item.palavraExemplo}</strong>
-        </p>
-    `;
-
+    orientacao.innerHTML = `<p>Clique na letra inicial de ${item.emoji} <strong>${item.palavraExemplo}</strong></p>`;
     criarOpcoes();
     atualizarVidas();
-
-    /* Inicia a orientação por voz sem revelar a letra */
     setTimeout(falarOrientacao, 600);
 }
 
-/* Botão de som e orientação */
 somBtn.addEventListener("click", () => {
     iniciarAudio();
     controlarOrientacao();
 });
 
-/* Botão para voltar à tela inicial */
 homeBtn.addEventListener("click", () => {
-    window.location.href = "../ano1.html";
+    window.location.href = "/Inicioreal";
 });
 
-/* Inicia a música após o primeiro clique */
-document.addEventListener("click", () => {
-    iniciarMusica();
-}, { once: true });
+document.addEventListener("click", () => iniciarMusica(), { once: true });
 
-/* Inicia o jogo */
 carregarDesafio();

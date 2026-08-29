@@ -16,6 +16,7 @@ import TempoLimite from "./pages/TempoLimite/tempoLimite.jsx";
 import MudarContaCrianca from "./pages/MudarContaCrianca/mudarContaCrianca.jsx";
 import AlterarSenha from "./pages/AlterarSenha/alterarSenha.jsx";
 import FaleConosco from "./pages/FaleConosco/faleConosco.jsx";
+import HistoricoUso from "./pages/HistoricoUso/historicoUso.jsx";
 
 import PageTransition from "./Components/PageTransition/PageTransition.jsx";
 
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="/mudar-conta-crianca" element={<MudarContaCrianca />} />
         <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/fale-conosco" element={<FaleConosco />} />
+        <Route path="/historico-uso" element={<HistoricoUso />} />
       </Routes>
     </PageTransition>
   );

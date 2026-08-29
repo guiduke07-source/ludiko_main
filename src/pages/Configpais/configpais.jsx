@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Coluna from '../../Components/Graficos/coluna';
 import './configpais.css';
 import Logo from '../../Components/imgs/logo.png';
@@ -8,6 +9,7 @@ import Headerpais from '../../Components/Header/headerpais';
 import { buscarDadosDashboard } from '../../services/dashboardApi';
 
 const Configpais = () => {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [frequencia, setFrequencia] = useState([]);
   const [progresso, setProgresso] = useState([]);
@@ -16,11 +18,23 @@ const Configpais = () => {
 
   useEffect(() => {
     async function carregarDashboard() {
+      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+      if (!token) {
+        navigate('/Login-Pais');
+        return;
+      }
+
       try {
         const dados = await buscarDadosDashboard();
-        setFrequencia(dados.frequencia);
-        setProgresso(dados.progresso);
+        setFrequencia(dados.frequencia || []);
+        setProgresso(dados.progresso || []);
       } catch (erroApi) {
+        if (erroApi.message && erroApi.message.includes('401')) {
+          sessionStorage.clear();
+          localStorage.clear();
+          navigate('/Login-Pais');
+          return;
+        }
         setErro(erroApi.message);
       } finally {
         setCarregando(false);
@@ -28,7 +42,7 @@ const Configpais = () => {
     }
 
     carregarDashboard();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="configPais">

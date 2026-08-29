@@ -125,3 +125,50 @@
   background: #e8830b;
   transform: translateY(-1px);
 }
+
+.input-com-icone {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-com-icone input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.toggle-eye-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.esqueceu-link-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+  margin-bottom: 12px;
+}
+
+.esqueceu-link-btn {
+  background: none;
+  border: none;
+  color: #17656e;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.voltar-alterar-btn {
+  background: transparent;
+  border: none;
+  color: #648a90;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+}

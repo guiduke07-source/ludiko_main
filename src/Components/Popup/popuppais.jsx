@@ -11,13 +11,17 @@ const Popuppais = ({ onClose }) => {
   };
 
   const handleSair = () => {
+    // Destrói todo o armazenamento de sessão e local
+    sessionStorage.clear();
     localStorage.clear();
-    navigate("/Inicio");
+    navigate("/Login-Pais");
     if (onClose) onClose();
   };
 
   const handleExcluirConta = () => {
     if (window.confirm("Tem certeza de que deseja excluir a sua conta?")) {
+      sessionStorage.clear();
+      localStorage.clear();
       alert("Conta excluída.");
       navigate("/");
       if (onClose) onClose();
@@ -27,7 +31,6 @@ const Popuppais = ({ onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-modal" onClick={(e) => e.stopPropagation()}>
-        {/* Cabeçalho Rosa */}
         <div className="popup-header-pink">
           <div className="header-info">
             <span className="header-icon">👨‍👩‍👦</span>
@@ -38,9 +41,7 @@ const Popuppais = ({ onClose }) => {
           </button>
         </div>
 
-        {/* Lista de Opções */}
         <div className="popup-body">
-          {/* Tempo limite de atividades */}
           <button
             className="menu-item"
             onClick={() => handleNavegar("/tempo-limite")}
@@ -52,7 +53,6 @@ const Popuppais = ({ onClose }) => {
             <span className="item-arrow">›</span>
           </button>
 
-          {/* Mudar para conta de criança */}
           <button
             className="menu-item"
             onClick={() => handleNavegar("/mudar-conta-crianca")}
@@ -64,7 +64,6 @@ const Popuppais = ({ onClose }) => {
             <span className="item-arrow">›</span>
           </button>
 
-          {/* Alterar senha */}
           <button
             className="menu-item"
             onClick={() => handleNavegar("/alterar-senha")}
@@ -76,7 +75,20 @@ const Popuppais = ({ onClose }) => {
             <span className="item-arrow">›</span>
           </button>
 
-          {/* Fale conosco */}
+          <button
+            className="menu-item"
+            onClick={() => handleNavegar("/historico-uso")}
+          >
+            <div className="item-left">
+              <span className="item-icon">📊</span>
+              <div className="item-text-group">
+                <span className="item-title">Histórico de Uso</span>
+                <span className="item-subtitle">relatórios das semanas anteriores</span>
+              </div>
+            </div>
+            <span className="item-arrow">›</span>
+          </button>
+
           <button
             className="menu-item"
             onClick={() => handleNavegar("/fale-conosco")}
@@ -88,7 +100,6 @@ const Popuppais = ({ onClose }) => {
             <span className="item-arrow">›</span>
           </button>
 
-          {/* Botões do Rodapé */}
           <div className="popup-footer">
             <button className="footer-action-btn sair" onClick={handleSair}>
               ↳ Sair da conta

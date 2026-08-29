@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let filaRodadas = [];
   let animalCorreto = null;
 
-  /* Variaveis de controle da musica sintetizada */
+  let acertosPartida = 0;
+  let errosPartida = 0;
+  let inicioPartida = Date.now();
+  let partidaFinalizada = false;
+
   let audioContext = null;
   let musicaTocando = false;
   let intervaloMusica = null;
@@ -28,7 +32,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalMensagem = document.getElementById('modal-mensagem');
   const btnReiniciar = document.getElementById('btn-reiniciar');
 
-  /* Inicializa ou ativa o contexto de audio */
+  function enviarResultadoFinal(materia) {
+    if (partidaFinalizada) return;
+    partidaFinalizada = true;
+
+    const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
+    const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
+
+    // Lê a criança ativa da sessão atual
+    const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+
+    fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+            categoria: materia,
+            minutos: minutosReais,
+            acertos: acertosPartida,
+            erros: errosPartida
+        })
+    })
+    .then(res => res.json())
+    .then(dados => console.log('Resultado registrado no painel:', dados))
+    .catch(err => console.error('Erro ao enviar pontos:', err));
+}
+
   function iniciarAudio() {
     if (!audioContext) {
       audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -38,66 +67,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* Musica de fundo */
   function iniciarMusica() {
     iniciarAudio();
-
-    if (musicaTocando) {
-      return;
-    }
-
+    if (musicaTocando) return;
     musicaTocando = true;
 
-    const notas = [
-      261,
-      329,
-      392,
-      329,
-      293,
-      349,
-      440,
-      349
-    ];
-
+    const notas = [261, 329, 392, 329, 293, 349, 440, 349];
     let indice = 0;
 
-    intervaloMusica = setInterval(
-      () => {
-        const agora = audioContext.currentTime;
+    intervaloMusica = setInterval(() => {
+      const agora = audioContext.currentTime;
+      const oscilador = audioContext.createOscillator();
+      const ganho = audioContext.createGain();
 
-        const oscilador = audioContext.createOscillator();
-        const ganho = audioContext.createGain();
+      oscilador.type = "sine";
+      oscilador.frequency.value = notas[indice];
+      ganho.gain.setValueAtTime(0.018, agora);
+      ganho.gain.exponentialRampToValueAtTime(0.001, agora + 0.5);
 
-        oscilador.type = "sine";
-        oscilador.frequency.value = notas[indice];
+      oscilador.connect(ganho);
+      ganho.connect(audioContext.destination);
+      oscilador.start(agora);
+      oscilador.stop(agora + 0.5);
 
-        ganho.gain.setValueAtTime(
-          0.018,
-          agora
-        );
-
-        ganho.gain.exponentialRampToValueAtTime(
-          0.001,
-          agora + 0.5
-        );
-
-        oscilador.connect(ganho);
-        ganho.connect(audioContext.destination);
-
-        oscilador.start(agora);
-        oscilador.stop(agora + 0.5);
-
-        indice++;
-
-        if (indice >= notas.length) {
-          indice = 0;
-        }
-      },
-      600
-    );
+      indice = (indice + 1) % notas.length;
+    }, 600);
   }
 
-  /* Efeitos sonoros acerto e erro */
   function tocarSomSucesso() {
     iniciarAudio();
     const osc = audioContext.createOscillator();
@@ -134,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
     osc.stop(audioContext.currentTime + 0.3);
   }
 
-  /* Sintetizador do som de cada animal */
   function reproduzirSomDoAnimal(id) {
     iniciarAudio();
     const agora = audioContext.currentTime;
@@ -199,18 +194,15 @@ document.addEventListener('DOMContentLoaded', () => {
       osc.frequency.setValueAtTime(300, agora);
       osc.frequency.linearRampToValueAtTime(500, agora + 0.2);
       gain.gain.setValueAtTime(0.2, agora);
-      gain.gain.exponentialRampToValueAtTime(0.01, agora + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.01, aluno => 0.3);
       osc.start(agora);
       osc.stop(agora + 0.3);
     }
   }
 
-  /* Toca o som do animal e fala a orientação sem dizer a resposta */
   function tocarSomERevelarOrientacao() {
     if (!animalCorreto) return;
-
     reproduzirSomDoAnimal(animalCorreto.id);
-
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
       const mensagem = new SpeechSynthesisUtterance('Qual animal faz este som?');
@@ -223,21 +215,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function iniciarJogo() {
     vidas = 3;
     atualizarVidas();
-
     filaRodadas = [...listaAnimais].sort(() => Math.random() - 0.5);
     modal.classList.remove('ativa');
-
     proximaRodada();
   }
 
   function proximaRodada() {
     if (filaRodadas.length === 0) {
+      enviarResultadoFinal("Ciências");
       exibirModal('Parabéns!', 'Você acertou todos os sons dos animais!');
       return;
     }
 
     animalCorreto = filaRodadas.pop();
-
     const incorretos = listaAnimais
       .filter(a => a.id !== animalCorreto.id)
       .sort(() => Math.random() - 0.5)
@@ -256,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
       img.alt = animal.nome;
 
       card.appendChild(img);
-
       card.addEventListener('click', () => {
         iniciarMusica();
         verificarEscolha(animal.id);
@@ -270,14 +259,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function verificarEscolha(idEscolhido) {
     if (idEscolhido === animalCorreto.id) {
+      acertosPartida++;
       tocarSomSucesso();
       setTimeout(proximaRodada, 600);
     } else {
+      errosPartida++;
       tocarSomErro();
       vidas--;
       atualizarVidas();
 
       if (vidas === 0) {
+        enviarResultadoFinal("Ciências");
         exibirModal('Fim de jogo!', 'Suas vidas acabaram. Tente novamente!');
       }
     }
@@ -306,8 +298,16 @@ document.addEventListener('DOMContentLoaded', () => {
     tocarSomERevelarOrientacao();
   });
 
-  btnHome.addEventListener('click', () => location.reload());
-  btnReiniciar.addEventListener('click', iniciarJogo);
+  btnHome.addEventListener('click', () => {
+    window.location.href = "/Inicioreal";
+  });
+  btnReiniciar.addEventListener('click', () => {
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    iniciarJogo();
+  });
 
   iniciarJogo();
 });

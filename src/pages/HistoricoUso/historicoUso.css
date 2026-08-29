@@ -1,0 +1,94 @@
+.historico-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Baloo 2', Roboto, sans-serif;
+}
+
+.historico-card {
+  background: #ffffff;
+  border: 3px solid #bce4ec;
+  border-radius: 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 460px;
+  padding: 30px 24px;
+  position: relative;
+  text-align: center;
+}
+
+.historico-voltar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #edf7fa;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #17656e;
+  cursor: pointer;
+}
+
+.historico-badge-icon {
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+.historico-header h2 {
+  font-size: 22px;
+  color: #0c4a54;
+  margin: 6px 0;
+  font-weight: 800;
+}
+
+.historico-header p {
+  font-size: 13px;
+  color: #648a90;
+  margin-bottom: 20px;
+}
+
+.historico-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.historico-item {
+  background: #f4fbfa;
+  border: 2px solid #c9ecf2;
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.historico-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.historico-semana {
+  font-weight: 800;
+  color: #17656e;
+  font-size: 15px;
+}
+
+.historico-pontos {
+  font-size: 12px;
+  color: #f7931e;
+  font-weight: 700;
+}
+
+.historico-tempo {
+  font-weight: 800;
+  color: #0c4a54;
+  font-size: 16px;
+}

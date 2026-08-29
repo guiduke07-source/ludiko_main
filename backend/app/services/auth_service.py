@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from bson import ObjectId
 from bson.errors import InvalidId
 from flask_jwt_extended import create_access_token
@@ -50,9 +50,11 @@ class AuthService:
         resultado = db.responsaveis.insert_one(novo_responsavel)
         responsavel_id = str(resultado.inserted_id)
 
+        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=responsavel_id,
-            additional_claims={"tipo": "responsavel"}
+            additional_claims={"tipo": "responsavel"},
+            expires_delta=timedelta(days=30)
         )
 
         return {
@@ -85,10 +87,22 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "E-mail ou senha inválidos."}
 
+        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=str(responsavel["_id"]),
-            additional_claims={"tipo": "responsavel"}
+            additional_claims={"tipo": "responsavel"},
+            expires_delta=timedelta(days=30)
         )
+
+        criancas_ids = [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+        if not criancas_ids:
+            criancas_banco = db.criancas.find({
+                "$or": [
+                    {"responsavel_id": responsavel["_id"]},
+                    {"responsavel_id": str(responsavel["_id"])}
+                ]
+            })
+            criancas_ids = [str(c["_id"]) for c in criancas_banco]
 
         return {
             "erro": False,
@@ -99,7 +113,7 @@ class AuthService:
                 "nome": responsavel.get("nome"),
                 "email": responsavel.get("email"),
                 "tipo": "responsavel",
-                "criancas_ids": [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+                "criancas_ids": criancas_ids
             }
         }
 
@@ -120,9 +134,11 @@ class AuthService:
         if not senha_hash or not verificar_senha(senha, senha_hash):
             return {"erro": True, "mensagem": "CPF ou senha inválidos."}
 
+        # Token com validade longa (30 dias)
         token = create_access_token(
             identity=str(crianca["_id"]),
-            additional_claims={"tipo": "crianca"}
+            additional_claims={"tipo": "crianca"},
+            expires_delta=timedelta(days=30)
         )
 
         return {
@@ -150,12 +166,14 @@ class AuthService:
             return {"erro": True, "mensagem": "ID de usuário inválido."}
 
         responsavel = None
+        crianca_encontrada_id = None
 
         if tipo_usuario == "crianca":
             crianca = db.criancas.find_one({"_id": object_id})
             if not crianca:
                 return {"erro": True, "mensagem": "Criança não encontrada."}
 
+            crianca_encontrada_id = str(crianca["_id"])
             responsavel_id = crianca.get("responsavel_id") or crianca.get("id_responsavel")
 
             if responsavel_id:
@@ -189,8 +207,13 @@ class AuthService:
         responsavel_id_str = str(responsavel["_id"])
         token_responsavel = create_access_token(
             identity=responsavel_id_str,
-            additional_claims={"tipo": "responsavel"}
+            additional_claims={"tipo": "responsavel"},
+            expires_delta=timedelta(days=30)
         )
+
+        criancas_ids = [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+        if crianca_encontrada_id and crianca_encontrada_id not in criancas_ids:
+            criancas_ids.append(crianca_encontrada_id)
 
         return {
             "erro": False,
@@ -201,7 +224,7 @@ class AuthService:
                 "nome": responsavel.get("nome"),
                 "email": responsavel.get("email"),
                 "tipo": "responsavel",
-                "criancas_ids": [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+                "criancas_ids": criancas_ids
             }
         }
 
@@ -217,6 +240,16 @@ class AuthService:
         if not responsavel:
             return {"erro": True, "mensagem": "Usuário não encontrado."}
 
+        criancas_ids = [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+        if not criancas_ids:
+            criancas_banco = db.criancas.find({
+                "$or": [
+                    {"responsavel_id": responsavel["_id"]},
+                    {"responsavel_id": str(responsavel["_id"])}
+                ]
+            })
+            criancas_ids = [str(c["_id"]) for c in criancas_banco]
+
         return {
             "erro": False,
             "usuario": {
@@ -224,7 +257,7 @@ class AuthService:
                 "nome": responsavel.get("nome"),
                 "email": responsavel.get("email"),
                 "tipo": "responsavel",
-                "criancas_ids": [str(c_id) for c_id in responsavel.get("criancas_ids", [])]
+                "criancas_ids": criancas_ids
             }
         }
 
@@ -301,17 +334,21 @@ class AuthService:
     def salvar_fale_conosco(responsavel_id, dados):
         mensagem = dados.get("mensagem", "").strip()
         assunto = dados.get("assunto", "").strip()
+        email_contato = dados.get("email", "").strip()
 
         if not mensagem or not assunto:
             return {"erro": True, "mensagem": "Assunto e mensagem são obrigatórios."}
 
-        try:
-            object_id = ObjectId(responsavel_id)
-        except InvalidId:
-            return {"erro": True, "mensagem": "Usuário não encontrado."}
+        obj_id = None
+        if responsavel_id:
+            try:
+                obj_id = ObjectId(responsavel_id)
+            except InvalidId:
+                pass
 
         db.mensagens_suporte.insert_one({
-            "responsavel_id": object_id,
+            "responsavel_id": obj_id,
+            "email_contato": email_contato,
             "assunto": assunto,
             "mensagem": mensagem,
             "criado_em": datetime.now(timezone.utc)
