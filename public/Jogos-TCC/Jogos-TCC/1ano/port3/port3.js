@@ -10,6 +10,7 @@ const mensagem = document.getElementById("mensagem");
 const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
+const modalFim = document.getElementById("modal-fim-jogo");
 
 const palavras = [
     { palavra: "GATO", incompleta: "_ATO", resposta: "G", imagem: "img/gato.png", opcoes: ["G", "P", "R"] },
@@ -43,9 +44,10 @@ function enviarResultadoFinal(materia) {
     const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
     const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
 
-    // Lê a criança ativa da sessão atual
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
-    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+    const criancaId = sessionStorage.getItem('crianca_ativa_id') || usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]);
+
+    if (!criancaId) return;
 
     fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
         method: 'POST',
@@ -255,38 +257,37 @@ function gameOver() {
 
 function palavraCompleta() {
     somVitoria();
-    tituloMensagem.textContent = "Parabéns!";
-    textoMensagem.textContent = `Você completou a palavra ${palavras[palavraAtual].palavra}!`;
-
     const ultimaPalavra = palavraAtual >= palavras.length - 1;
+
     if (ultimaPalavra) {
-        proximoBtn.textContent = "Jogar novamente";
         enviarResultadoFinal("Português");
-        proximoBtn.onclick = () => {
-            palavraAtual = 0;
-            vidas = 3;
-            acertosPartida = 0;
-            errosPartida = 0;
-            inicioPartida = Date.now();
-            partidaFinalizada = false;
-            mensagem.classList.remove("ativa");
-            carregarPalavra();
-        };
+        mensagem.classList.remove("ativa");
+        modalFim.style.display = "flex";
     } else {
+        tituloMensagem.textContent = "Parabéns!";
+        textoMensagem.textContent = `Você completou a palavra ${palavras[palavraAtual].palavra}!`;
         proximoBtn.textContent = "Próxima palavra";
         proximoBtn.onclick = proximaPalavra;
+        mensagem.classList.add("ativa");
+        proximoBtn.focus();
     }
+}
 
-    mensagem.classList.add("ativa");
-    proximoBtn.focus();
+function reiniciarJogoCompleto() {
+    modalFim.style.display = "none";
+    palavraAtual = 0;
+    vidas = 3;
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    mensagem.classList.remove("ativa");
+    carregarPalavra();
 }
 
 function proximaPalavra() {
     mensagem.classList.remove("ativa");
     palavraAtual++;
-    if (palavraAtual >= palavras.length) {
-        palavraAtual = 0;
-    }
     vidas = 3;
     carregarPalavra();
 }

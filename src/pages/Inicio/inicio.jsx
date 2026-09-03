@@ -2,14 +2,10 @@ import React from 'react';
 import CircularGallery from '../../Components/Bgames/Bgames';
 import './Inicio.css';
 import Arco from '../../Components/Teste/Teste';
-
-// IMPORTAÇÃO DA IMAGEM (Opção 1)
-// O empacotador agora reconhece esta variável como o caminho correto do arquivo
 import imagemJogo from '../../Components/imgs/imggames.png'; 
 
-function Inicio() {
-    const jogoSilabas =
-        '/Jogos-TCC/Jogos-TCC/1ano/port1/index.html';
+function Inicio({ nomeAluno }) {
+    const jogoSilabas = '/Jogos-TCC/Jogos-TCC/1ano/port1/index.html';
 
     const galeriaUmItems = [
         {
@@ -17,48 +13,48 @@ function Inicio() {
             text: 'Trem das Sílabas',
             href: jogoSilabas
         },
-
-         {
-        image: imagemJogo,
-        text: 'Pescaria da Letra',
-        href: '/Jogos-TCC/Jogos-TCC/1ano/port2/index.html'
-    },
-
-    {
-        image: imagemJogo,
-        text: 'Complete a Sequência',
-        href: '/Jogos-TCC/Jogos-TCC/1ano/mat2/index.html'
-    },
-
-    {
-        image: imagemJogo,
-        text: 'Reciclagem',
-        href: '/Jogos-TCC/Jogos-TCC/1ano/g2/index.html'
-    }
+        {
+            image: imagemJogo,
+            text: 'Pescaria da Letra',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/port2/index.html'
+        },
+        {
+            image: imagemJogo,
+            text: 'Complete a Sequência',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/mat2/index.html'
+        },
+        {
+            image: imagemJogo,
+            text: 'Reciclagem',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/g2/index.html'
+        }
     ];
 
     const galeriaDoisItems = [
-{
-        image: imagemJogo,
-        text: 'Os 3 porquinhos',
-        href: '/Jogos-TCC/Jogos-TCC/1ano/conto1/index.html'
-    },
-        { image: imagemJogo,
-             text: 'Chapeuzinho vermelho', 
-             href: '/Jogos-TCC/Jogos-TCC/1ano/conto2/index.html' },
-
-        { image: imagemJogo,
-             text: 'A Lebre e a Tartaruga',
-             href: '/Jogos-TCC/Jogos-TCC/1ano/conto3/index.html' },
-
-        { image: imagemJogo,
-             text: 'Patinho feio',
-              href: '/Jogos-TCC/Jogos-TCC/1ano/conto4/index.html' }
+        {
+            image: imagemJogo,
+            text: 'Os 3 porquinhos',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/conto1/index.html'
+        },
+        { 
+            image: imagemJogo,
+            text: 'Chapeuzinho vermelho', 
+            href: '/Jogos-TCC/Jogos-TCC/1ano/conto2/index.html' 
+        },
+        { 
+            image: imagemJogo,
+            text: 'A Lebre e a Tartaruga',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/conto3/index.html' 
+        },
+        { 
+            image: imagemJogo,
+            text: 'Patinho feio',
+            href: '/Jogos-TCC/Jogos-TCC/1ano/conto4/index.html' 
+        }
     ];
 
     return (
         <div className='main-content' style={{ display: 'flex', flexDirection: 'column', gap: '80px', width: '100%', paddingBottom: '100px' }}>
-            
             {/* Bloco 1: Arco + Galeria 1 */}
             <div style={{ position: 'relative', width: '100%', height: '500px' }}>
                 <div className='teste' style={{ width: '100%', height: '100%' }}>
@@ -92,7 +88,6 @@ function Inicio() {
                     />
                 </div>
             </div>
-
         </div>
     );
 }

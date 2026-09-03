@@ -4,12 +4,14 @@
 
 /* Aplica em TODOS os elementos da página */
 * {
-    box-sizing: border-box; /* O tamanho do elemento inclui bordas e padding */
-    margin: 0;              /* Remove margens padrão dos navegadores */
-    padding: 0;             /* Remove espaçamentos internos padrão */
-    user-select: none;      /* Impede que a criança selecione/grife os textos na tela */
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox antigo */
+    -ms-user-select: none;     /* IE/Edge antigo */
+    user-select: none;
 }
-
 /* Configuração da tela cheia */
 body, html {
     width: 100%;

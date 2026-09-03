@@ -1,39 +1,62 @@
-import React, { useState } from 'react';
-import Header from '../../Components/Header/header';
+import React, { useState, useEffect } from 'react';
+import Header from '../../Components/Header/Header';
 import Popup from '../../Components/Popup/popup';
 import Inicio from '../Inicio/inicio';
+import ControleTempo from '../../Components/ControleTempo/ControleTempo';
 
 function Inicioreal() {
-    // Estado que controla se o popup de configurações/sair está visível
-    const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [nomeAluno, setNomeAluno] = useState('Aluno');
 
-    return (
-        <div style={{ width: '100%', minHeight: '100vh', backgroundColor: 'transparent' }}>
-            
-            {/* 
-              Passamos a função para abrir o popup via prop (onMenuClick).
-              Assim, o botão dentro do seu Header conseguirá alterar o estado aqui do pai.
-            */}
-            <div className='headercenter'
-            style={{ 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    width: '100%',
-                    padding: '0 20px', /* Margem de segurança nas laterais */
-                    boxSizing: 'border-box'
-                }}>
-            <Header onMenuClick={() => setShowPopup(true)} />
-            </div>
-            {/* O Popup só aparece quando showPopup for true */}
-            {showPopup && <Popup onClose={() => setShowPopup(false)} />}
+  useEffect(() => {
+    const tipo = sessionStorage.getItem('tipo');
 
-            {/* A sua página com as galerias entra aqui embaixo, sem sofrer interferência */}
-            <main style={{ width: '100%', marginTop: '20px' }}>
-                <Inicio />
-            </main>
+    if (tipo === 'responsavel') {
+      const nomeResp = sessionStorage.getItem('nome_responsavel');
+      if (nomeResp) {
+        setNomeAluno(nomeResp);
+        return;
+      }
+    }
 
-        </div>
-    );
+    const nomeCrianca = sessionStorage.getItem('nome_crianca');
+    if (nomeCrianca) {
+      setNomeAluno(nomeCrianca);
+      return;
+    }
+
+    try {
+      const u = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+      if (u.nome) setNomeAluno(u.nome);
+    } catch {
+      setNomeAluno('Aluno');
+    }
+  }, []);
+
+  return (
+    <div style={{ width: '100%', minHeight: '100vh', backgroundColor: 'transparent' }}>
+      <ControleTempo />
+
+      <div
+        className="headercenter"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          padding: '0 20px',
+          boxSizing: 'border-box',
+        }}
+      >
+        <Header onMenuClick={() => setShowPopup(true)} nomeAluno={nomeAluno} />
+      </div>
+
+      {showPopup && <Popup onClose={() => setShowPopup(false)} />}
+
+      <main style={{ width: '100%', marginTop: '20px' }}>
+        <Inicio nomeAluno={nomeAluno} />
+      </main>
+    </div>
+  );
 }
 
 export default Inicioreal;

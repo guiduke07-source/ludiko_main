@@ -2,32 +2,37 @@ import React, { useState, useEffect } from 'react';
 import './headerpais.css';
 import logoApp from '../imgs/logo.png';
 
-export default function Headerpais({ onMenuClick }) {
-  const [nomeResponsavel, setNomeResponsavel] = useState('Responsável');
+export default function Headerpais({ onMenuClick, nomeResponsavel }) {
+  const [nomeExibido, setNomeExibido] = useState(nomeResponsavel || 'Responsável');
 
   useEffect(() => {
-    try {
-      const usuarioSalvo = localStorage.getItem('usuario');
+    // 1. Se foi passado por prop válido, usa imediatamente
+    if (nomeResponsavel && nomeResponsavel !== 'Responsável') {
+      setNomeExibido(nomeResponsavel);
+      return;
+    }
 
+    // 2. Busca na chave dedicada do responsável no sessionStorage
+    const nomeSalvo = sessionStorage.getItem('nome_responsavel');
+    if (nomeSalvo) {
+      setNomeExibido(nomeSalvo);
+      return;
+    }
+
+    // 3. Fallback procurando no objeto do usuário na sessão
+    try {
+      const usuarioSalvo = sessionStorage.getItem('usuario');
       if (usuarioSalvo) {
         const usuario = JSON.parse(usuarioSalvo);
         if (usuario.nome) {
-          setNomeResponsavel(usuario.nome);
+          setNomeExibido(usuario.nome);
           return;
         }
       }
-
-      const nomeAlternativo =
-        localStorage.getItem('nome_responsavel') ||
-        localStorage.getItem('nome_usuario');
-
-      if (nomeAlternativo) {
-        setNomeResponsavel(nomeAlternativo);
-      }
     } catch {
-      setNomeResponsavel('Responsável');
+      setNomeExibido('Responsável');
     }
-  }, []);
+  }, [nomeResponsavel]);
 
   return (
     <header className="custom-headerpais-wrapper">
@@ -43,7 +48,7 @@ export default function Headerpais({ onMenuClick }) {
 
       <div className="custom-headerpais-bar">
         <h1 className="custom-headerpais-title">
-          Olá, {nomeResponsavel}
+          Olá, {nomeExibido}
         </h1>
 
         <button

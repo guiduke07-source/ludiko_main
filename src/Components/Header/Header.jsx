@@ -2,21 +2,34 @@ import React from 'react';
 import './header.css';
 import logoApp from '../imgs/logo.png';
 
-export default function Header({ onMenuClick }) {
-  let nomeCrianca = 'Criança';
+export default function Header({ onMenuClick, nomeAluno }) {
+  let nomeExibido = '';
 
-  try {
-    const usuarioSalvo = localStorage.getItem('usuario');
+  if (nomeAluno && nomeAluno !== 'Aluno') {
+    nomeExibido = nomeAluno;
+  }
 
-    if (usuarioSalvo) {
-      const usuario = JSON.parse(usuarioSalvo);
+  if (!nomeExibido) {
+    const tipo = sessionStorage.getItem('tipo');
 
-      if (usuario.tipo === 'crianca') {
-        nomeCrianca = usuario.nome || 'Criança';
+    if (tipo === 'crianca') {
+      nomeExibido = sessionStorage.getItem('nome_crianca');
+    } else if (tipo === 'responsavel') {
+      nomeExibido = sessionStorage.getItem('nome_responsavel');
+    }
+
+    if (!nomeExibido) {
+      try {
+        const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
+        nomeExibido = usuario.nome || '';
+      } catch {
+        nomeExibido = '';
       }
     }
-  } catch {
-    nomeCrianca = 'Criança';
+  }
+
+  if (!nomeExibido) {
+    nomeExibido = 'Visitante';
   }
 
   return (
@@ -33,7 +46,7 @@ export default function Header({ onMenuClick }) {
 
       <div className="custom-header-bar">
         <h1 className="custom-header-title">
-          Olá, {nomeCrianca}
+          Olá, {nomeExibido}
         </h1>
 
         <button

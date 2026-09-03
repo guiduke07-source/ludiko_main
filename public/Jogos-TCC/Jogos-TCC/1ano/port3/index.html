@@ -2,160 +2,146 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete a Palavra</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .topo-botoes-agrupados {
+            position: absolute;
+            top: 18px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 50;
+        }
+        .botao-voltar-texto {
+            background-color: #ffffff;
+            color: #17656e;
+            border: 2px solid #bce4ec;
+            border-radius: 18px;
+            padding: 10px 20px;
+            font-family: 'Baloo 2', Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .botao-voltar-texto:hover {
+            background-color: #edf7fa;
+            transform: translateY(-2px);
+        }
+        .modal-fim-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            font-family: 'Baloo 2', Arial, sans-serif;
+        }
+        .fim-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 36px 30px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+            animation: zoomModal 0.25s ease-out;
+        }
+        @keyframes zoomModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .trofeu { font-size: 55px; margin-bottom: 8px; }
+        .fim-card h2 { color: #17656e; font-size: 26px; margin: 0 0 8px 0; }
+        .fim-card p { color: #64748b; font-size: 15px; margin-bottom: 24px; }
+        .fim-acoes { display: flex; flex-direction: column; gap: 12px; }
+        .btn-fim-repetir {
+            background-color: #f7931e;
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-fim-sair {
+            background-color: #a3cae4;
+            color: #173d47;
+            border: none;
+            border-radius: 16px;
+            padding: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
-
 <body>
-
-    <!-- Área principal do jogo -->
-
     <main class="jogo">
+        <div class="topo-botoes-agrupados">
+            <button id="homeBtn" class="botaoImagem home" aria-label="Voltar para o início">
+                <img src="img/home.png" alt="Início">
+            </button>
 
+            <button id="somBtn" class="botaoImagem som" aria-label="Repetir orientação">
+                <img src="img/somicone.png" alt="Repetir orientação">
+            </button>
 
-        <!-- Botão Home -->
-
-        <button
-            id="homeBtn"
-            class="botaoImagem home"
-            aria-label="Voltar para o início"
-        >
-
-            <img
-                src="img/home.png"
-                alt="Início"
-            >
-
-        </button>
-
-
-        <!-- Botão de som -->
-
-        <button
-            id="somBtn"
-            class="botaoImagem som"
-            aria-label="Repetir orientação"
-        >
-
-            <img
-                src="img/somicone.png"
-                alt="Repetir orientação"
-            >
-
-        </button>
-
-
-        <!-- Vidas -->
-
-        <div
-            id="vidas"
-            class="vidas"
-            aria-label="3 vidas restantes"
-        >
-
-            <img
-                src="img/vida.png"
-                alt="Vida"
-            >
-
-            <img
-                src="img/vida.png"
-                alt="Vida"
-            >
-
-            <img
-                src="img/vida.png"
-                alt="Vida"
-            >
-
+            <!-- Botão ao lado do som -->
+            <button id="btn-sair-jogo" class="botao-voltar-texto" onclick="window.location.href='/Inicioreal'">
+                ← Voltar ao Início
+            </button>
         </div>
 
-
-        <!-- Imagem da palavra -->
+        <div id="vidas" class="vidas" aria-label="3 vidas restantes">
+            <img src="img/vida.png" alt="Vida">
+            <img src="img/vida.png" alt="Vida">
+            <img src="img/vida.png" alt="Vida">
+        </div>
 
         <div class="areaImagem">
-
-            <img
-                id="imagemPalavra"
-                src="img/gato.png"
-                alt="Gato"
-            >
-
+            <img id="imagemPalavra" src="img/gato.png" alt="Gato">
         </div>
 
-
-        <!-- Palavra incompleta -->
-
-        <div
-            id="palavra"
-            class="palavra"
-            aria-live="polite"
-        >
+        <div id="palavra" class="palavra" aria-live="polite">
             _ATO
         </div>
 
-
-        <!-- Orientação escrita -->
-
-        <p
-            id="orientacao"
-            class="orientacao"
-        >
+        <p id="orientacao" class="orientacao">
             Escolha a letra que completa a palavra.
         </p>
 
+        <div id="opcoes" class="opcoes" role="group" aria-label="Opções de letras"></div>
 
-        <!-- Alternativas -->
-
-        <div
-            id="opcoes"
-            class="opcoes"
-            role="group"
-            aria-label="Opções de letras"
-        >
-        </div>
-
-
-        <!-- Tela de mensagem -->
-
-        <div
-            id="mensagem"
-            class="mensagem"
-        >
-
+        <div id="mensagem" class="mensagem">
             <h2 id="tituloMensagem"></h2>
-
             <p id="textoMensagem"></p>
-
-            <button
-                id="proximoBtn"
-                type="button"
-            >
-                Próxima
-            </button>
-
+            <button id="proximoBtn" type="button">Próxima</button>
         </div>
 
-
+        <!-- Modal Oficial com Troféu -->
+        <div id="modal-fim-jogo" class="modal-fim-overlay" style="display: none;">
+            <div class="fim-card">
+                <div class="trofeu">🏆</div>
+                <h2>Parabéns!</h2>
+                <p>Você completou todas as palavras com sucesso!</p>
+                <div class="fim-acoes">
+                    <button onclick="reiniciarJogoCompleto()" class="btn-fim-repetir">Jogar Novamente</button>
+                    <button onclick="window.location.href='/Inicioreal'" class="btn-fim-sair">Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
     </main>
 
-
     <script src="port3.js"></script>
-
 </body>
-
 </html>

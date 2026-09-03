@@ -3,6 +3,9 @@
     box-sizing: border-box; /* O tamanho inclui bordas e espaçamentos internos */
     margin: 0;              /* Remove margens padrao */
     padding: 0;             /* Remove preenchimentos internos padrao */
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
     user-select: none;      /* Impede a selecao de texto pela crianca */
 }
 

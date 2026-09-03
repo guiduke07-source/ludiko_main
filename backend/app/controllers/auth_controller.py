@@ -64,6 +64,22 @@ class AuthController:
         return jsonify(resposta), 200
 
     @staticmethod
+    def solicitar_codigo_recuperacao():
+        dados = request.get_json() or {}
+        resposta = AuthService.solicitar_codigo_recuperacao(dados)
+        if resposta.get("erro"):
+            return jsonify(resposta), 400
+        return jsonify(resposta), 200
+
+    @staticmethod
+    def redefinir_senha_com_codigo():
+        dados = request.get_json() or {}
+        resposta = AuthService.redefinir_senha_com_codigo(dados)
+        if resposta.get("erro"):
+            return jsonify(resposta), 400
+        return jsonify(resposta), 200
+
+    @staticmethod
     def salvar_tempo_limite():
         usuario_id = get_jwt_identity()
         dados = request.get_json() or {}
@@ -83,7 +99,6 @@ class AuthController:
     @staticmethod
     def fale_conosco():
         usuario_id = None
-        # Verifica o token de forma opcional sem quebrar a requisição se ele não existir
         try:
             verify_jwt_in_request(optional=True)
             usuario_id = get_jwt_identity()

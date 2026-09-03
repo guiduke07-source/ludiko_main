@@ -21,12 +21,13 @@ function Loginp() {
     try {
       const dados = await fazerLogin(email, senha);
 
-      // Limpa dados antigos do localStorage para não persistir entre sessões de janela
+      sessionStorage.clear();
       localStorage.clear();
 
-      // Salva única e exclusivamente na sessão da aba/janela atual
       sessionStorage.setItem('token', dados.token);
       sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
+      sessionStorage.setItem('nome_responsavel', dados.usuario.nome);
+      sessionStorage.setItem('tipo', 'responsavel');
 
       navigate('/Acesso');
     } catch (erroApi) {

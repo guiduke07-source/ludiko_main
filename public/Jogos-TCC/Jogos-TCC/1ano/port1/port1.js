@@ -9,6 +9,7 @@ const mensagem = document.getElementById("mensagem");
 const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
+const modalFim = document.getElementById("modal-fim-jogo");
 
 const palavras = [
     { palavra: "BONECA", imagem: "img/boneca.png", silabas: ["BO", "NE", "CA"] },
@@ -16,7 +17,7 @@ const palavras = [
     { palavra: "MACACO", imagem: "img/macaco.png", silabas: ["MA", "CA", "CO"] },
     { palavra: "MORANGO", imagem: "img/morango.png", silabas: ["MO", "RAN", "GO"] },
     { palavra: "CACHORRO", imagem: "img/cachorro.png", silabas: ["CA", "CHO", "RRO"] },
-    { palavra: "VASSOURA", imagem: "img/vaga.png", silabas: ["VA", "SSOU", "RA"] }
+    { palavra: "VASSOURA", imagem: "img/vassoura.png", silabas: ["VA", "SSOU", "RA"] }
 ];
 
 let palavraAtual = 0;
@@ -38,9 +39,10 @@ function enviarResultadoFinal(materia) {
     const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
     const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
 
-    // Lê a criança ativa da sessão atual
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
-    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+    const criancaId = sessionStorage.getItem('crianca_ativa_id') || usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]);
+
+    if (!criancaId) return;
 
     fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
         method: 'POST',
@@ -202,7 +204,7 @@ function criarSilabas() {
         elemento.dataset.id = item.id;
         elemento.dataset.silaba = item.texto;
         elemento.setAttribute("role", "listitem");
-        elemento.setAttribute("aria-label", `Sí­laba ${item.texto}`);
+        elemento.setAttribute("aria-label", `Sílaba ${item.texto}`);
         elemento.draggable = true;
 
         elemento.addEventListener("click", clicarSilaba);
@@ -331,24 +333,21 @@ function palavraCompleta() {
     const ultimaPalavra = palavraAtual >= palavras.length - 1;
 
     if (ultimaPalavra) {
-        tituloMensagem.textContent = "Parabéns!!";
-        textoMensagem.textContent = "Você concluiu o Trem das Sílabas! Seu resultado foi salvo.";
-        proximoBtn.textContent = "Jogar novamente";
-
         enviarResultadoFinal("Português");
-        proximoBtn.onclick = jogarNovamente;
+        mensagem.classList.remove("ativa");
+        modalFim.style.display = "flex";
     } else {
         tituloMensagem.textContent = "Parabéns!";
         textoMensagem.textContent = `Você formou a palavra ${palavras[palavraAtual].palavra}!`;
         proximoBtn.textContent = "Próxima palavra";
         proximoBtn.onclick = proximaPalavra;
+        mensagem.classList.add("ativa");
+        proximoBtn.focus();
     }
-
-    mensagem.classList.add("ativa");
-    proximoBtn.focus();
 }
 
 function jogarNovamente() {
+    modalFim.style.display = "none";
     mensagem.classList.remove("ativa");
     palavraAtual = 0;
     vidas = 3;
@@ -364,7 +363,6 @@ function jogarNovamente() {
 function proximaPalavra() {
     mensagem.classList.remove("ativa");
     palavraAtual++;
-    if (palavraAtual >= palavras.length) palavraAtual = 0;
     vidas = 3;
     silabaSelecionada = null;
     carregarPalavra();

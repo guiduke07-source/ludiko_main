@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  box-sizing: border-box;
   font-family: 'Baloo 2', Roboto, sans-serif;
 }
 
@@ -18,6 +19,7 @@
   padding: 30px 24px;
   position: relative;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .senha-voltar-btn {
@@ -32,10 +34,12 @@
   color: #17656e;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: inherit;
 }
 
 .senha-voltar-btn:hover {
   background: #d9f0f5;
+  color: #f7931e;
 }
 
 .senha-badge-icon {
@@ -54,6 +58,7 @@
   font-size: 13px;
   color: #648a90;
   margin-bottom: 20px;
+  line-height: 1.4;
 }
 
 .senha-form {
@@ -87,6 +92,7 @@
 
 .campo-grupo input:focus {
   border-color: #17656e;
+  background: #ffffff;
 }
 
 .senha-feedback {
@@ -95,6 +101,7 @@
   font-size: 13px;
   font-weight: 700;
   text-align: center;
+  margin-bottom: 4px;
 }
 
 .senha-feedback.sucesso {
@@ -119,11 +126,17 @@
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
   transition: all 0.2s;
+  font-family: inherit;
 }
 
-.senha-salvar-btn:hover {
+.senha-salvar-btn:hover:not(:disabled) {
   background: #e8830b;
   transform: translateY(-1px);
+}
+
+.senha-salvar-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .input-com-icone {
@@ -150,7 +163,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: -6px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .esqueceu-link-btn {
@@ -161,6 +174,12 @@
   font-weight: 700;
   cursor: pointer;
   text-decoration: underline;
+  padding: 0;
+  font-family: inherit;
+}
+
+.esqueceu-link-btn:hover {
+  color: #f7931e;
 }
 
 .voltar-alterar-btn {
@@ -171,4 +190,10 @@
   font-weight: 700;
   margin-top: 10px;
   cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+}
+
+.voltar-alterar-btn:hover {
+  color: #17656e;
 }

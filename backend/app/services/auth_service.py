@@ -6,6 +6,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
+import random
 
 from app.database.mongodb import db
 from app.utils.hash import gerar_hash, verificar_senha
@@ -295,6 +296,98 @@ class AuthService:
         return {"erro": False, "mensagem": "Senha alterada com sucesso!"}
 
     @staticmethod
+    def solicitar_codigo_recuperacao(dados):
+        email = dados.get("email", "").strip().lower()
+        if not email:
+            return {"erro": True, "mensagem": "Informe o seu e-mail cadastrado."}
+
+        usuario = db.responsaveis.find_one({"email": email})
+        if not usuario:
+            return {"erro": True, "mensagem": "Nenhuma conta de responsável encontrada com este e-mail."}
+
+        codigo = f"{random.randint(100000, 999999)}"
+
+        db.responsaveis.update_one(
+            {"_id": usuario["_id"]},
+            {"$set": {
+                "codigo_recuperacao": codigo,
+                "codigo_expira_em": datetime.now(timezone.utc) + timedelta(minutes=15)
+            }}
+        )
+
+        EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE", "gsantosmaria07@gmail.com")
+        SENHA_APP = os.getenv("EMAIL_SENHA_APP", "dtjgcplrvdojidnq")
+
+        try:
+            corpo_email = f"""
+Olá, {usuario.get('nome', 'Responsável')}!
+
+Recebemos uma solicitação para redefinir a senha da sua conta no Ludiko.
+
+Seu código de confirmação de 6 dígitos é:
+------------------------
+{codigo}
+------------------------
+
+Este código expira em 15 minutos. Caso você não tenha solicitado esta alteração, desconsidere este e-mail.
+"""
+            msg = MIMEMultipart()
+            msg["From"] = EMAIL_REMETENTE
+            msg["To"] = email
+            msg["Subject"] = f"[Ludiko] Código de Confirmação: {codigo}"
+            msg.attach(MIMEText(corpo_email, "plain", "utf-8"))
+
+            with smtplib.SMTP("smtp.gmail.com", 587) as servidor:
+                servidor.starttls()
+                servidor.login(EMAIL_REMETENTE, SENHA_APP)
+                servidor.send_message(msg)
+
+        except Exception as e:
+            print(f"Erro ao enviar código SMTP: {str(e)}")
+            return {"erro": True, "mensagem": "Erro ao despachar o e-mail de recuperação."}
+
+        return {"erro": False, "mensagem": "Código enviado! Verifique seu e-mail."}
+
+    @staticmethod
+    def redefinir_senha_com_codigo(dados):
+        email = dados.get("email", "").strip().lower()
+        codigo = str(dados.get("codigo", "")).strip()
+        nova_senha = dados.get("nova_senha", "")
+
+        if not email or not codigo or not nova_senha:
+            return {"erro": True, "mensagem": "Preencha o e-mail, código e a nova senha."}
+
+        if len(nova_senha) < 6:
+            return {"erro": True, "mensagem": "A nova senha deve ter no mínimo 6 caracteres."}
+
+        usuario = db.responsaveis.find_one({"email": email})
+        if not usuario:
+            return {"erro": True, "mensagem": "Usuário não encontrado."}
+
+        codigo_salvo = usuario.get("codigo_recuperacao")
+        expira_em = usuario.get("codigo_expira_em")
+
+        if not codigo_salvo or str(codigo_salvo) != codigo:
+            return {"erro": True, "mensagem": "Código de confirmação incorreto."}
+
+        if expira_em:
+            if expira_em.tzinfo is None:
+                expira_em = expira_em.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) > expira_em:
+                return {"erro": True, "mensagem": "Este código expirou. Solicite um novo."}
+
+        novo_hash = gerar_hash(nova_senha)
+        db.responsaveis.update_one(
+            {"_id": usuario["_id"]},
+            {
+                "$set": {"senha_hash": novo_hash, "updatedAt": datetime.now(timezone.utc)},
+                "$unset": {"codigo_recuperacao": "", "codigo_expira_em": ""}
+            }
+        )
+
+        return {"erro": False, "mensagem": "Senha redefinida com sucesso! Faça login com a nova senha."}
+
+    @staticmethod
     def salvar_tempo_limite(responsavel_id, dados):
         minutos = dados.get("minutos")
         if minutos is None or not isinstance(minutos, int) or minutos < 0:
@@ -366,7 +459,7 @@ class AuthService:
 
         EMAIL_DESTINO = os.getenv("EMAIL_SUPORTE", "gsantosmaria07@gmail.com")
         EMAIL_REMETENTE = os.getenv("EMAIL_REMETENTE", "gsantosmaria07@gmail.com")
-        SENHA_APP = os.getenv("EMAIL_SENHA_APP", "cydcognvuuytrtes")
+        SENHA_APP = os.getenv("EMAIL_SENHA_APP", "dtjgcplrvdojidnq")
 
         try:
             corpo_email = f"""

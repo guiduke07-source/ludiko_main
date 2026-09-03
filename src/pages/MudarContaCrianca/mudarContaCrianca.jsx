@@ -18,7 +18,7 @@ export default function MudarConta() {
 
       try {
         const res = await fetch('http://127.0.0.1:5000/api/auth/minhas-criancas', {
-          headers: { Authorization: `Bearer ${token}` }
+          headers: { Authorization: `Bearer ${token}` },
         });
         const dados = await res.json();
         if (!res.ok || dados.erro) throw new Error(dados.mensagem);
@@ -34,16 +34,18 @@ export default function MudarConta() {
   }, [navigate]);
 
   function selecionarCrianca(crianca) {
-    // Configura a sessão ativa com os dados da criança selecionada
     const usuarioAtualizado = {
       id: crianca.id,
       nome: crianca.nome,
       cpf: crianca.cpf,
-      tipo: 'crianca'
+      tipo: 'crianca',
     };
 
     sessionStorage.setItem('usuario', JSON.stringify(usuarioAtualizado));
+    sessionStorage.setItem('nome_crianca', crianca.nome);
     sessionStorage.setItem('crianca_ativa_id', crianca.id);
+    sessionStorage.setItem('tipo', 'crianca');
+
     navigate('/Inicioreal');
   }
 
@@ -74,7 +76,7 @@ export default function MudarConta() {
               <span className="avatar">🧒</span>
               <div className="info">
                 <strong>{c.nome}</strong>
-                <span>{c.ano_escolar}</span>
+                <span>{c.ano_escolar || '1º ano'}</span>
               </div>
               <span className="seta">›</span>
             </button>

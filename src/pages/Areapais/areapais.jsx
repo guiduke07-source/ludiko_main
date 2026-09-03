@@ -54,7 +54,6 @@ function Areapais() {
 
       if (dados.usuario) {
         sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
-        sessionStorage.setItem('nome_usuario', dados.usuario.nome);
         sessionStorage.setItem('nome_responsavel', dados.usuario.nome);
         sessionStorage.setItem('tipo', 'responsavel');
       }

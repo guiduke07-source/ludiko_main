@@ -17,8 +17,12 @@ export default function TempoLimite() {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+    // Busca prioritária no sessionStorage com fallback para localStorage
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+    if (!token) {
+      navigate('/Login-Pais');
+      return;
+    }
 
     fetch('http://127.0.0.1:5000/api/auth/tempo-limite', {
       headers: { Authorization: `Bearer ${token}` }
@@ -27,13 +31,21 @@ export default function TempoLimite() {
       .then((dados) => {
         if (!dados.erro && dados.minutos !== undefined) {
           setMinutos(dados.minutos);
+          // Atualiza a sessão ativa em segundos
+          const segs = dados.minutos === 0 ? Infinity : dados.minutos * 60;
+          sessionStorage.setItem('limite_tempo_segundos', segs);
         }
       })
       .catch((err) => console.error('Erro ao carregar limite:', err));
-  }, []);
+  }, [navigate]);
 
   const salvar = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+    if (!token) {
+      navigate('/Login-Pais');
+      return;
+    }
+
     setCarregando(true);
     setMensagem({ tipo: '', texto: '' });
 
@@ -52,6 +64,10 @@ export default function TempoLimite() {
       if (!resp.ok || dados.erro) {
         throw new Error(dados.mensagem || 'Erro ao salvar tempo.');
       }
+
+      // Atualiza o limite em segundos na sessão na hora
+      const segs = Number(minutos) === 0 ? Infinity : Number(minutos) * 60;
+      sessionStorage.setItem('limite_tempo_segundos', segs);
 
       setMensagem({ tipo: 'sucesso', texto: 'Tempo limite atualizado com sucesso!' });
       setTimeout(() => navigate('/Configpais'), 1200);

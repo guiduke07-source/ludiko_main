@@ -22,17 +22,11 @@ body {
 
 .jogo {
     position: relative;
-
     width: 100vw;
-    height: 100vh;
     height: 100dvh;
-
     min-height: 550px;
-
     overflow: hidden;
-
     background-image: url("img/fundobase.jpeg");
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -43,15 +37,11 @@ body {
 
 .topo {
     position: absolute;
-
     top: 18px;
     left: 25px;
-
     display: flex;
     align-items: center;
-
     gap: 20px;
-
     z-index: 50;
 }
 
@@ -61,17 +51,11 @@ body {
 .botao-icone {
     width: 105px;
     height: 105px;
-
     border: none;
-
     background: transparent;
-
     padding: 4px;
-
     cursor: pointer;
-
     border-radius: 25px;
-
     transition:
         transform 0.2s ease,
         background-color 0.2s ease;
@@ -79,16 +63,13 @@ body {
 
 .botao-icone img {
     width: 105px;
-    height:105px;
-
+    height: 105px;
     object-fit: contain;
-
     display: block;
 }
 
 .botao-icone:hover {
     transform: scale(1.08);
-
     background-color: rgba(255, 255, 255, 0.4);
 }
 
@@ -106,24 +87,18 @@ body {
 
 .vidas {
     position: absolute;
-
     top: 20px;
     right: 28px;
-
     display: flex;
     align-items: center;
-
     gap: 8px;
-
     z-index: 50;
 }
 
 .vidas img {
     width: 105px;
     height: 105px;
-
     object-fit: contain;
-
     transition:
         opacity 0.3s ease,
         transform 0.3s ease;
@@ -134,7 +109,6 @@ body {
 
 .vidas img.perdida {
     opacity: 0.22;
-
     filter: grayscale(100%);
 }
 
@@ -144,18 +118,12 @@ body {
 .conteudo {
     width: 100%;
     height: 100%;
-
     padding-top: 145px;
     padding-bottom: 15px;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     justify-content: center;
-
     overflow: hidden;
 }
 
@@ -163,31 +131,25 @@ body {
 /* Imagem do objeto */
 
 .imagem-palavra {
- 
     width: min(850px, 30vh);
     height: min(850px, 30vh);
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
-
     margin-top: 5px;
     margin-bottom: 0;
-
     z-index: 5;
 }
 
 .imagem-palavra img {
     width: 100%;
     height: 100%;
-
     object-fit: contain;
-
     display: block;
-
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
     user-select: none;
 }
 
@@ -196,15 +158,10 @@ body {
 
 .area-trem {
     position: relative;
-
     width: min(1050px, 92vw);
-
     height: 205px;
-
     flex-shrink: 0;
-
     display: flex;
-
     align-items: center;
 }
 
@@ -213,22 +170,17 @@ body {
 
 .imagem-trem {
     position: absolute;
-
     left: 0;
-
     bottom: 8px;
-
     width: 350px;
     height: 190px;
-
     object-fit: contain;
-
     object-position: left center;
-
     z-index: 5;
-
     pointer-events: none;
-
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
     user-select: none;
 }
 
@@ -237,19 +189,13 @@ body {
 
 .vagoes {
     position: absolute;
-
     left: 250px;
     right: 0;
-
     bottom: 28px;
-
     display: flex;
-
     align-items: center;
     justify-content: flex-start;
-
     gap: 12px;
-
     z-index: 10;
 }
 
@@ -258,27 +204,17 @@ body {
 
 .vagao {
     position: relative;
-
     width: 200px;
     height: 115px;
-
     flex: 0 0 200px;
-
     border: none;
-
     border-radius: 5px;
-
     background: #65bbaa;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
-
-    color: #222;
-
+    color: #222222;
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -290,17 +226,12 @@ body {
 
 .vagao::before {
     content: "";
-
     position: absolute;
-
     top: -8px;
     left: 0;
-
     width: 100%;
     height: 14px;
-
     border-radius: 4px;
-
     background: #c59bbd;
 }
 
@@ -309,30 +240,24 @@ body {
 
 .vagao::after {
     content: "";
-
     position: absolute;
-
     left: 18px;
     right: 18px;
-
     bottom: -16px;
-
     height: 22px;
-
     background:
         radial-gradient(
             circle at 20% 50%,
-            #555 0,
-            #555 8px,
+            #555555 0px,
+            #555555 8px,
             transparent 9px
         ),
         radial-gradient(
             circle at 80% 50%,
-            #555 0,
-            #555 8px,
+            #555555 0px,
+            #555555 8px,
             transparent 9px
         );
-
     pointer-events: none;
 }
 
@@ -348,7 +273,6 @@ body {
 
 .vagao:focus-visible {
     outline: 5px solid #2563eb;
-
     outline-offset: 5px;
 }
 
@@ -357,7 +281,6 @@ body {
 
 .vagao.destacado {
     transform: scale(1.04);
-
     box-shadow:
         0 0 0 5px #ffe45c,
         0 0 20px rgba(255, 214, 0, 0.8);
@@ -375,23 +298,14 @@ body {
 
 .vagao .silaba {
     background: transparent;
-
     border: none;
-
     box-shadow: none;
-
     padding: 0;
-
     min-width: auto;
-
-    color: #222;
-
+    color: #222222;
     font-size: clamp(28px, 3.5vw, 42px);
-
     font-weight: 800;
-
     cursor: default;
-
     pointer-events: none;
 }
 
@@ -400,11 +314,8 @@ body {
 
 .area-silabas {
     width: min(900px, 90vw);
-
     flex-shrink: 0;
-
     text-align: center;
-
     margin-top: 5px;
 }
 
@@ -413,11 +324,8 @@ body {
 
 .instrucao {
     margin-bottom: 10px;
-
     font-size: clamp(18px, 2.2vw, 25px);
-
     font-weight: bold;
-
     line-height: 1.2;
 }
 
@@ -426,12 +334,9 @@ body {
 
 .silabas {
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     flex-wrap: wrap;
-
     gap: 12px;
 }
 
@@ -440,34 +345,22 @@ body {
 
 .silaba {
     min-width: 100px;
-
     padding: 12px 18px;
-
-    border: 4px solid white;
-
+    border: 4px solid #ffffff;
     border-radius: 17px;
-
     background: #f276a2;
-
-    color: white;
-
-    box-shadow:
-        0 5px 10px rgba(0, 0, 0, 0.2);
-
+    color: #ffffff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     font-size: clamp(23px, 2.8vw, 32px);
-
     font-weight: 800;
-
     line-height: 1;
-
     text-align: center;
-
     cursor: grab;
-
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
     user-select: none;
-
     touch-action: manipulation;
-
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -479,9 +372,7 @@ body {
 
 .silaba:hover {
     transform: translateY(-4px) scale(1.04);
-
-    box-shadow:
-        0 8px 14px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -489,7 +380,6 @@ body {
 
 .silaba:focus-visible {
     outline: 5px solid #2563eb;
-
     outline-offset: 4px;
 }
 
@@ -498,7 +388,6 @@ body {
 
 .silaba.selecionada {
     transform: scale(1.08);
-
     box-shadow:
         0 0 0 5px #ffe45c,
         0 6px 12px rgba(0, 0, 0, 0.25);
@@ -509,7 +398,6 @@ body {
 
 .silaba.usada {
     opacity: 0.22;
-
     pointer-events: none;
 }
 
@@ -517,23 +405,18 @@ body {
 /* Animação de erro */
 
 @keyframes tremer {
-
     0% {
         transform: translateX(0);
     }
-
     25% {
         transform: translateX(-7px);
     }
-
     50% {
         transform: translateX(7px);
     }
-
     75% {
         transform: translateX(-7px);
     }
-
     100% {
         transform: translateX(0);
     }
@@ -551,18 +434,12 @@ body {
 
 .mensagem {
     position: fixed;
-
     inset: 0;
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     background: rgba(0, 0, 0, 0.5);
-
     z-index: 100;
 }
 
@@ -578,17 +455,11 @@ body {
 
 .caixa-mensagem {
     width: min(500px, 90vw);
-
     padding: 35px 25px;
-
-    background: white;
-
+    background: #ffffff;
     border-radius: 30px;
-
     text-align: center;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -596,9 +467,7 @@ body {
 
 .caixa-mensagem h2 {
     margin-bottom: 15px;
-
     font-size: clamp(32px, 6vw, 48px);
-
     color: #000000;
 }
 
@@ -607,9 +476,7 @@ body {
 
 .caixa-mensagem p {
     margin-bottom: 25px;
-
     font-size: clamp(19px, 4vw, 27px);
-
     line-height: 1.4;
 }
 
@@ -618,23 +485,17 @@ body {
 
 .caixa-mensagem button {
     padding: 14px 28px;
-
     border: none;
-
     border-radius: 16px;
-
     background: #bbdbe8;
-
-    color: white;
-
+    color: #ffffff;
     font-size: 20px;
-
     font-weight: bold;
-
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-.caixa-mensagem button :hover{
+.caixa-mensagem button:hover {
     background: #6398b6;
 }
 
@@ -643,7 +504,6 @@ body {
 
 .caixa-mensagem button:focus-visible {
     outline: 5px solid #2563eb;
-
     outline-offset: 5px;
 }
 
@@ -651,7 +511,6 @@ body {
 /* Ajustes para tablets */
 
 @media (max-width: 1000px) {
-
     .botao-icone {
         width: 85px;
         height: 85px;
@@ -690,7 +549,6 @@ body {
     .vagao {
         width: 160px;
         height: 95px;
-
         flex-basis: 160px;
     }
 }
@@ -699,7 +557,6 @@ body {
 /* Ajustes para celulares */
 
 @media (max-width: 700px) {
-
     .topo {
         top: 8px;
         left: 8px;
@@ -729,7 +586,6 @@ body {
     .imagem-palavra {
         width: 165px;
         height: 165px;
-
         margin-bottom: 0;
     }
 
@@ -741,22 +597,18 @@ body {
     .imagem-trem {
         width: 220px;
         height: 130px;
-
         bottom: 5px;
     }
 
     .vagoes {
         left: 195px;
-
         gap: 7px;
-
         bottom: 21px;
     }
 
     .vagao {
         width: 75px;
         height: 55px;
-
         flex-basis: 75px;
     }
 
@@ -791,13 +643,9 @@ body {
 
     .silaba {
         min-width: 62px;
-
         padding: 8px 11px;
-
         border-width: 3px;
-
         border-radius: 13px;
-
         font-size: 19px;
     }
 }
@@ -806,7 +654,6 @@ body {
 /* Ajustes para celulares pequenos */
 
 @media (max-width: 450px) {
-
     .botao-icone {
         width: 56px;
         height: 56px;
@@ -844,7 +691,6 @@ body {
     .vagao {
         width: 63px;
         height: 45px;
-
         flex-basis: 63px;
     }
 
@@ -868,12 +714,125 @@ body {
 /* Reduz animações para acessibilidade */
 
 @media (prefers-reduced-motion: reduce) {
-
     * {
         animation-duration: 0.01ms !important;
-
         animation-iteration-count: 1 !important;
-
         transition-duration: 0.01ms !important;
     }
+}
+
+
+/* Botão integrado na barra superior */
+
+.botao-voltar-texto {
+    background-color: #ffffff;
+    color: #17656e;
+    border: 2px solid #bce4ec;
+    border-radius: 18px;
+    padding: 10px 20px;
+    font-family: 'Baloo 2', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    align-self: center;
+}
+
+.botao-voltar-texto:hover {
+    background-color: #edf7fa;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+
+/* Modal de Conclusão com Troféu */
+
+.modal-fim-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    font-family: 'Baloo 2', Arial, sans-serif;
+}
+
+.fim-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 36px 30px;
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+    animation: zoomModal 0.25s ease-out;
+}
+
+@keyframes zoomModal {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.trofeu {
+    font-size: 55px;
+    margin-bottom: 8px;
+}
+
+.fim-card h2 {
+    color: #17656e;
+    font-size: 26px;
+    margin: 0 0 8px 0;
+    font-weight: 800;
+}
+
+.fim-card p {
+    color: #64748b;
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+.fim-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-fim-repetir {
+    background-color: #f7931e;
+    color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    padding: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(247, 147, 30, 0.3);
+}
+
+.btn-fim-repetir:hover {
+    background-color: #e8830b;
+}
+
+.btn-fim-sair {
+    background-color: #a3cae4;
+    color: #173d47;
+    border: none;
+    border-radius: 16px;
+    padding: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-fim-sair:hover {
+    background-color: #8dbcd6;
 }

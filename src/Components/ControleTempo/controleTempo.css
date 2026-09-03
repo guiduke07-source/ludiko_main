@@ -1,0 +1,122 @@
+.tempo-bloqueio-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(15, 23, 42, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Baloo 2', sans-serif;
+}
+
+.tempo-bloqueio-card {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 36px 30px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bloqueio-icone {
+  font-size: 50px;
+  margin-bottom: 8px;
+}
+
+.tempo-bloqueio-card h2 {
+  font-size: 24px;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+  font-weight: 800;
+}
+
+.tempo-bloqueio-card p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 6px 0;
+}
+
+.instrucao-aviso {
+  font-size: 13px;
+  font-weight: 700;
+  color: #17656e;
+  margin-bottom: 20px;
+}
+
+.bloqueio-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bloqueio-form input {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  letter-spacing: 8px;
+  font-size: 24px;
+  padding: 12px;
+  border: 2px solid #cfe2f3;
+  border-radius: 14px;
+  background-color: #f8fafc;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.bloqueio-form input:focus {
+  border-color: #17656e;
+  background-color: #ffffff;
+}
+
+.bloqueio-erro {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-liberar {
+  width: 100%;
+  background-color: #a3cae4;
+  color: #173d47;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s;
+}
+
+.btn-liberar:hover:not(:disabled) {
+  background-color: #8bbcdb;
+}
+
+.btn-ir-pais {
+  background: transparent;
+  border: none;
+  color: #648a90;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 14px;
+  text-decoration: underline;
+  font-family: inherit;
+}

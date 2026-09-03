@@ -8,17 +8,89 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        .botao-voltar-texto {
+            background-color: #ffffff;
+            color: #17656e;
+            border: 2px solid #bce4ec;
+            border-radius: 18px;
+            padding: 8px 18px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            align-self: center;
+        }
+        .botao-voltar-texto:hover {
+            background-color: #edf7fa;
+            transform: translateY(-2px);
+        }
+        .modal-fim-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            font-family: 'Fredoka', sans-serif;
+        }
+        .fim-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 36px 30px;
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+            animation: zoomModal 0.25s ease-out;
+        }
+        @keyframes zoomModal {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .trofeu { font-size: 55px; margin-bottom: 8px; }
+        .fim-card h2 { color: #17656e; font-size: 26px; margin: 0 0 8px 0; }
+        .fim-card p { color: #64748b; font-size: 15px; margin-bottom: 24px; }
+        .fim-acoes { display: flex; flex-direction: column; gap: 12px; }
+        .btn-fim-repetir {
+            background-color: #f7931e;
+            color: #ffffff;
+            border: none;
+            border-radius: 16px;
+            padding: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-fim-sair {
+            background-color: #a3cae4;
+            color: #173d47;
+            border: none;
+            border-radius: 16px;
+            padding: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-
     <div id="game-container">
         <header class="topo-controles">
-            <div class="botoes-esquerda">
+            <div class="botoes-esquerda" style="display: flex; align-items: center; gap: 14px;">
                 <button id="homeBtn" class="btn-icone" aria-label="Ir para a Home">
                     <img src="img/home.png" alt="Home">
                 </button>
                 <button id="somBtn" class="btn-icone" aria-label="Ouvir instrução">
                     <img src="img/somicone.png" alt="Som">
+                </button>
+                <!-- Botão ao lado do som -->
+                <button id="btn-sair-jogo" class="botao-voltar-texto" onclick="window.location.href='/Inicioreal'">
+                    ← Voltar ao Início
                 </button>
             </div>
 
@@ -40,6 +112,19 @@
                 <h2 id="tituloMensagem">Parabéns!</h2>
                 <p id="textoMensagem">Você encontrou a letra correta!</p>
                 <button id="proximoBtn" class="btn-acao">Próxima Letra</button>
+            </div>
+        </div>
+
+        <!-- Modal Oficial com Troféu -->
+        <div id="modal-fim-jogo" class="modal-fim-overlay" style="display: none;">
+            <div class="fim-card">
+                <div class="trofeu">🏆</div>
+                <h2>Parabéns!</h2>
+                <p>Você encontrou todas as letras do Fundo do Mar!</p>
+                <div class="fim-acoes">
+                    <button onclick="reiniciarJogoCompleto()" class="btn-fim-repetir">Jogar Novamente</button>
+                    <button onclick="window.location.href='/Inicioreal'" class="btn-fim-sair">Voltar ao Início</button>
+                </div>
             </div>
         </div>
     </div>

@@ -11,14 +11,30 @@ import { buscarDadosDashboard } from '../../services/dashboardApi';
 const Configpais = () => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [nomeResponsavel, setNomeResponsavel] = useState('Responsável');
   const [frequencia, setFrequencia] = useState([]);
   const [progresso, setProgresso] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
 
   useEffect(() => {
+    const nomeSalvo = sessionStorage.getItem('nome_responsavel');
+    if (nomeSalvo) {
+      setNomeResponsavel(nomeSalvo);
+    } else {
+      const usuarioSalvo = sessionStorage.getItem('usuario');
+      if (usuarioSalvo) {
+        try {
+          const u = JSON.parse(usuarioSalvo);
+          if (u.nome) setNomeResponsavel(u.nome);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+
     async function carregarDashboard() {
-      const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       if (!token) {
         navigate('/Login-Pais');
         return;
@@ -31,7 +47,6 @@ const Configpais = () => {
       } catch (erroApi) {
         if (erroApi.message && erroApi.message.includes('401')) {
           sessionStorage.clear();
-          localStorage.clear();
           navigate('/Login-Pais');
           return;
         }
@@ -57,7 +72,7 @@ const Configpais = () => {
           marginBottom: '40px',
         }}
       >
-        <Headerpais onMenuClick={() => setShowPopup(true)} />
+        <Headerpais onMenuClick={() => setShowPopup(true)} nomeResponsavel={nomeResponsavel} />
       </div>
 
       {showPopup && <Popuppais onClose={() => setShowPopup(false)} />}

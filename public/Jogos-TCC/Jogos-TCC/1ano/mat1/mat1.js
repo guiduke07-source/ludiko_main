@@ -11,6 +11,7 @@ const mensagem = document.getElementById("mensagem");
 const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
+const modalFim = document.getElementById("modal-fim-jogo");
 
 const frutasDisponiveis = [
     { nome: "maçã", plural: "maçãs", img: "img/maca.png" },
@@ -48,9 +49,10 @@ function enviarResultadoFinal(materia) {
     const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
     const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
 
-    // Lê a criança ativa da sessão atual
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
-    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+    const criancaId = sessionStorage.getItem('crianca_ativa_id') || usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]);
+
+    if (!criancaId) return;
 
     fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
         method: 'POST',
@@ -312,30 +314,20 @@ btnConfirmar.addEventListener("click", () => {
         somAcerto();
         somVitoria();
 
-        tituloMensagem.textContent = "Parabéns!";
-        textoMensagem.textContent = "Você colocou a quantidade exata de frutas!";
-
         const ultimaFase = desafioAtual >= desafios.length - 1;
-        proximoBtn.textContent = ultimaFase ? "Jogar Novamente" : "Próximo Desafio";
 
         if (ultimaFase) {
             enviarResultadoFinal("Matemática");
-            proximoBtn.onclick = () => {
-                desafioAtual = 0;
-                vidas = 3;
-                acertosPartida = 0;
-                errosPartida = 0;
-                inicioPartida = Date.now();
-                partidaFinalizada = false;
-                mensagem.classList.remove("ativa");
-                carregarDesafio();
-            };
+            mensagem.classList.remove("ativa");
+            if (modalFim) modalFim.style.display = "flex";
         } else {
+            tituloMensagem.textContent = "Parabéns!";
+            textoMensagem.textContent = "Você colocou a quantidade exata de frutas!";
+            proximoBtn.textContent = "Próximo Desafio";
             proximoBtn.onclick = proximoDesafio;
+            mensagem.classList.add("ativa");
+            proximoBtn.focus();
         }
-
-        mensagem.classList.add("ativa");
-        proximoBtn.focus();
     } else {
         errosPartida++;
         somErro();
@@ -362,7 +354,7 @@ function gameOver() {
 
 function proximoDesafio() {
     mensagem.classList.remove("ativa");
-    desafioAtual = (desafioAtual + 1) % desafios.length;
+    desafioAtual++;
     vidas = 3;
     carregarDesafio();
 }
@@ -370,6 +362,18 @@ function proximoDesafio() {
 function reiniciarDesafio() {
     mensagem.classList.remove("ativa");
     vidas = 3;
+    carregarDesafio();
+}
+
+function reiniciarJogoCompleto() {
+    if (modalFim) modalFim.style.display = "none";
+    desafioAtual = 0;
+    vidas = 3;
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    mensagem.classList.remove("ativa");
     carregarDesafio();
 }
 

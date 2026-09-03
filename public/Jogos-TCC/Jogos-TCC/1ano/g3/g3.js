@@ -1,3 +1,5 @@
+let reiniciarJogoCompleto;
+
 document.addEventListener('DOMContentLoaded', () => {
 
   const listaAnimais = [
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalTitulo = document.getElementById('modal-titulo');
   const modalMensagem = document.getElementById('modal-mensagem');
   const btnReiniciar = document.getElementById('btn-reiniciar');
+  const modalFim = document.getElementById('modal-fim-jogo');
 
   function enviarResultadoFinal(materia) {
     if (partidaFinalizada) return;
@@ -39,24 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
     const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
 
-    // Lê a criança ativa da sessão atual
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
-    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+    const criancaId = sessionStorage.getItem('crianca_ativa_id') || usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]);
+
+    if (!criancaId) return;
 
     fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify({
-            categoria: materia,
-            minutos: minutosReais,
-            acertos: acertosPartida,
-            erros: errosPartida
-        })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        categoria: materia,
+        minutos: minutosReais,
+        acertos: acertosPartida,
+        erros: errosPartida
+      })
     })
     .then(res => res.json())
     .then(dados => console.log('Resultado registrado no painel:', dados))
     .catch(err => console.error('Erro ao enviar pontos:', err));
-}
+  }
 
   function iniciarAudio() {
     if (!audioContext) {
@@ -194,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
       osc.frequency.setValueAtTime(300, agora);
       osc.frequency.linearRampToValueAtTime(500, agora + 0.2);
       gain.gain.setValueAtTime(0.2, agora);
-      gain.gain.exponentialRampToValueAtTime(0.01, aluno => 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.01, agora + 0.3);
       osc.start(agora);
       osc.stop(agora + 0.3);
     }
@@ -223,7 +227,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function proximaRodada() {
     if (filaRodadas.length === 0) {
       enviarResultadoFinal("Ciências");
-      exibirModal('Parabéns!', 'Você acertou todos os sons dos animais!');
+      modal.classList.remove('ativa');
+      if (modalFim) modalFim.style.display = 'flex';
       return;
     }
 
@@ -301,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnHome.addEventListener('click', () => {
     window.location.href = "/Inicioreal";
   });
+
   btnReiniciar.addEventListener('click', () => {
     acertosPartida = 0;
     errosPartida = 0;
@@ -308,6 +314,17 @@ document.addEventListener('DOMContentLoaded', () => {
     partidaFinalizada = false;
     iniciarJogo();
   });
+
+  reiniciarJogoCompleto = function() {
+    if (modalFim) modalFim.style.display = 'none';
+    vidas = 3;
+    atualizarVidas();
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    iniciarJogo();
+  };
 
   iniciarJogo();
 });

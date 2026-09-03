@@ -6,6 +6,9 @@
     padding: 0;
 
     /* Impede selecionar os elementos com o mouse */
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
     user-select: none;
 }
 

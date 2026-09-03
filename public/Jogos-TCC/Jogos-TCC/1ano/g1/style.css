@@ -2,7 +2,10 @@
 * {
     box-sizing: border-box; /* O tamanho inclui bordas e espaçamentos internos */
     margin: 0;              /* Remove margens padrao */
-    padding: 0;             /* Remove preenchimentos internos padrao */
+    padding: 0;    
+    -webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;         /* Remove preenchimentos internos padrao */
     user-select: none;      /* Impede a selecao de texto pela crianca */
 }
 

@@ -1,133 +1,497 @@
-.contato-page-wrapper {
+/* =========================================
+   FALE CONOSCO - PÁGINA
+   ========================================= */
+
+.fale-page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  font-family: 'Baloo 2', Roboto, sans-serif;
-}
-
-.contato-card {
-  background: #ffffff;
-  border: 3px solid #bce4ec;
-  border-radius: 28px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 440px;
-  padding: 30px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px 20px;
+  box-sizing: border-box;
+
+  font-family: 'Baloo 2', Roboto, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 10% 15%,
+      rgba(255, 255, 255, 0.8),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 85%,
+      rgba(255, 255, 255, 0.6),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #e8f9fc 0%,
+      #d8f2f7 50%,
+      #c9eaf2 100%
+    );
+}
+
+
+/* =========================================
+   CARD
+   ========================================= */
+
+.fale-card {
   position: relative;
-  text-align: center;
+
+  width: 100%;
+  max-width: 480px;
+
+  padding: 42px 32px 32px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 2px solid #bce4ec;
+  border-radius: 30px;
+
+  box-shadow:
+    0 20px 50px rgba(23, 101, 110, 0.12),
+    0 5px 15px rgba(0, 0, 0, 0.05);
+
+  animation: faleCardEntrada 0.45s ease-out;
 }
 
-.contato-voltar-btn {
+
+/* =========================================
+   BOTÃO VOLTAR
+   ========================================= */
+
+.fale-voltar-btn {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  background: #edf7fa;
-  border: none;
-  padding: 6px 14px;
+
+  top: 18px;
+  left: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 7px 13px;
+
+  border: 1px solid #d3edf2;
   border-radius: 12px;
-  font-weight: 700;
+
+  background: #edf8fa;
   color: #17656e;
-  cursor: pointer;
-  transition: all 0.2s;
-}
 
-.contato-voltar-btn:hover {
-  background: #d9f0f5;
-}
-
-.contato-badge-icon {
-  font-size: 40px;
-  margin-top: 10px;
-}
-
-.contato-header h2 {
-  font-size: 22px;
-  color: #0c4a54;
-  margin: 6px 0;
-  font-weight: 800;
-}
-
-.contato-header p {
+  font-family: inherit;
   font-size: 13px;
-  color: #648a90;
-  margin-bottom: 20px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.contato-form {
+.fale-voltar-btn:hover {
+  background: #d9f0f5;
+
+  transform: translateX(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(23, 101, 110, 0.12);
+}
+
+.fale-voltar-btn:active {
+  transform: translateX(0);
+}
+
+
+/* =========================================
+   CABEÇALHO
+   ========================================= */
+
+.fale-header {
+  text-align: center;
+
+  margin-bottom: 25px;
+}
+
+.fale-badge-icon {
+  width: 68px;
+  height: 68px;
+
+  margin: 10px auto 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    #e4f8fb,
+    #ccecf2
+  );
+
+  border: 2px solid #bce4ec;
+  border-radius: 20px;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 8px 18px rgba(23, 101, 110, 0.08);
+}
+
+.fale-header h2 {
+  margin: 5px 0 7px;
+
+  color: #0c4a54;
+
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  letter-spacing: -0.3px;
+}
+
+.fale-header p {
+  max-width: 370px;
+
+  margin: 0 auto;
+
+  color: #648a90;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   FORMULÁRIO
+   ========================================= */
+
+.fale-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+
+  gap: 16px;
+
   text-align: left;
 }
 
+
+/* =========================================
+   CAMPOS
+   ========================================= */
+
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+}
+
 .campo-grupo label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
+  margin-bottom: 7px;
+  padding-left: 3px;
+
   color: #17656e;
-  margin-bottom: 4px;
+
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .campo-grupo input,
 .campo-grupo textarea {
   width: 100%;
+
   box-sizing: border-box;
-  background: #f4fbfa;
-  border: 2px solid #c9ecf2;
+
+  padding: 13px 14px;
+
+  background: #f8fcfc;
+
+  border: 2px solid #d0edf2;
   border-radius: 14px;
-  padding: 12px;
-  font-size: 14px;
-  font-family: inherit;
+
   color: #104e57;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
   outline: none;
-  transition: border-color 0.2s;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+
+/* Placeholder */
+
+.campo-grupo input::placeholder,
+.campo-grupo textarea::placeholder {
+  color: #9bb9bd;
+
+  font-weight: 500;
+}
+
+
+/* Hover */
+
+.campo-grupo input:hover,
+.campo-grupo textarea:hover {
+  border-color: #b7dfe6;
+}
+
+
+/* Focus */
 
 .campo-grupo input:focus,
 .campo-grupo textarea:focus {
+  background: #ffffff;
+
   border-color: #17656e;
+
+  box-shadow:
+    0 0 0 4px rgba(23, 101, 110, 0.08);
 }
+
+
+/* Textarea */
 
 .campo-grupo textarea {
-  resize: none;
+  min-height: 125px;
+
+  resize: vertical;
+
+  line-height: 1.5;
 }
 
-.contato-feedback {
-  padding: 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  text-align: center;
-}
 
-.contato-feedback.sucesso {
-  background: #d4edda;
-  color: #155724;
-}
+/* =========================================
+   FEEDBACK
+   ========================================= */
 
-.contato-feedback.erro {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.contato-enviar-btn {
+.fale-feedback {
   width: 100%;
-  background: #f7931e;
-  color: #ffffff;
+
+  box-sizing: border-box;
+
+  padding: 11px 13px;
+
+  border-radius: 13px;
+
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 700;
+
+  text-align: center;
+
+  animation: feedbackEntrada 0.25s ease-out;
+}
+
+
+/* Sucesso */
+
+.fale-feedback.sucesso {
+  background: #e0f5e5;
+
+  border: 1px solid #b9e2c3;
+
+  color: #246b35;
+}
+
+
+/* Erro */
+
+.fale-feedback.erro {
+  background: #fde7e9;
+
+  border: 1px solid #f2c4c8;
+
+  color: #8a2932;
+}
+
+
+/* =========================================
+   BOTÃO ENVIAR
+   ========================================= */
+
+.fale-enviar-btn {
+  width: 100%;
+
+  margin-top: 2px;
+
+  padding: 14px 18px;
+
   border: none;
-  padding: 14px;
   border-radius: 16px;
+
+  background: linear-gradient(
+    135deg,
+    #f7931e 0%,
+    #f5a623 100%
+  );
+
+  color: #ffffff;
+
+  font-family: inherit;
   font-size: 16px;
   font-weight: 800;
+
   cursor: pointer;
-  box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
-  transition: all 0.2s;
+
+  box-shadow:
+    0 7px 16px rgba(247, 147, 30, 0.25);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
 }
 
-.contato-enviar-btn:hover {
-  background: #e8830b;
-  transform: translateY(-1px);
+
+/* Hover */
+
+.fale-enviar-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  filter: brightness(0.97);
+
+  box-shadow:
+    0 10px 22px rgba(247, 147, 30, 0.32);
+}
+
+
+/* Clique */
+
+.fale-enviar-btn:active:not(:disabled) {
+  transform: translateY(0);
+
+  box-shadow:
+    0 5px 12px rgba(247, 147, 30, 0.22);
+}
+
+
+/* Desabilitado */
+
+.fale-enviar-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+
+/* =========================================
+   ANIMAÇÕES
+   ========================================= */
+
+@keyframes faleCardEntrada {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+@keyframes feedbackEntrada {
+  from {
+    opacity: 0;
+
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .fale-page-wrapper {
+    padding: 20px 14px;
+  }
+
+  .fale-card {
+    max-width: 100%;
+
+    padding: 40px 22px 26px;
+
+    border-radius: 24px;
+  }
+
+  .fale-voltar-btn {
+    top: 14px;
+    left: 14px;
+  }
+
+  .fale-badge-icon {
+    width: 60px;
+    height: 60px;
+
+    font-size: 30px;
+  }
+
+  .fale-header h2 {
+    font-size: 23px;
+  }
+
+  .fale-header p {
+    font-size: 13px;
+  }
+
+  .fale-form {
+    gap: 14px;
+  }
+}
+
+
+/* =========================================
+   CELULARES PEQUENOS
+   ========================================= */
+
+@media (max-width: 380px) {
+
+  .fale-card {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .fale-voltar-btn {
+    padding: 6px 10px;
+
+    font-size: 12px;
+  }
+
+  .fale-header h2 {
+    font-size: 21px;
+  }
+
+  .campo-grupo input,
+  .campo-grupo textarea {
+    font-size: 13px;
+  }
 }

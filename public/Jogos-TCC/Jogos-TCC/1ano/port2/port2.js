@@ -8,6 +8,7 @@ const mensagem = document.getElementById("mensagem");
 const tituloMensagem = document.getElementById("tituloMensagem");
 const textoMensagem = document.getElementById("textoMensagem");
 const proximoBtn = document.getElementById("proximoBtn");
+const modalFim = document.getElementById("modal-fim-jogo");
 
 const peixesImagens = [
     "img/peixeAmarelo.png",
@@ -52,9 +53,10 @@ function enviarResultadoFinal(materia) {
     const duracaoSegundos = (Date.now() - inicioPartida) / 1000;
     const minutosReais = Math.max(1, Math.round(duracaoSegundos / 60));
 
-    // Lê a criança ativa da sessão atual
     const usuario = JSON.parse(sessionStorage.getItem('usuario') || '{}');
-    const criancaId = usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]) || '6a917cc2d447ee1302008431';
+    const criancaId = sessionStorage.getItem('crianca_ativa_id') || usuario.id || (usuario.criancas_ids && usuario.criancas_ids[0]);
+
+    if (!criancaId) return;
 
     fetch(`http://127.0.0.1:5000/api/partida/registrar/${criancaId}`, {
         method: 'POST',
@@ -69,6 +71,12 @@ function enviarResultadoFinal(materia) {
     .then(res => res.json())
     .then(dados => console.log('Resultado registrado no painel:', dados))
     .catch(err => console.error('Erro ao enviar pontos:', err));
+}
+
+function iniciarAudio() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
 }
 
 function somAcerto() {
@@ -271,38 +279,37 @@ function gameOver() {
 
 function faseConcluida() {
     somVitoria();
-    tituloMensagem.textContent = "Parabéns!";
-    textoMensagem.textContent = `Você encontrou a letra correta!`;
-
     const ultimaFase = desafioAtual >= desafios.length - 1;
+
     if (ultimaFase) {
-        proximoBtn.textContent = "Jogar Novamente";
         enviarResultadoFinal("Português");
-        proximoBtn.onclick = () => {
-            desafioAtual = 0;
-            vidas = 3;
-            acertosPartida = 0;
-            errosPartida = 0;
-            inicioPartida = Date.now();
-            partidaFinalizada = false;
-            mensagem.classList.remove("ativa");
-            carregarDesafio();
-        };
+        mensagem.classList.remove("ativa");
+        modalFim.style.display = "flex";
     } else {
+        tituloMensagem.textContent = "Parabéns!";
+        textoMensagem.textContent = `Você encontrou a letra correta!`;
         proximoBtn.textContent = "Próxima Letra";
         proximoBtn.onclick = proximoDesafio;
+        mensagem.classList.add("ativa");
+        proximoBtn.focus();
     }
+}
 
-    mensagem.classList.add("ativa");
-    proximoBtn.focus();
+function reiniciarJogoCompleto() {
+    modalFim.style.display = "none";
+    desafioAtual = 0;
+    vidas = 3;
+    acertosPartida = 0;
+    errosPartida = 0;
+    inicioPartida = Date.now();
+    partidaFinalizada = false;
+    mensagem.classList.remove("ativa");
+    carregarDesafio();
 }
 
 function proximoDesafio() {
     mensagem.classList.remove("ativa");
     desafioAtual++;
-    if (desafioAtual >= desafios.length) {
-        desafioAtual = 0;
-    }
     vidas = 3;
     carregarDesafio();
 }

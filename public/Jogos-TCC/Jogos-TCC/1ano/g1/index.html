@@ -5,6 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jogo dos Habitats</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .botao-voltar-topo {
+      background-color: #ffffff;
+      color: #17656e;
+      border: 2px solid #bce4ec;
+      border-radius: 18px;
+      padding: 8px 18px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      align-self: center;
+      pointer-events: auto;
+    }
+    .botao-voltar-topo:hover {
+      background-color: #edf7fa;
+      transform: translateY(-2px);
+    }
+    .modal-fim-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      font-family: inherit;
+    }
+    .fim-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 36px 30px;
+      text-align: center;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+      animation: zoomModal 0.25s ease-out;
+    }
+    @keyframes zoomModal {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .trofeu { font-size: 55px; margin-bottom: 8px; }
+    .fim-card h2 { color: #17656e; font-size: 26px; margin: 0 0 8px 0; font-weight: 800; }
+    .fim-card p { color: #64748b; font-size: 15px; margin-bottom: 24px; }
+    .fim-acoes { display: flex; flex-direction: column; gap: 12px; }
+    .btn-fim-repetir {
+      background-color: #f7931e;
+      color: #ffffff;
+      border: none;
+      border-radius: 16px;
+      padding: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn-fim-sair {
+      background-color: #a3cae4;
+      color: #173d47;
+      border: none;
+      border-radius: 16px;
+      padding: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
@@ -17,12 +87,15 @@
     </div>
 
     <header class="topo-controles">
-      <div class="botoes-esquerda">
+      <div class="botoes-esquerda" style="display: flex; align-items: center; gap: 14px;">
         <button id="btn-home" class="btn-icone" title="Início">
           <img src="img/home.png" alt="Início">
         </button>
         <button id="btn-som" class="btn-icone" title="Ouvir instrução">
           <img src="img/somicone.png" alt="Som">
+        </button>
+        <button id="btn-sair-jogo" class="botao-voltar-topo" onclick="window.location.href='/Inicioreal'">
+          ← Voltar ao Início
         </button>
       </div>
 
@@ -34,7 +107,6 @@
     </header>
 
     <main class="area-jogo">
-      
       <div class="animal-container">
         <img id="animal-atual" class="animal-item" draggable="true" src="" alt="Animal para arrastar">
       </div>
@@ -52,7 +124,6 @@
           <img src="img/selva.png" alt="Selva">
         </div>
       </div>
-
     </main>
 
     <div id="modal-feedback" class="modal">
@@ -60,6 +131,18 @@
         <h2 id="modal-titulo">Parabéns!</h2>
         <p id="modal-mensagem">Você acertou o habitat do animal!</p>
         <button id="btn-reiniciar" class="btn-acao">Jogar Novamente</button>
+      </div>
+    </div>
+
+    <div id="modal-fim-jogo" class="modal-fim-overlay" style="display: none;">
+      <div class="fim-card">
+        <div class="trofeu">🏆</div>
+        <h2>Parabéns!</h2>
+        <p>Você ajudou todos os animais a encontrarem seus lares!</p>
+        <div class="fim-acoes">
+          <button onclick="reiniciarJogoCompleto()" class="btn-fim-repetir">Jogar Novamente</button>
+          <button onclick="window.location.href='/Inicioreal'" class="btn-fim-sair">Voltar ao Início</button>
+        </div>
       </div>
     </div>
 

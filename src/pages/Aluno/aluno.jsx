@@ -21,11 +21,14 @@ function Logina() {
     try {
       const dados = await fazerLoginAluno(cpfAluno, senha);
 
-      localStorage.setItem('token', dados.token);
-      localStorage.setItem(
-        'usuario',
-        JSON.stringify(dados.usuario)
-      );
+      sessionStorage.clear();
+      localStorage.clear();
+
+      sessionStorage.setItem('token', dados.token);
+      sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
+      sessionStorage.setItem('nome_crianca', dados.usuario.nome);
+      sessionStorage.setItem('crianca_ativa_id', dados.usuario.id);
+      sessionStorage.setItem('tipo', 'crianca');
 
       navigate('/Inicioreal');
     } catch (erroApi) {
@@ -91,14 +94,13 @@ function Logina() {
 
             {erro && <p className="mensagem-erro">{erro}</p>}
 
-            {/* Botão Alterar Senha */}
-<button
-  type="button"
-  className="alterar-senha-link-btn"
-  onClick={() => navigate('/alterar-senha')}
->
-  🔒 Esqueceu ou quer alterar a senha
-</button>
+            <button
+              type="button"
+              className="alterar-senha-link-btn"
+              onClick={() => navigate('/alterar-senha')}
+            >
+              🔒 Esqueceu ou quer alterar a senha
+            </button>
 
             <button
               type="submit"

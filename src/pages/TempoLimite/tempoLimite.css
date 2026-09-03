@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  box-sizing: border-box;
   font-family: 'Baloo 2', Roboto, sans-serif;
 }
 
@@ -18,6 +19,7 @@
   padding: 30px 24px;
   position: relative;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .tempo-voltar-btn {
@@ -32,10 +34,12 @@
   color: #17656e;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: inherit;
 }
 
 .tempo-voltar-btn:hover {
   background: #d9f0f5;
+  transform: translateX(-2px);
 }
 
 .tempo-badge-icon {
@@ -73,6 +77,12 @@
   align-items: center;
   cursor: pointer;
   transition: all 0.2s;
+  font-family: inherit;
+}
+
+.tempo-card-opcao:hover:not(.ativo) {
+  border-color: #a3cae4;
+  background: #edf7fa;
 }
 
 .tempo-card-opcao:last-child {
@@ -82,6 +92,7 @@
 .tempo-card-opcao.ativo {
   background: #17656e;
   border-color: #104e57;
+  transform: scale(1.02);
 }
 
 .tempo-card-opcao.ativo .opcao-titulo,
@@ -130,9 +141,16 @@
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
   transition: all 0.2s;
+  font-family: inherit;
 }
 
-.tempo-salvar-btn:hover {
+.tempo-salvar-btn:hover:not(:disabled) {
   background: #e8830b;
   transform: translateY(-1px);
+}
+
+.tempo-salvar-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
 }
