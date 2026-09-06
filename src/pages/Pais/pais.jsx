@@ -13,7 +13,7 @@ function Loginp() {
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
 
-  async function handleLogin(e) {
+ async function handleLogin(e) {
     e.preventDefault();
     setErro('');
     setCarregando(true);
@@ -28,6 +28,11 @@ function Loginp() {
       sessionStorage.setItem('usuario', JSON.stringify(dados.usuario));
       sessionStorage.setItem('nome_responsavel', dados.usuario.nome);
       sessionStorage.setItem('tipo', 'responsavel');
+
+      // Se o backend já devolver a lista de filhos no login, salva diretamente
+      if (dados.usuario.criancas || dados.criancas) {
+        sessionStorage.setItem('filhos_responsavel', JSON.stringify(dados.usuario.criancas || dados.criancas));
+      }
 
       navigate('/Acesso');
     } catch (erroApi) {

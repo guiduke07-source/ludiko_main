@@ -11,7 +11,6 @@ const Popuppais = ({ onClose }) => {
   };
 
   const handleSair = () => {
-    // Destrói todo o armazenamento de sessão e local
     sessionStorage.clear();
     localStorage.clear();
     navigate("/Login-Pais");
@@ -30,14 +29,15 @@ const Popuppais = ({ onClose }) => {
 
   return (
     <div className="popup-overlay" onClick={onClose}>
-      <div className="popup-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="popup-header-pink">
+      <div className="popup-modal tema-pais" onClick={(e) => e.stopPropagation()}>
+        {/* Cabeçalho Azul */}
+        <div className="popup-header">
           <div className="header-info">
             <span className="header-icon">👨‍👩‍👦</span>
             <span className="header-text">Cuide e proteja sua criança! ✨</span>
           </div>
           <button className="btn-fechar" onClick={onClose}>
-            ⓧ
+            ✕
           </button>
         </div>
 
@@ -48,7 +48,9 @@ const Popuppais = ({ onClose }) => {
           >
             <div className="item-left">
               <span className="item-icon">⏱️</span>
-              <span className="item-title">Tempo-limite de atividades</span>
+              <div className="item-text-group">
+                <span className="item-title">Tempo-limite de atividades</span>
+              </div>
             </div>
             <span className="item-arrow">›</span>
           </button>
@@ -59,7 +61,9 @@ const Popuppais = ({ onClose }) => {
           >
             <div className="item-left">
               <span className="item-icon">🔄</span>
-              <span className="item-title">Mudar para conta de criança</span>
+              <div className="item-text-group">
+                <span className="item-title">Mudar para conta de criança</span>
+              </div>
             </div>
             <span className="item-arrow">›</span>
           </button>
@@ -70,7 +74,9 @@ const Popuppais = ({ onClose }) => {
           >
             <div className="item-left">
               <span className="item-icon">➕</span>
-              <span className="item-title">Adicionar Criança</span>
+              <div className="item-text-group">
+                <span className="item-title">Adicionar Criança</span>
+              </div>
             </div>
             <span className="item-arrow">›</span>
           </button>
@@ -81,7 +87,9 @@ const Popuppais = ({ onClose }) => {
           >
             <div className="item-left">
               <span className="item-icon">🔒</span>
-              <span className="item-title">Alterar senha</span>
+              <div className="item-text-group">
+                <span className="item-title">Alterar senha</span>
+              </div>
             </div>
             <span className="item-arrow">›</span>
           </button>
@@ -106,20 +114,24 @@ const Popuppais = ({ onClose }) => {
           >
             <div className="item-left">
               <span className="item-icon">💬</span>
-              <span className="item-title">Fale conosco</span>
+              <div className="item-text-group">
+                <span className="item-title">Fale conosco</span>
+              </div>
             </div>
             <span className="item-arrow">›</span>
           </button>
 
+          <div className="popup-divider" />
+
           <div className="popup-footer">
             <button className="footer-action-btn sair" onClick={handleSair}>
-              ↳ Sair da conta
+              <span>↳</span> Sair da conta
             </button>
             <button
               className="footer-action-btn excluir"
               onClick={handleExcluirConta}
             >
-              🗑️ Excluir conta
+              <span>🗑️</span> Excluir conta
             </button>
           </div>
         </div>

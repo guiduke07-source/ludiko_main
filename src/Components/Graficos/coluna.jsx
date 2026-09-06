@@ -23,7 +23,7 @@ function Coluna({ frequencia = [] }) {
 
   const options = {
     chart: {
-      height: 350,
+      height: 320,
       type: 'bar',
       toolbar: { show: false },
     },
@@ -41,6 +41,13 @@ function Coluna({ frequencia = [] }) {
       categories: frequencia.map(formatarDia),
       axisBorder: { show: false },
       axisTicks: { show: false },
+      labels: {
+        style: {
+          colors: '#666',
+          fontSize: '13px',
+          fontFamily: 'Baloo 2, sans-serif',
+        },
+      },
     },
     yaxis: {
       labels: { show: false },
@@ -50,13 +57,6 @@ function Coluna({ frequencia = [] }) {
         formatter: (valor) => `${valor} min`,
       },
     },
-    title: {
-      text: 'Tempo de uso',
-      floating: true,
-      offsetY: 330,
-      align: 'center',
-      style: { color: '#444' },
-    },
   };
 
   if (frequencia.length === 0) {
@@ -64,13 +64,25 @@ function Coluna({ frequencia = [] }) {
   }
 
   return (
-    <div id="chart">
+    <div id="chart" style={{ width: '100%', textAlign: 'center' }}>
       <Chart
         options={options}
         series={series}
         type="bar"
-        height={350}
+        height={320}
       />
+      <p
+        style={{
+          marginTop: '16px',
+          fontSize: '16px',
+          fontWeight: '700',
+          color: '#444444',
+          fontFamily: 'Baloo 2, sans-serif',
+          letterSpacing: '0.2px',
+        }}
+      >
+        Tempo de uso
+      </p>
     </div>
   );
 }

@@ -1,23 +1,30 @@
-from flask import request, jsonify
-from flask_jwt_extended import get_jwt_identity
-
-from app.services.crianca_service import CriancaService
-
+from bson.objectid import ObjectId
+from flask import jsonify
 
 class CriancaController:
 
     @staticmethod
-    def cadastrar():
+    def buscar_por_id(id):
+        try:
+            from app import db # ou o seu objeto do MongoDB / Model
+            
+            filtro_id = ObjectId(id) if ObjectId.is_valid(id) else id
+            
+            # Busca na coleção de crianças (ou usuarios)
+            crianca = None
+            if hasattr(db, 'criancas'):
+                crianca = db.criancas.find_one({'_id': filtro_id})
+            elif hasattr(db, 'usuarios'):
+                crianca = db.usuarios.find_one({'_id': filtro_id})
 
-        responsavel_id = get_jwt_identity()
-        dados = request.get_json() or {}
+            if not crianca:
+                return jsonify({'erro': True, 'mensagem': 'Criança não encontrada'}), 404
 
-        resposta = CriancaService.cadastrar(
-            responsavel_id,
-            dados
-        )
+            return jsonify({
+                'erro': False,
+                'id': str(crianca.get('_id', id)),
+                'nome': crianca.get('nome', 'Filho')
+            }), 200
 
-        if resposta["erro"]:
-            return jsonify(resposta), 400
-
-        return jsonify(resposta), 201
+        except Exception as e:
+            return jsonify({'erro': True, 'mensagem': str(e)}), 500

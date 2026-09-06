@@ -5,19 +5,20 @@ import './tempoLimite.css';
 export default function TempoLimite() {
   const navigate = useNavigate();
   const [minutos, setMinutos] = useState(120);
+  const [isPersonalizado, setIsPersonalizado] = useState(false);
+  const [horasCustom, setHorasCustom] = useState(1);
+  const [minutosCustom, setMinutosCustom] = useState(30);
   const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
   const [carregando, setCarregando] = useState(false);
 
-  const opcoes = [
+  // Botões fixos sem o botão de 3 horas
+  const opcoesFixas = [
     { label: '30 Min', valor: 30, desc: 'Uso rápido' },
     { label: '1 Hora', valor: 60, desc: 'Moderado' },
     { label: '2 Horas', valor: 120, desc: 'Recomendado' },
-    { label: '3 Horas', valor: 180, desc: 'Fim de semana' },
-    { label: 'Livre', valor: 0, desc: 'Sem bloqueio' },
   ];
 
   useEffect(() => {
-    // Busca prioritária no sessionStorage com fallback para localStorage
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
     if (!token) {
       navigate('/Login-Pais');
@@ -30,14 +31,46 @@ export default function TempoLimite() {
       .then((res) => res.json())
       .then((dados) => {
         if (!dados.erro && dados.minutos !== undefined) {
-          setMinutos(dados.minutos);
-          // Atualiza a sessão ativa em segundos
-          const segs = dados.minutos === 0 ? Infinity : dados.minutos * 60;
+          const m = Number(dados.minutos);
+          setMinutos(m);
+
+          // Verifica se o valor veio de um tempo personalizado
+          const valoresPadrao = [0, 30, 60, 120];
+          if (!valoresPadrao.includes(m) && m > 0) {
+            setIsPersonalizado(true);
+            setHorasCustom(Math.floor(m / 60));
+            setMinutosCustom(m % 60);
+          }
+
+          const segs = m === 0 ? Infinity : m * 60;
           sessionStorage.setItem('limite_tempo_segundos', segs);
         }
       })
       .catch((err) => console.error('Erro ao carregar limite:', err));
   }, [navigate]);
+
+  const selecionarOpcaoFixa = (valor) => {
+    setIsPersonalizado(false);
+    setMinutos(valor);
+  };
+
+  const selecionarPersonalizado = () => {
+    setIsPersonalizado(true);
+    const total = horasCustom * 60 + minutosCustom;
+    setMinutos(total);
+  };
+
+  const atualizarHorasCustom = (h) => {
+    const novasHoras = Math.max(0, Math.min(12, Number(h)));
+    setHorasCustom(novasHoras);
+    setMinutos(novasHoras * 60 + minutosCustom);
+  };
+
+  const atualizarMinutosCustom = (m) => {
+    const novosMinutos = Math.max(0, Math.min(59, Number(m)));
+    setMinutosCustom(novosMinutos);
+    setMinutos(horasCustom * 60 + novosMinutos);
+  };
 
   const salvar = async () => {
     const token = sessionStorage.getItem('token') || localStorage.getItem('token');
@@ -65,7 +98,6 @@ export default function TempoLimite() {
         throw new Error(dados.mensagem || 'Erro ao salvar tempo.');
       }
 
-      // Atualiza o limite em segundos na sessão na hora
       const segs = Number(minutos) === 0 ? Infinity : Number(minutos) * 60;
       sessionStorage.setItem('limite_tempo_segundos', segs);
 
@@ -90,18 +122,104 @@ export default function TempoLimite() {
         </div>
 
         <div className="tempo-grid-opcoes">
-          {opcoes.map((opcao) => (
+          {/* Opções pré-definidas */}
+          {opcoesFixas.map((opcao) => (
             <button
               key={opcao.valor}
               type="button"
-              className={`tempo-card-opcao ${minutos === opcao.valor ? 'ativo' : ''}`}
-              onClick={() => setMinutos(opcao.valor)}
+              className={`tempo-card-opcao ${!isPersonalizado && minutos === opcao.valor ? 'ativo' : ''}`}
+              onClick={() => selecionarOpcaoFixa(opcao.valor)}
             >
               <span className="opcao-titulo">{opcao.label}</span>
               <span className="opcao-desc">{opcao.desc}</span>
             </button>
           ))}
+
+          {/* Botão Personalizado no lugar de 3 Horas */}
+          <button
+            type="button"
+            className={`tempo-card-opcao ${isPersonalizado ? 'ativo' : ''}`}
+            onClick={selecionarPersonalizado}
+          >
+            <span className="opcao-titulo">
+              {isPersonalizado && minutos > 0 
+                ? `${horasCustom}h ${minutosCustom}m` 
+                : 'Personalizado'}
+            </span>
+            <span className="opcao-desc">Defina o tempo</span>
+          </button>
+
+          {/* Opção Livre (largura total) */}
+          <button
+            type="button"
+            className={`tempo-card-opcao tempo-opcao-livre ${!isPersonalizado && minutos === 0 ? 'ativo' : ''}`}
+            onClick={() => selecionarOpcaoFixa(0)}
+          >
+            <span className="opcao-titulo">Livre</span>
+            <span className="opcao-desc">Sem bloqueio</span>
+          </button>
         </div>
+
+        {/* Painel de seleção de horas/minutos quando Personalizado estiver ativo */}
+        {isPersonalizado && (
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '14px 18px',
+              background: '#edf7fa',
+              borderRadius: '16px',
+              border: '2px solid #bce4ec',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '16px',
+              fontFamily: 'inherit',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontWeight: '700', color: '#17656e', fontSize: '14px' }}>Horas:</label>
+              <input
+                type="number"
+                min="0"
+                max="12"
+                value={horasCustom}
+                onChange={(e) => atualizarHorasCustom(e.target.value)}
+                style={{
+                  width: '58px',
+                  padding: '6px',
+                  borderRadius: '10px',
+                  border: '1px solid #bce4ec',
+                  textAlign: 'center',
+                  fontWeight: '700',
+                  fontSize: '15px',
+                  color: '#17656e'
+                }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontWeight: '700', color: '#17656e', fontSize: '14px' }}>Minutos:</label>
+              <input
+                type="number"
+                min="0"
+                max="59"
+                step="5"
+                value={minutosCustom}
+                onChange={(e) => atualizarMinutosCustom(e.target.value)}
+                style={{
+                  width: '58px',
+                  padding: '6px',
+                  borderRadius: '10px',
+                  border: '1px solid #bce4ec',
+                  textAlign: 'center',
+                  fontWeight: '700',
+                  fontSize: '15px',
+                  color: '#17656e'
+                }}
+              />
+            </div>
+          </div>
+        )}
 
         {mensagem.texto && (
           <div className={`tempo-feedback ${mensagem.tipo}`}>

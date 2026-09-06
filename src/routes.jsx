@@ -12,7 +12,7 @@ import Areapais from "./pages/Areapais/areapais.jsx";
 import Configpais from "./pages/Configpais/configpais.jsx";
 
 // Telas do Menu Ativas
-import TempoLimite from "./pages/TempoLimite/tempoLimite.jsx";
+import TempoLimite from "./pages/TempoLimite/tempolimite.jsx";
 import MudarContaCrianca from "./pages/MudarContaCrianca/mudarContaCrianca.jsx";
 import AlterarSenha from "./pages/AlterarSenha/alterarSenha.jsx";
 import FaleConosco from "./pages/FaleConosco/faleConosco.jsx";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Coluna from '../../Components/Graficos/coluna';
 import './configpais.css';
@@ -6,12 +6,15 @@ import Logo from '../../Components/imgs/logo.png';
 import Popuppais from '../../Components/Popup/popuppais';
 import Pizza from '../../Components/Graficos/pizza';
 import Headerpais from '../../Components/Header/headerpais';
-import { buscarDadosDashboard } from '../../services/dashboardApi';
+import SeletorFilhos from '../../Components/SeletorFilhos/SeletorFilhos';
+import { buscarDadosDashboard, listarFilhos } from '../../services/dashboardApi';
 
 const Configpais = () => {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [nomeResponsavel, setNomeResponsavel] = useState('Responsável');
+  const [listaFilhos, setListaFilhos] = useState([]);
+  const [filhoAtivoId, setFilhoAtivoId] = useState(null);
   const [frequencia, setFrequencia] = useState([]);
   const [progresso, setProgresso] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -33,7 +36,7 @@ const Configpais = () => {
       }
     }
 
-    async function carregarDashboard() {
+    async function inicializarFilhos() {
       const token = sessionStorage.getItem('token');
       if (!token) {
         navigate('/Login-Pais');
@@ -41,23 +44,50 @@ const Configpais = () => {
       }
 
       try {
-        const dados = await buscarDadosDashboard();
-        setFrequencia(dados.frequencia || []);
-        setProgresso(dados.progresso || []);
-      } catch (erroApi) {
-        if (erroApi.message && erroApi.message.includes('401')) {
-          sessionStorage.clear();
-          navigate('/Login-Pais');
-          return;
+        const filhos = await listarFilhos();
+        setListaFilhos(filhos);
+
+        if (filhos.length > 0) {
+          const idInicial = filhos[0].id || filhos[0]._id;
+          setFilhoAtivoId(idInicial);
+        } else {
+          setErro('Nenhuma criança encontrada para este responsável.');
+          setCarregando(false);
         }
-        setErro(erroApi.message);
-      } finally {
+      } catch (err) {
+        setErro(err.message);
         setCarregando(false);
       }
     }
 
-    carregarDashboard();
+    inicializarFilhos();
   }, [navigate]);
+
+  const carregarMetricas = useCallback(async (criancaId) => {
+    if (!criancaId) return;
+
+    try {
+      const dados = await buscarDadosDashboard(criancaId);
+      setFrequencia(dados.frequencia || []);
+      setProgresso(dados.progresso || []);
+      setErro('');
+    } catch (erroApi) {
+      if (erroApi.message && erroApi.message.includes('401')) {
+        sessionStorage.clear();
+        navigate('/Login-Pais');
+        return;
+      }
+      setErro(erroApi.message);
+    } finally {
+      setCarregando(false);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    if (filhoAtivoId) {
+      carregarMetricas(filhoAtivoId);
+    }
+  }, [filhoAtivoId, carregarMetricas]);
 
   return (
     <div className="configPais">
@@ -69,7 +99,7 @@ const Configpais = () => {
           width: '100%',
           padding: '0 20px',
           boxSizing: 'border-box',
-          marginBottom: '40px',
+          marginBottom: '20px',
         }}
       >
         <Headerpais onMenuClick={() => setShowPopup(true)} nomeResponsavel={nomeResponsavel} />
@@ -77,8 +107,14 @@ const Configpais = () => {
 
       {showPopup && <Popuppais onClose={() => setShowPopup(false)} />}
 
-      {carregando && <p>Carregando dados do painel...</p>}
-      {erro && <p>{erro}</p>}
+      <SeletorFilhos
+        criancas={listaFilhos}
+        criancaAtivaId={filhoAtivoId}
+        onSelecionar={(id) => setFilhoAtivoId(id)}
+      />
+
+      {carregando && <p style={{ textAlign: 'center' }}>Carregando dados do painel...</p>}
+      {erro && <p style={{ textAlign: 'center', color: '#c53030' }}>{erro}</p>}
 
       {!carregando && !erro && (
         <>
