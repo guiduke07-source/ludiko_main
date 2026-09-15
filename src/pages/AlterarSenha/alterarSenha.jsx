@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './alterarSenha.css';
+import IconCadeado from '../../Components/imgs/Cadeado.png';
 
 export default function AlterarSenha() {
   const navigate = useNavigate();
 
-  // Modo: "alterar" (com senha atual) ou "recuperar" (com código por e-mail)
   const [modo, setModo] = useState('alterar');
-  const [etapaCodigo, setEtapaCodigo] = useState(1); // 1 = Digitar E-mail, 2 = Digitar Código e Nova Senha
+  const [etapaCodigo, setEtapaCodigo] = useState(1);
 
-  // Estados para Alterar Senha Padrão
   const [senhaAtual, setSenhaAtual] = useState('');
   const [senhaNova, setSenhaNova] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [verSenhaAtual, setVerSenhaAtual] = useState(false);
   const [verSenhaNova, setVerSenhaNova] = useState(false);
 
-  // Estados para Recuperação com Código via E-mail
   const [emailRecuperacao, setEmailRecuperacao] = useState('');
   const [codigoConfirmacao, setCodigoConfirmacao] = useState('');
   const [novaSenhaRecuperacao, setNovaSenhaRecuperacao] = useState('');
@@ -25,7 +23,6 @@ export default function AlterarSenha() {
   const [mensagem, setMensagem] = useState({ tipo: '', texto: '' });
   const [carregando, setCarregando] = useState(false);
 
-  // 1. Fluxo de Alteração de Senha Normal (Logado)
   const handleAlterarSenha = async (e) => {
     e.preventDefault();
     setMensagem({ tipo: '', texto: '' });
@@ -76,7 +73,6 @@ export default function AlterarSenha() {
     }
   };
 
-  // 2. Fluxo Recuperação: Solicitar Código
   const handleSolicitarCodigo = async (e) => {
     e.preventDefault();
     setMensagem({ tipo: '', texto: '' });
@@ -108,7 +104,6 @@ export default function AlterarSenha() {
     }
   };
 
-  // 3. Fluxo Recuperação: Confirmar Código e Salvar Nova Senha
   const handleRedefinirComCodigo = async (e) => {
     e.preventDefault();
     setMensagem({ tipo: '', texto: '' });
@@ -157,7 +152,22 @@ export default function AlterarSenha() {
         </button>
 
         <div className="senha-header">
-          <div className="senha-badge-icon">{modo === 'recuperar' ? '📩' : '🔒'}</div>
+          <div className="senha-badge-icon">
+            {modo === 'recuperar' ? (
+              '📩'
+            ) : (
+              <img
+                src={IconCadeado}
+                alt="Cadeado"
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  objectFit: 'contain',
+                  imageRendering: 'pixelated'
+                }}
+              />
+            )}
+          </div>
           <h2>{modo === 'recuperar' ? 'Recuperação por E-mail' : 'Alterar Senha'}</h2>
           <p>
             {modo === 'recuperar'
@@ -174,7 +184,6 @@ export default function AlterarSenha() {
           </div>
         )}
 
-        {/* OPÇÃO 1: Alteração Normal por Senha Atual */}
         {modo === 'alterar' && (
           <form onSubmit={handleAlterarSenha} className="senha-form">
             <div className="campo-grupo">
@@ -248,7 +257,6 @@ export default function AlterarSenha() {
           </form>
         )}
 
-        {/* OPÇÃO 2: Solicitar Código via E-mail */}
         {modo === 'recuperar' && etapaCodigo === 1 && (
           <form onSubmit={handleSolicitarCodigo} className="senha-form">
             <div className="campo-grupo">
@@ -279,7 +287,6 @@ export default function AlterarSenha() {
           </form>
         )}
 
-        {/* OPÇÃO 3: Confirmar Código e Salvar Senha Nova */}
         {modo === 'recuperar' && etapaCodigo === 2 && (
           <form onSubmit={handleRedefinirComCodigo} className="senha-form">
             <div className="campo-grupo">

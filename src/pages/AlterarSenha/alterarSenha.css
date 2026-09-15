@@ -43,8 +43,11 @@
 }
 
 .senha-badge-icon {
-  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
+  margin-bottom: 4px;
 }
 
 .senha-header h2 {

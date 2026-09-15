@@ -34,8 +34,11 @@
 }
 
 .historico-badge-icon {
-  font-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
+  margin-bottom: 4px;
 }
 
 .historico-header h2 {

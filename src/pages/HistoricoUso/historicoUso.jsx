@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './historicoUso.css';
+import IconGrafico from '../../Components/imgs/Grafico.png';
 
 export default function HistoricoUso() {
   const navigate = useNavigate();
@@ -41,7 +42,18 @@ export default function HistoricoUso() {
         <button className="historico-voltar-btn" onClick={() => navigate(-1)}>← Voltar</button>
 
         <div className="historico-header">
-          <div className="historico-badge-icon">📊</div>
+          <div className="historico-badge-icon">
+            <img
+              src={IconGrafico}
+              alt="Gráfico"
+              style={{
+                width: '36px',
+                height: '36px',
+                objectFit: 'contain',
+                imageRendering: 'pixelated'
+              }}
+            />
+          </div>
           <h2>Histórico Semanal</h2>
           <p>Acompanhe o tempo de uso de semanas passadas.</p>
         </div>

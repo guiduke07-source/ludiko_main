@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './faleConosco.css';
+import IconContato from '../../Components/imgs/Contato.png';
 
 export default function FaleConosco() {
   const navigate = useNavigate();
@@ -13,7 +14,6 @@ export default function FaleConosco() {
   const [enviando, setEnviando] = useState(false);
 
   useEffect(() => {
-    // Recupera os dados do usuário autenticado no sessionStorage
     const usuarioSalvo = sessionStorage.getItem('usuario');
     if (usuarioSalvo) {
       try {
@@ -80,7 +80,18 @@ export default function FaleConosco() {
         </button>
 
         <div className="fale-header">
-          <div className="fale-badge-icon">💬</div>
+          <div className="fale-badge-icon">
+            <img
+              src={IconContato}
+              alt="Contato"
+              style={{
+                width: '36px',
+                height: '36px',
+                objectFit: 'contain',
+                imageRendering: 'pixelated'
+              }}
+            />
+          </div>
           <h2>Fale Conosco</h2>
           <p>Dúvidas, sugestões ou problemas? Envie uma mensagem diretamente para nossa equipe.</p>
         </div>
