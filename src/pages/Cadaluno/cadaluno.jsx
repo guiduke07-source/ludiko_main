@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './cadaluno.css';
+import IconAdicao from '../../Components/imgs/Adicao.png';
 
 export default function CadCrianca() {
   const navigate = useNavigate();
@@ -36,6 +37,12 @@ export default function CadCrianca() {
         throw new Error(dados.mensagem || 'Erro ao cadastrar criança.');
       }
 
+      // Salva o ID da nova criança para ser selecionada no Configpais
+      const novoId = dados.crianca?.id || dados.crianca?._id || dados.id || dados._id;
+      if (novoId) {
+        sessionStorage.setItem('crianca_ativa_id', novoId);
+      }
+
       setMensagem({ tipo: 'sucesso', texto: 'Criança adicionada com sucesso!' });
       setTimeout(() => navigate('/Configpais'), 1500);
     } catch (err) {
@@ -49,6 +56,20 @@ export default function CadCrianca() {
     <div className="cad-crianca-wrapper">
       <div className="cad-crianca-card">
         <button className="voltar-btn" onClick={() => navigate(-1)}>← Voltar</button>
+
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px', marginBottom: '4px' }}>
+          <img
+            src={IconAdicao}
+            alt="Adicionar Criança"
+            style={{
+              width: '36px',
+              height: '36px',
+              objectFit: 'contain',
+              imageRendering: 'pixelated'
+            }}
+          />
+        </div>
+
         <h2>Adicionar Criança</h2>
         <p>Cadastre os dados de acesso para o seu filho(a).</p>
 
