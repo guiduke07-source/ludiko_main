@@ -59,8 +59,7 @@ function Popup({ onClose }) {
           <div className="header-info">
 
             <img src={IconCrianca} alt="Criança" className="popup-pixel-icon header-img" />
-            <span className="header-text">{nomeCrianca} ✨</span>
->>>>>>> f6b205f533d6cb98788f5dba4dacdb4c3babb0b8
+            <span className="header-text">{nomeCrianca} </span>
           </div>
           <button className="btn-fechar" onClick={onClose}>
             ✕

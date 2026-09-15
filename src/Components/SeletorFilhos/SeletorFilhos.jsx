@@ -57,7 +57,6 @@ export default function SeletorFilhos({ criancas, criancaAtivaId, onSelecionar }
                 />
 </span>*/}
 
-<span>{filho.nome}</span>
 
               <span style={{ fontSize: '18px' }}></span>
               <span>{filho.nome}</span>

@@ -34,18 +34,14 @@
 }
 
 .popup-modal.tema-pais .popup-header {
-<<<<<<< HEAD
   background-color: #BBDBE8;
-=======
   background: #BBDBE8;
   border-bottom: 2px solid rgba(255, 255, 255, 0.5);
->>>>>>> f6b205f533d6cb98788f5dba4dacdb4c3babb0b8
 }
 
 .popup-modal.tema-pais .header-text {
   color: #17656e;
 }
-
 .popup-modal.tema-pais .btn-fechar {
   background: rgba(23, 101, 110, 0.12);
   color: #17656e;

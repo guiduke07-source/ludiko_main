@@ -42,13 +42,10 @@ const Popuppais = ({ onClose }) => {
         {/* Cabeçalho */}
         <div className="popup-header">
           <div className="header-info">
-<<<<<<< HEAD
-            <span className="header-icon">👨‍👩‍👦</span>
-            <span className="header-text">Cuide e proteja sua criança! </span>
-=======
+
             <img src={IconResponsavel} alt="Responsável" className="popup-pixel-icon header-img" />
             <span className="header-text">Cuide e proteja sua criança! ✨</span>
->>>>>>> f6b205f533d6cb98788f5dba4dacdb4c3babb0b8
+
           </div>
           <button className="btn-fechar" onClick={onClose}>
             ✕
