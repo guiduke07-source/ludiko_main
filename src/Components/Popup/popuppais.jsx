@@ -2,6 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./popuppais.css";
 
+// Imagens Pixel Art dos Menus
+import IconResponsavel from "../imgs/Responsavel.png";
+import IconTempo from "../imgs/Tempo.png";
+import IconMudanca from "../imgs/Mudanca.png";
+import IconAdicao from "../imgs/Adicao.png";
+import IconCadeado from "../imgs/Cadeado.png";
+import IconGrafico from "../imgs/Grafico.png";
+import IconContato from "../imgs/Contato.png";
+
 const Popuppais = ({ onClose }) => {
   const navigate = useNavigate();
 
@@ -30,24 +39,30 @@ const Popuppais = ({ onClose }) => {
   return (
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-modal tema-pais" onClick={(e) => e.stopPropagation()}>
-        {/* Cabeçalho Azul */}
+        {/* Cabeçalho */}
         <div className="popup-header">
           <div className="header-info">
+<<<<<<< HEAD
             <span className="header-icon">👨‍👩‍👦</span>
             <span className="header-text">Cuide e proteja sua criança! </span>
+=======
+            <img src={IconResponsavel} alt="Responsável" className="popup-pixel-icon header-img" />
+            <span className="header-text">Cuide e proteja sua criança! ✨</span>
+>>>>>>> f6b205f533d6cb98788f5dba4dacdb4c3babb0b8
           </div>
           <button className="btn-fechar" onClick={onClose}>
             ✕
           </button>
         </div>
 
+        {/* Corpo com imagens nos botões */}
         <div className="popup-body">
           <button
             className="menu-item"
             onClick={() => handleNavegar("/tempo-limite")}
           >
             <div className="item-left">
-              <span className="item-icon">⏱️</span>
+              <img src={IconTempo} alt="Tempo" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Tempo-limite de atividades</span>
               </div>
@@ -60,7 +75,7 @@ const Popuppais = ({ onClose }) => {
             onClick={() => handleNavegar("/mudar-conta-crianca")}
           >
             <div className="item-left">
-              <span className="item-icon">🔄</span>
+              <img src={IconMudanca} alt="Mudar conta" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Mudar para conta de criança</span>
               </div>
@@ -73,7 +88,7 @@ const Popuppais = ({ onClose }) => {
             onClick={() => handleNavegar("/cadastrar-crianca")}
           >
             <div className="item-left">
-              <span className="item-icon">➕</span>
+              <img src={IconAdicao} alt="Adicionar" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Adicionar Criança</span>
               </div>
@@ -86,7 +101,7 @@ const Popuppais = ({ onClose }) => {
             onClick={() => handleNavegar("/alterar-senha")}
           >
             <div className="item-left">
-              <span className="item-icon">🔒</span>
+              <img src={IconCadeado} alt="Senha" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Alterar senha</span>
               </div>
@@ -99,7 +114,7 @@ const Popuppais = ({ onClose }) => {
             onClick={() => handleNavegar("/historico-uso")}
           >
             <div className="item-left">
-              <span className="item-icon">📊</span>
+              <img src={IconGrafico} alt="Histórico" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Histórico de Uso</span>
                 <span className="item-subtitle">relatórios das semanas anteriores</span>
@@ -113,7 +128,7 @@ const Popuppais = ({ onClose }) => {
             onClick={() => handleNavegar("/fale-conosco")}
           >
             <div className="item-left">
-              <span className="item-icon">💬</span>
+              <img src={IconContato} alt="Contato" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Fale conosco</span>
               </div>
@@ -125,13 +140,13 @@ const Popuppais = ({ onClose }) => {
 
           <div className="popup-footer">
             <button className="footer-action-btn sair" onClick={handleSair}>
-              <span>↳</span> Sair da conta
+              <span></span> Sair da conta
             </button>
             <button
               className="footer-action-btn excluir"
               onClick={handleExcluirConta}
             >
-              <span>🗑️</span> Excluir conta
+              <span></span> Excluir conta
             </button>
           </div>
         </div>

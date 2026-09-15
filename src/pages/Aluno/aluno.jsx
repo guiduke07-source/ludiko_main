@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './Login-A.css';
 import Roxologin from '../../Components/Roxologin/roxolog';
 import Logo from '../../Components/imgs/logo.png';
+import IconResponsavel from '../../Components/imgs/Responsavel.png';
 import { fazerLoginAluno } from '../../services/authApi';
 
 function Logina() {
@@ -99,7 +100,7 @@ function Logina() {
               className="alterar-senha-link-btn"
               onClick={() => navigate('/alterar-senha')}
             >
-              🔒 Esqueceu ou quer alterar a senha
+              Esqueceu ou quer alterar a senha
             </button>
 
             <button
@@ -120,7 +121,13 @@ function Logina() {
             className="btn-pai"
             onClick={() => navigate('/Login-Pais')}
           >
-            <span className="btn-icon">👥</span>
+            <span className="btn-icon">
+              <img
+                src={IconResponsavel}
+                alt="Responsável"
+                style={{ width: '32px', height: '32px', objectFit: 'contain', imageRendering: 'pixelated' }}
+              />
+            </span>
             <span className="btn-text">Responsável</span>
           </button>
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './mudarConta.css';
+import IconCrianca from '../../Components/imgs/Crianca.png';
 
 export default function MudarConta() {
   const navigate = useNavigate();
@@ -73,7 +74,18 @@ export default function MudarConta() {
               className="card-filho-btn"
               onClick={() => selecionarCrianca(c)}
             >
-              <span className="avatar">🧒</span>
+              <span className="avatar">
+                <img
+                  src={IconCrianca}
+                  alt={c.nome}
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                  }}
+                />
+              </span>
               <div className="info">
                 <strong>{c.nome}</strong>
                 <span>{c.ano_escolar || '1º ano'}</span>
