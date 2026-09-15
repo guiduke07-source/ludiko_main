@@ -1,17 +1,11 @@
 import os
-
 from dotenv import load_dotenv
-
 
 load_dotenv()
 
 
 class Config:
-
-    SECRET_KEY = os.getenv("SECRET_KEY")
-
-    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-
-    MONGO_URI = os.getenv("MONGO_URI")
-
+    SECRET_KEY = os.getenv("SECRET_KEY", "chave_secreta_flask_ludiko_padrao_2026")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "chave_secreta_jwt_ludiko_padrao_2026")
+    MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/ludiko")
     DEBUG = True
