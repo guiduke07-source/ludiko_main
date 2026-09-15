@@ -21,9 +21,7 @@ function Acesso() {
   return (
     <div className="home-container" style={estiloFundo}>
       <div className="left-side">
-        <div className="logo-section">
-          <img src={logo} alt="Ludiko Logo" className="logo-img" />
-        </div>
+        
 
         <h2 className="title-action">Entrar como:</h2>
 
@@ -37,8 +35,8 @@ function Acesso() {
               alt="Responsável"
               className="personagem"
               style={{
-                width: '40px',
-                height: '40px',
+                width: '30px',
+                height: '30px',
                 objectFit: 'contain',
                 imageRendering: 'pixelated',
               }}
@@ -55,8 +53,8 @@ function Acesso() {
               alt="Aluno(a)"
               className="personagem"
               style={{
-                width: '40px',
-                height: '40px',
+                width: '30px',
+                height: '30px',
                 objectFit: 'contain',
                 imageRendering: 'pixelated',
               }}

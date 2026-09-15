@@ -25,23 +25,23 @@
 
 /* CARD AZUL (CONTAINER DO PIN) */
 .login-card {
-  width: min(900px, 90vw) !important;
-  min-height: 580px !important;
+  width: min(400px, 40vw) !important;
+  min-height: 200px !important;
   background: #b7dced !important;
   border-radius: 28px !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 36px !important;
+  gap: 26px !important;
   padding: 40px !important;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18) !important;
 }
 
 /* PERSONAGEM DENTRO DO CARD */
 .personagem {
-  width: 190px !important;
-  height: 150px !important;
+  width: 100px ;
+  height: 80px;
   max-height: none !important;
   object-fit: contain !important;
   margin: 0 !important;
