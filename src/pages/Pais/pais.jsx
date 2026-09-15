@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import './Pais.css';
 import Logo from '../../Components/imgs/logo.png';
 import Azullogin from '../../Components/Azullogin/azullog';
+import IconCrianca from '../../Components/imgs/Crianca.png';
 import { fazerLogin } from '../../services/authApi';
 
 function Loginp() {
@@ -13,7 +14,7 @@ function Loginp() {
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
 
- async function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
     setErro('');
     setCarregando(true);
@@ -29,7 +30,6 @@ function Loginp() {
       sessionStorage.setItem('nome_responsavel', dados.usuario.nome);
       sessionStorage.setItem('tipo', 'responsavel');
 
-      // Se o backend já devolver a lista de filhos no login, salva diretamente
       if (dados.usuario.criancas || dados.criancas) {
         sessionStorage.setItem('filhos_responsavel', JSON.stringify(dados.usuario.criancas || dados.criancas));
       }
@@ -103,7 +103,7 @@ function Loginp() {
               className="alterar-senha-link-btn"
               onClick={() => navigate('/alterar-senha')}
             >
-              🔒 Esqueceu ou quer alterar a senha
+              Esqueceu ou quer alterar a senha
             </button>
 
             <button
@@ -124,7 +124,13 @@ function Loginp() {
             className="btn btn-aluno"
             onClick={() => navigate('/Login-Aluno')}
           >
-            <span className="btn-icon">👧</span>
+            <span className="btn-icon">
+              <img
+                src={IconCrianca}
+                alt="Aluno"
+                style={{ width: '32px', height: '32px', objectFit: 'contain', imageRendering: 'pixelated' }}
+              />
+            </span>
             <span className="btn-text">Aluno(a)</span>
           </button>
         </div>

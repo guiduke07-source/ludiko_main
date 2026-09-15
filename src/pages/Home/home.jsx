@@ -3,6 +3,8 @@ import { motion } from "motion/react";
 
 import "./Home.css";
 import logo from "../../Components/imgs/logo.png";
+import IconResponsavel from "../../Components/imgs/Responsavel.png";
+import IconCrianca from "../../Components/imgs/Crianca.png";
 
 function Home() {
   const navigate = useNavigate();
@@ -44,7 +46,16 @@ function Home() {
               onClick={() => navigate("/Login-Pais")}
             >
               <span className="btn-icone">
-                👥
+                <img
+                  src={IconResponsavel}
+                  alt="Responsáveis"
+                  style={{
+                    width: '24px',
+                    height: '24px',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                  }}
+                />
               </span>
 
               <span className="btn-texto">
@@ -57,7 +68,16 @@ function Home() {
               onClick={() => navigate("/Login-Aluno")}
             >
               <span className="btn-icone">
-                👧
+                <img
+                  src={IconCrianca}
+                  alt="Aluno(a)"
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    objectFit: 'contain',
+                    imageRendering: 'pixelated',
+                  }}
+                />
               </span>
 
               <span className="btn-texto">

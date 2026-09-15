@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './areapais.css';
 
 import fundoInicio from '../../Components/imgs/FundoInicio.png';
-import Responsaveis from '../../Components/imgs/Responsáveis.png';
+import Responsaveis from '../../Components/imgs/Responsavel.png';
 
 function Areapais() {
   const navigate = useNavigate();

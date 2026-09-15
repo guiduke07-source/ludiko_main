@@ -3,6 +3,7 @@
   position: fixed;
   inset: 0;
   background-color: rgba(16, 42, 49, 0.35);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 1000;
   display: flex;
@@ -33,21 +34,21 @@
 }
 
 .popup-modal.tema-pais .popup-header {
-  background: linear-gradient(135deg, #BBDBE8 0%, #BBDBE8 100%);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  background: #BBDBE8;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .popup-modal.tema-pais .header-text {
-  color: #ffffff;
+  color: #17656e;
 }
 
 .popup-modal.tema-pais .btn-fechar {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  background: rgba(23, 101, 110, 0.12);
+  color: #17656e;
 }
 
 .popup-modal.tema-pais .btn-fechar:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(23, 101, 110, 0.25);
 }
 
 .popup-modal.tema-pais .menu-item {
@@ -306,4 +307,21 @@
     opacity: 1;
     transform: scale(1) translateY(0);
   }
+}
+
+/* Ícones em Pixel Art nos botões */
+.popup-pixel-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* Ícone do cabeçalho */
+.popup-pixel-icon.header-img {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }

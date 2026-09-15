@@ -50,7 +50,7 @@ export default function SeletorFilhos({ criancas, criancaAtivaId, onSelecionar }
                 boxShadow: ativo ? '0 3px 8px rgba(23, 101, 110, 0.3)' : 'none',
               }}
             >
-              <span style={{ fontSize: '18px' }}>🧒</span>
+              <span style={{ fontSize: '18px' }}></span>
               <span>{filho.nome}</span>
             </button>
           );

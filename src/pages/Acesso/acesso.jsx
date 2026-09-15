@@ -4,56 +4,67 @@ import './acesso.css';
 
 import logo from '../../Components/imgs/logo.png';
 import fundoInicio from '../../Components/imgs/FundoInicio.png';
-import Responsáveis from '../../Components/imgs/Responsáveis.png';
-import Aluno from '../../Components/imgs/Aluno.png';
-
+import Responsavel from '../../Components/imgs/Responsavel.png';
+import Crianca from '../../Components/imgs/Crianca.png';
 
 function Acesso() {
-  const estiloFundo = { 
-      backgroundImage: `url(${fundoInicio})`, // Caminho da imagem importada
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      height: '100vh',
-      width: '100vw'
-    };
   const navigate = useNavigate();
+
+  const estiloFundo = {
+    backgroundImage: `url(${fundoInicio})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100vh',
+    width: '100vw',
+  };
 
   return (
     <div className="home-container" style={estiloFundo}>
-
-      {/* LADO ESQUERDO */}
       <div className="left-side">
         <div className="logo-section">
           <img src={logo} alt="Ludiko Logo" className="logo-img" />
         </div>
 
-        <h2 className="title-action">
-          Entrar como:
-        </h2>
+        <h2 className="title-action">Entrar como:</h2>
 
         <div className="button-container">
-
           <button
             className="btn btn-responsavel"
             onClick={() => navigate('/Areapais')}
           >
-<img src={Responsáveis} alt="Responsáveis" className="btn-icon"/>
+            <img
+              src={Responsavel}
+              alt="Responsável"
+              className="personagem"
+              style={{
+                width: '40px',
+                height: '40px',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+              }}
+            />
             <span className="btn-text">Responsáveis</span>
           </button>
 
           <button
-  className="btn btn-filho"
-  onClick={() => navigate('/Login-Aluno')}
->
-  <img src={Aluno} alt="Aluno(a)" className="btn-icon" />
-  <span className="btn-text">Aluno(a)</span>
-</button>
-
+            className="btn btn-filho"
+            onClick={() => navigate('/Login-Aluno')}
+          >
+            <img
+              src={Crianca}
+              alt="Aluno(a)"
+              className="personagem"
+              style={{
+                width: '40px',
+                height: '40px',
+                objectFit: 'contain',
+                imageRendering: 'pixelated',
+              }}
+            />
+            <span className="btn-text">Aluno(a)</span>
+          </button>
         </div>
       </div>
-
-      
-
     </div>
   );
 }

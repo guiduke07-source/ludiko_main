@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './popuppais.css';
 
+import IconCrianca from "../imgs/Crianca.png";
+import IconResponsavel from "../imgs/Responsavel.png";
+
 function Popup({ onClose }) {
   const popupRef = useRef();
   const navigate = useNavigate();
@@ -51,10 +54,10 @@ function Popup({ onClose }) {
   return (
     <div className="popup-overlay" ref={popupRef} onClick={closePopup}>
       <div className="popup-modal tema-crianca" onClick={(e) => e.stopPropagation()}>
-        {/* Cabeçalho Lilás */}
+        {/* Cabeçalho Lilás com o bonequinho pixel art */}
         <div className="popup-header">
           <div className="header-info">
-            <span className="header-icon">🧒</span>
+            <img src={IconCrianca} alt="Criança" className="popup-pixel-icon header-img" />
             <span className="header-text">{nomeCrianca} ✨</span>
           </div>
           <button className="btn-fechar" onClick={onClose}>
@@ -71,7 +74,7 @@ function Popup({ onClose }) {
             }}
           >
             <div className="item-left">
-              <span className="item-icon">👨‍👩‍👦</span>
+              <img src={IconResponsavel} alt="Responsável" className="popup-pixel-icon" />
               <div className="item-text-group">
                 <span className="item-title">Ir para conta do responsável</span>
                 <span className="item-subtitle">Painel de controle e relatórios</span>
@@ -84,13 +87,13 @@ function Popup({ onClose }) {
 
           <div className="popup-footer">
             <button className="footer-action-btn sair" onClick={handleSair}>
-              <span>↳</span> Sair da conta
+              <span></span> Sair da conta
             </button>
             <button
               className="footer-action-btn excluir"
               onClick={handleExcluirConta}
             >
-              <span>🗑️</span> Excluir conta
+              <span></span> Excluir conta
             </button>
           </div>
         </div>
