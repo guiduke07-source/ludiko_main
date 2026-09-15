@@ -3,6 +3,7 @@ import Header from '../../Components/Header/Header';
 import Popup from '../../Components/Popup/popup';
 import Inicio from '../Inicio/inicio';
 import ControleTempo from '../../Components/ControleTempo/ControleTempo';
+import HeroWelcome from '../../Components/HeroWelcome/HeroWelcome';
 
 function Inicioreal() {
   const [showPopup, setShowPopup] = useState(false);
@@ -51,10 +52,13 @@ function Inicioreal() {
       </div>
 
       {showPopup && <Popup onClose={() => setShowPopup(false)} />}
+        <HeroWelcome/>
 
       <main style={{ width: '100%', marginTop: '20px' }}>
         <Inicio nomeAluno={nomeAluno} />
       </main>
+
+      
     </div>
   );
 }

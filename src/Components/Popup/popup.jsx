@@ -55,7 +55,7 @@ function Popup({ onClose }) {
         <div className="popup-header">
           <div className="header-info">
             <span className="header-icon">🧒</span>
-            <span className="header-text">{nomeCrianca} ✨</span>
+            <span className="header-text">{nomeCrianca} </span>
           </div>
           <button className="btn-fechar" onClick={onClose}>
             ✕

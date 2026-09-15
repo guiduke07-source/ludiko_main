@@ -174,7 +174,7 @@
 .cad-crianca-wrapper {
   min-height: 100vh;
   width: 100vw;
-  background: linear-gradient(135deg, #eef5f9 0%, #f4f6f9 100%);
+  background-image: url('../../Components/imgs/FundoInicio.png');
   display: flex;
   align-items: center;
   justify-content: center;
@@ -194,6 +194,7 @@
   flex-direction: column;
   box-sizing: border-box;
   animation: surgirSuave 0.3s ease-out;
+  border: 2px solid #91C7D3;
 }
 
 @keyframes surgirSuave {

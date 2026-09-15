@@ -1,170 +1,89 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-.login-container{
-
-    width:100vw;
-    height:100vh;
-
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
+.login-container {
+  width: 100vw !important;
+  min-height: 100vh !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-
-/* LOGO */
-
-.logo{
-
-    width:180px;
-    height:auto;
-
-    margin-bottom:20px;
-
+/* LOGO FORA DO CARD */
+.logo {
+  width: 260px !important;
+  height: auto !important;
+  margin-bottom: 24px !important;
 }
 
-
-
-/* CARD AZUL */
-
-.login-card{
-
-
-    width:230px;
-    height:150px;
-
-
-    background:#b7dced;
-
-
-    border-radius:8px;
-
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-
-    gap:12px;
-
-
-    box-shadow:
-    0 5px 10px rgba(0,0,0,0.15);
-
-
+/* CARD AZUL (CONTAINER DO PIN) */
+.login-card {
+  width: min(900px, 90vw) !important;
+  min-height: 580px !important;
+  background: #b7dced !important;
+  border-radius: 28px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 36px !important;
+  padding: 40px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18) !important;
 }
 
-
-
-/* PERSONAGEM */
-
-.personagem{
-
-    width:70px;
-
-    height:55px;
-
-    object-fit:contain;
-
-
-    margin-top:-20px;
-
+/* PERSONAGEM DENTRO DO CARD */
+.personagem {
+  width: 190px !important;
+  height: 150px !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  margin: 0 !important;
 }
 
-
-
-/* INPUT */
-
-.login-card input{
-
-
-    width:205px;
-
-    height:25px;
-
-
-    border:none;
-
-    border-radius:3px;
-
-
-    padding-left:10px;
-
-
-    font-size:10px;
-
-
-    outline:none;
-
+/* INPUT DO PIN */
+.login-card input {
+  width: min(440px, 80%) !important;
+  height: 64px !important;
+  border: none !important;
+  border-radius: 14px !important;
+  padding: 0 20px !important;
+  font-size: 26px !important;
+  text-align: center !important;
+  letter-spacing: 10px !important;
+  outline: none !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08) !important;
 }
 
-
-.login-card input::placeholder{
-
-    color:#999;
-
+.login-card input::placeholder {
+  color: #aaa !important;
+  font-size: 18px !important;
+  letter-spacing: normal !important;
 }
 
-
-
-/* BOTÃO */
-
-.login-card button{
-
-
-    width:105px;
-
-    height:25px;
-
-
-    border:none;
-
-
-    border-radius:15px;
-
-
-    background:#62b1d1;
-
-
-    color:#000;
-
-
-    font-size:11px;
-
-
-    font-weight:bold;
-
-
-    cursor:pointer;
-
-
-    transition:.2s;
-
+/* BOTAO */
+.login-card button {
+  width: min(280px, 70%) !important;
+  height: 60px !important;
+  border: none !important;
+  border-radius: 30px !important;
+  background: #62b1d1 !important;
+  color: #000000 !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  transition: transform 0.2s ease, background 0.2s ease !important;
+  box-shadow: 0 6px 16px rgba(98, 177, 209, 0.4) !important;
 }
 
-
-
-.login-card button:hover{
-
-
-    transform:scale(1.05);
-
-    background:#4ba4c8;
-
+.login-card button:hover {
+  transform: scale(1.05) !important;
+  background: #4ba4c8 !important;
 }

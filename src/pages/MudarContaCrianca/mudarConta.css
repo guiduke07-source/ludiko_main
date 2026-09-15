@@ -1,7 +1,7 @@
 .mudar-conta-wrapper {
   min-height: 100vh;
   width: 100vw;
-  background-color: #f4f6f9;
+ background-image: url('../../Components/imgs/FundoInicio.png');
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,6 +12,7 @@
 
 .mudar-conta-card {
   background: #ffffff;
+  border: 2px solid #dfc9f1;
   width: 100%;
   max-width: 480px;
   border-radius: 24px;
@@ -29,7 +30,7 @@
   border: none;
   font-size: 15px;
   font-weight: 700;
-  color: #17656e;
+  color: #666;
   cursor: pointer;
   margin-bottom: 16px;
   transition: transform 0.15s ease, color 0.15s ease;
@@ -37,7 +38,7 @@
 }
 
 .voltar-btn:hover {
-  color: #f7931e;
+  color: #be9ddb;
   transform: translateX(-3px);
 }
 
@@ -89,7 +90,7 @@
 }
 
 .sem-criancas button:hover {
-  background-color: #8bbcdb;
+  background-color: #dfc9f1;
 }
 
 .lista-criancas {
@@ -114,7 +115,7 @@
 }
 
 .card-filho-btn:hover {
-  border-color: #a3cae4;
+  border-color: #be9ddb;
   background-color: #f0f7fc;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(163, 202, 228, 0.25);

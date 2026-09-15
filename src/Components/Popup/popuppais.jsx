@@ -34,7 +34,7 @@ const Popuppais = ({ onClose }) => {
         <div className="popup-header">
           <div className="header-info">
             <span className="header-icon">👨‍👩‍👦</span>
-            <span className="header-text">Cuide e proteja sua criança! ✨</span>
+            <span className="header-text">Cuide e proteja sua criança! </span>
           </div>
           <button className="btn-fechar" onClick={onClose}>
             ✕

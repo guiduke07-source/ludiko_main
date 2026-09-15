@@ -1,6 +1,6 @@
 .tempo-page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  background-image: url('../../Components/imgs/FundoInicio.png');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@
   padding: 6px 14px;
   border-radius: 12px;
   font-weight: 700;
-  color: #17656e;
+  color: #666;
   cursor: pointer;
   transition: all 0.2s;
   font-family: inherit;
@@ -49,7 +49,7 @@
 
 .tempo-header h2 {
   font-size: 22px;
-  color: #0c4a54;
+  color: #666;
   margin: 6px 0;
   font-weight: 800;
 }
@@ -90,8 +90,8 @@
 }
 
 .tempo-card-opcao.ativo {
-  background: #17656e;
-  border-color: #104e57;
+  background: #be9ddb;
+  border-color: #dfc9f1;
   transform: scale(1.02);
 }
 
@@ -103,7 +103,7 @@
 .opcao-titulo {
   font-size: 16px;
   font-weight: 800;
-  color: #17656e;
+  color: #666;
 }
 
 .opcao-desc {
@@ -131,7 +131,7 @@
 
 .tempo-salvar-btn {
   width: 100%;
-  background: #f7931e;
+  background: #dfc9f1;
   color: #ffffff;
   border: none;
   padding: 14px;
@@ -139,13 +139,12 @@
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 6px 14px rgba(247, 147, 30, 0.3);
   transition: all 0.2s;
   font-family: inherit;
 }
 
 .tempo-salvar-btn:hover:not(:disabled) {
-  background: #e8830b;
+  background: #be9ddb;
   transform: translateY(-1px);
 }
 

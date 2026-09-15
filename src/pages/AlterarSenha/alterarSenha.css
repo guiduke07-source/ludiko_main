@@ -1,6 +1,6 @@
 .senha-page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  background-image: url('../../Components/imgs/FundoInicio.png');
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@
   padding: 6px 14px;
   border-radius: 12px;
   font-weight: 700;
-  color: #17656e;
+  color: #666;
   cursor: pointer;
   transition: all 0.2s;
   font-family: inherit;
@@ -39,7 +39,7 @@
 
 .senha-voltar-btn:hover {
   background: #d9f0f5;
-  color: #f7931e;
+  color: #91C7D3;
 }
 
 .senha-badge-icon {
@@ -116,7 +116,7 @@
 
 .senha-salvar-btn {
   width: 100%;
-  background: #f7931e;
+  background: #91C7D3;
   color: #ffffff;
   border: none;
   padding: 14px;
@@ -130,7 +130,7 @@
 }
 
 .senha-salvar-btn:hover:not(:disabled) {
-  background: #e8830b;
+  background: #91C7D3;
   transform: translateY(-1px);
 }
 

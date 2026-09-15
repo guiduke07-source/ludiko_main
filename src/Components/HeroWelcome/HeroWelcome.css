@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+
+.hero-banner {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  box-sizing: border-box;
+  font-family: 'Baloo 2', cursive, sans-serif;
+
+  /* Degradê transparente no topo fundindo suavemente com #dfc9f1 na base */
+  {/*background: linear-gradient(
+    180deg,
+    rgba(223, 201, 241, 0) 0%,
+    rgba(223, 201, 241, 0.15) 15%,
+    rgba(223, 201, 241, 0.55) 55%,
+    #dfc9f1 100%
+  );*/}
+}
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Garante alinhamento central exato na tela */
+}
+
+/* Mascote posicionado à esquerda sem empurrar o centro */
+.mascote-slot {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Animação suave de flutuação */
+.mascote-img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(110, 80, 140, 0.12));
+  animation: flutuar 3.5s ease-in-out infinite;
+}
+
+/* Sombra que reage à altura do mascote */
+.sombra-mascote {
+  width: 120px;
+  height: 12px;
+  background: rgba(125, 90, 160, 0.2);
+  border-radius: 50%;
+  margin-top: 6px;
+  filter: blur(2px);
+  animation: sincronizarSombra 3.5s ease-in-out infinite;
+}
+
+/* Keyframes da flutuação */
+@keyframes flutuar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes sincronizarSombra {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(0.65);
+    opacity: 0.1;
+  }
+}
+
+/* Centro: Textos */
+.hero-centro {
+  text-align: center;
+  z-index: 1;
+}
+
+.frase-boas-vindas {
+  font-size: clamp(1.5rem, 2.8vw, 2.3rem);
+  font-weight: 600;
+  color: #2b2e4a;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+/* Cores das Letras de Ludiko! */
+.logo-colorida {
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+  font-weight: 800;
+  display: inline-flex;
+  gap: 2px;
+  line-height: 1;
+}
+
+.l-1 { color: #f87171; }
+.l-2 { color: #fb923c; }
+.l-3 { color: #facc15; }
+.l-4 { color: #4ade80; }
+.l-5 { color: #60a5fa; }
+.l-6 { color: #a78bfa; }
+.l-7 { color: #ec4899; }
+
+/* Responsivo para celular */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column-reverse;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .mascote-slot {
+    position: static;
+    transform: none;
+  }
+
+  .mascote-img {
+    max-width: 150px;
+  }
+
+  .sombra-mascote {
+    width: 80px;
+    height: 9px;
+  }
+}

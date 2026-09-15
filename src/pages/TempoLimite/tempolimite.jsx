@@ -177,7 +177,7 @@ export default function TempoLimite() {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <label style={{ fontWeight: '700', color: '#17656e', fontSize: '14px' }}>Horas:</label>
+              <label style={{ fontWeight: '700', color: '#666', fontSize: '14px' }}>Horas:</label>
               <input
                 type="number"
                 min="0"
@@ -192,13 +192,13 @@ export default function TempoLimite() {
                   textAlign: 'center',
                   fontWeight: '700',
                   fontSize: '15px',
-                  color: '#17656e'
+                  color: '#666'
                 }}
               />
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <label style={{ fontWeight: '700', color: '#17656e', fontSize: '14px' }}>Minutos:</label>
+              <label style={{ fontWeight: '700', color: '#666', fontSize: '14px' }}>Minutos:</label>
               <input
                 type="number"
                 min="0"
@@ -214,7 +214,7 @@ export default function TempoLimite() {
                   textAlign: 'center',
                   fontWeight: '700',
                   fontSize: '15px',
-                  color: '#17656e'
+                  color: '#666'
                 }}
               />
             </div>

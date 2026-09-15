@@ -12,7 +12,7 @@
 .seletor-label {
   font-size: 15px;
   font-weight: 700;
-  color: #17656e;
+  color: #BBDBE8;
 }
 
 .seletor-botoes-grupo {
@@ -41,9 +41,8 @@
 }
 
 .btn-filho-tab.ativo {
-  background: #17656e;
+  background: #BBDBE8;
   border-color: #104e57;
-  box-shadow: 0 6px 14px rgba(23, 101, 110, 0.25);
   transform: scale(1.03);
 }
 
@@ -54,7 +53,7 @@
 .nome-filho {
   font-size: 15px;
   font-weight: 800;
-  color: #17656e;
+  color: #6e1717;
 }
 
 .btn-filho-tab.ativo .nome-filho {

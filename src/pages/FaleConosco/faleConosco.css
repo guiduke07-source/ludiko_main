@@ -15,23 +15,7 @@
 
   font-family: 'Baloo 2', Roboto, sans-serif;
 
-  background:
-    radial-gradient(
-      circle at 10% 15%,
-      rgba(255, 255, 255, 0.8),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 90% 85%,
-      rgba(255, 255, 255, 0.6),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #e8f9fc 0%,
-      #d8f2f7 50%,
-      #c9eaf2 100%
-    );
+  background-image: url('../../Components/imgs/FundoInicio.png');
 }
 
 
@@ -148,7 +132,7 @@
 .fale-header h2 {
   margin: 5px 0 7px;
 
-  color: #0c4a54;
+  color: #666;
 
   font-size: 26px;
   font-weight: 800;
@@ -215,7 +199,7 @@
   border: 2px solid #d0edf2;
   border-radius: 14px;
 
-  color: #104e57;
+  color: #666;
 
   font-family: inherit;
   font-size: 14px;
@@ -333,8 +317,8 @@
 
   background: linear-gradient(
     135deg,
-    #f7931e 0%,
-    #f5a623 100%
+    #91C7D3 0%,
+    #91C7D3 100%
   );
 
   color: #ffffff;

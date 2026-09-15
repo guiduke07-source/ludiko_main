@@ -1,6 +1,6 @@
 .historico-page-wrapper {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa 0%, #d4effa 100%);
+  background-image: url('../../Components/imgs/FundoInicio.png');
   display: flex;
   justify-content: center;
   align-items: center;

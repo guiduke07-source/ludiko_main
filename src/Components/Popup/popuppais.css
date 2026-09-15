@@ -29,12 +29,11 @@
    TEMA DOS PAIS (AZUL / CIANO DA HEADER)
    =================================================== */
 .popup-modal.tema-pais {
-  background-color: #d8f1f1;
+  background-color: #BBDBE8;
 }
 
 .popup-modal.tema-pais .popup-header {
-  background: linear-gradient(135deg, #BBDBE8 0%, #BBDBE8 100%);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  background-color: #BBDBE8;
 }
 
 .popup-modal.tema-pais .header-text {
@@ -85,11 +84,11 @@
    TEMA DAS CRIANÇAS (LILÁS DA HEADER)
    =================================================== */
 .popup-modal.tema-crianca {
-  background-color: #ede7f6;
+  background-color: #dfc9f1;
 }
 
 .popup-modal.tema-crianca .popup-header {
-  background: linear-gradient(135deg, #9b82c2 0%, #7e64a8 100%);
+  background-color: #dfc9f1;
   border-bottom: 2px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -126,7 +125,7 @@
 }
 
 .popup-modal.tema-crianca .item-arrow {
-  color: #907cae;
+  color: #be9ddb;
 }
 
 .popup-modal.tema-crianca .menu-item:hover .item-arrow {
@@ -198,7 +197,6 @@
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.03);
 }
 
 .menu-item:hover {

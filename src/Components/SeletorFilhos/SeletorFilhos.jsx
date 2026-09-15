@@ -40,18 +40,24 @@ export default function SeletorFilhos({ criancas, criancaAtivaId, onSelecionar }
                 padding: '8px 22px',
                 borderRadius: '22px',
                 border: 'none',
-                backgroundColor: ativo ? '#17656e' : 'transparent',
+                backgroundColor: ativo ? '#91C7D3' : 'transparent',
                 color: ativo ? '#ffffff' : '#17656e',
-                fontFamily: 'Arial, sans-serif',
                 fontSize: '15px',
                 fontWeight: 'bold',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                boxShadow: ativo ? '0 3px 8px rgba(23, 101, 110, 0.3)' : 'none',
+                
               }}
             >
-              <span style={{ fontSize: '18px' }}>🧒</span>
-              <span>{filho.nome}</span>
+              {/*<span style={{ fontSize: '18px' }}>
+                <img 
+                src={iconeCrianca} 
+                alt="Ícone de criança" 
+                style={{ width: '18px', height: '18px', verticalAlign: 'middle' }} 
+                />
+</span>*/}
+
+<span>{filho.nome}</span>
             </button>
           );
         })}

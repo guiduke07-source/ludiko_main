@@ -223,7 +223,7 @@ class Media {
     });
   }
   update(scroll, direction) {
-    this.plane.position.x = this.x - scroll.current - this.extra;
+    this.plane.position.x = this.initialOffset + this.x - scroll.current - this.extra;
 
     const x = this.plane.position.x;
     const H = this.viewport.width / 2;
@@ -252,8 +252,10 @@ class Media {
 
     const planeOffset = this.plane.scale.x / 2;
     const viewportOffset = this.viewport.width / 2;
-    this.isBefore = this.plane.position.x + planeOffset < -viewportOffset;
-    this.isAfter = this.plane.position.x - planeOffset > viewportOffset;
+    
+    this.isBefore = this.plane.position.x + planeOffset < -viewportOffset - this.width;
+    this.isAfter = this.plane.position.x - planeOffset > viewportOffset + this.width;
+
     if (direction === 'right' && this.isBefore) {
       this.extra -= this.widthTotal;
       this.isBefore = this.isAfter = false;
@@ -275,10 +277,14 @@ class Media {
     this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
     this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-    this.padding = 2;
+    
+    this.padding = 0.5;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
+
+    const leftMargin = 0.5;
+    this.initialOffset = -this.viewport.width / 2 + this.plane.scale.x / 2 + leftMargin;
   }
 }
 
@@ -337,7 +343,6 @@ class App {
     });
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
-    // RESOLVIDO: URLs dinâmicas para as imagens locais da sua pasta específica
     const defaultItems = [
       { 
         image: new URL('../../Components/imgs/imggames.png', import.meta.url).href, 
@@ -361,7 +366,14 @@ class App {
       }
     ];
 
-    this.mediasImages = items && items.length ? items : defaultItems;
+    let rawItems = items && items.length ? items : defaultItems;
+
+    let expandedItems = [...rawItems];
+    while (expandedItems.length < 10) {
+      expandedItems = expandedItems.concat(rawItems);
+    }
+
+    this.mediasImages = expandedItems;
     this.medias = this.mediasImages.map((data, index) => {
       return new Media({
         geometry: this.planeGeometry,
@@ -435,7 +447,8 @@ class App {
         clickY3D <= pY + halfH
       ) {
         if (media.href && media.href !== '#') {
-window.location.href = media.href;        }
+          window.location.href = media.href;
+        }
         break;
       }
     }
