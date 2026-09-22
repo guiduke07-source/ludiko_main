@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './acesso.css';
 
-import logo from '../../Components/imgs/logo.png';
 import fundoInicio from '../../Components/imgs/FundoInicio.png';
 import Responsavel from '../../Components/imgs/Responsavel.png';
 import Crianca from '../../Components/imgs/Crianca.png';
